@@ -3,12 +3,25 @@
 <head>
     <div th:replace="fragments/header :: htmlhead"></div>
 </head>
-<body th:object="${pageDTO}">
+<body th:object="${page}">
 <div th:replace="fragments/navbars :: playnavbar"></div>
 <div class="container" role="main">
     <div class="jumbotron">
         <br>
-        <h2 th:text="*{name}"></h2>
+        <h2 th:text="*{name}" align="center"></h2>
+        <br>
+        <div class="col-md-1"></div>
+        <div class="col-md-10 custom-form">
+        <p th:text="*{storytext}"></p>
+        </div>
+        <br>
+            <div class="row decision" th:each="dec : *{decisions}">
+                <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
+                    <div class="col-md-4 col-md-offset-4">
+                        <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
+                    </div>
+                </form>
+            </div>
     </div>
 </div>
 </body>

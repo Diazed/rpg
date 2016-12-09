@@ -1,7 +1,5 @@
 package de.berufsschule.rpg.player;
 
-import de.berufsschule.rpg.game.Game;
-import de.berufsschule.rpg.game.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +26,6 @@ public class PlayerController {
         PlayerDTO emptyDTO = new PlayerDTO();
         model.addAttribute("playerDTO", emptyDTO);
 
-        //String name = principal.getName();
-        //Player player = playerService.getRequestedPlayer(name);
-        //PlayerDTO playerDTO = playerDTOConverter.toDTO(player);
-        //model.addAttribute("playerDTO", playerDTO);
-        Game game = Parser.parser();
         return "homepage/register";
     }
 

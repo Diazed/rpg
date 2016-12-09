@@ -9,8 +9,9 @@
     <div class="jumbotron">
         <br>
         <div sec:authorize="isAuthenticated()">
-            <h2 align="center">Hallo</h2>
-            <h2 align="center" sec:authentication="name"></h2>
+            <h2 align="center">Willkommen zurück</h2>
+            <h4 align="center" sec:authentication="name"></h4>
+
         </div>
         <div sec:authorize="isAnonymous()">
             <h2 align="center">Willkommen</h2>

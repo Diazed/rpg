@@ -11,13 +11,14 @@ import java.util.Scanner;
 @Component
 public class Parser {
 
-  public static Game parser() {
+  public Game parser() {
 
     Game game = new Game();
     List<Page> pages = new ArrayList<Page>();
 
     try {
-      Scanner fileIn = new Scanner(new File("C:\\test.txt"));
+      ClassLoader classLoader = getClass().getClassLoader();
+      Scanner fileIn = new Scanner(new File(classLoader.getResource("file/neu.txt").getFile()));
       Integer pageCounter = 0;
       Integer decisionCounter = 0;
 
@@ -91,16 +92,9 @@ public class Parser {
   private static String getStringBetweenQuotationMarks(String line) {
     String string = "KEIN TEXT IN \"\" ANGEGEBEN";
     line = line.replace("\t", "");
-    for (int i = 0; i < line.length(); i++) {
-      if (line.charAt(i) == '\'') {
-        i++;
-        char text[] = new char[line.length() - i];
-        line.getChars(i, line.length() - 1, text, 1);
-        string = String.valueOf(text);
-        break;
-      }
-    }
-    return string;
+    line = line.replace("'", "");
+
+    return line;
   }
 
 

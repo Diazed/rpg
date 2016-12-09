@@ -21,4 +21,13 @@ public class PlayerService {
         playerRepository.save(player);
     }
 
+    public void editPlayer(Player editedPlayer, Integer id){
+        Player originalPlayer = playerRepository.findOne(id);
+        originalPlayer.setLevel(editedPlayer.getLevel());
+        originalPlayer.setUsername(editedPlayer.getUsername());
+        originalPlayer.setPassword(editedPlayer.getPassword());
+
+        playerRepository.save(originalPlayer);
+    }
+
 }

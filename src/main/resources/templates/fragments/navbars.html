@@ -61,8 +61,12 @@
                     <li class="active"><a href="/play/">Play</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <div sec:authorize="isAuthenticated()" th:replace="fragments/navbars :: auth"></div>
-                <div sec:authorize="isAnonymous()" th:replace="fragments/navbars :: noauth"></div>
+                <div sec:authorize="isAuthenticated()">
+                    <div th:replace="fragments/navbars :: auth"></div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <div th:replace="fragments/navbars :: noauth"></div>
+                </div>
             </div>
         </div>
     </nav>

@@ -1,0 +1,40 @@
+#PAGE
+	#NAME
+	'start'
+	#STORYTEXT
+	'Hier steht der Text der ersten Seite'
+
+	#DECISION
+		#JUMP
+		'A'
+		#TEXT
+		'Auswahlmöglichkeit A'
+	#DEND
+
+	#DECISION
+		#JUMP
+		'B'
+		#TEXT
+		'Auswahlmöglichkeit B'
+	#DEND
+#PEND
+#PAGE
+	#NAME
+	'A'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+
+	#DECISION
+		#JUMP
+		'AA'
+		#TEXT
+		'hier gehts weiter'
+	#DEND
+
+	#DECISION
+		#JUMP
+		'A'
+		#TEXT
+		'und so weiter'
+	#DEND
+#PEND
