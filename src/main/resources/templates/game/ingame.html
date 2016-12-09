@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: htmlhead"></div>
+</head>
+<body th:object="${pageDTO}">
+<div th:replace="fragments/navbars :: playnavbar"></div>
+<div class="container" role="main">
+    <div class="jumbotron">
+        <br>
+        <h2 th:text="*{name}"></h2>
+    </div>
+</div>
+</body>
+</html>
