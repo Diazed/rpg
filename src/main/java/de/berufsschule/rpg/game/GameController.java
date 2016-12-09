@@ -35,9 +35,6 @@ public class GameController {
         page = game.getPages().get(i);
       }
     }
-
-
-
     model.addAttribute("page", page);
 
     return "game/ingame";

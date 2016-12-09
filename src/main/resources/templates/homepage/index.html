@@ -9,21 +9,52 @@
     <div class="jumbotron">
         <br>
         <div sec:authorize="isAuthenticated()">
-            <h2 align="center">Willkommen zurück</h2>
-            <h4 align="center" sec:authentication="name"></h4>
+            <h1 align="center">Willkommen zurück</h1>
+            <br>
+            <p align="center" sec:authentication="name"></p>
+            <p align="center">Wir wünschen dir viel Freude.</p>
+            <form action="#" th:action="@{/play}" method="get">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <input type="submit" value="Ins Spiel" class="btn btn-block btn-warning"/>
+                    </div>
+                </div>
+            </form>
 
         </div>
         <div sec:authorize="isAnonymous()">
-            <h2 align="center">Willkommen</h2>
+            <h1 align="center">Willkommen</h1>
+            <br>
+            <p align="center">Um dein Abenteuer zu starten musst du dich nur kurz registrieren. Drücke nur kurz auf 'Registrieren' und nach nur zwei Klicks gehts los.</p>
             <form action="#" th:action="@{/register}" method="get">
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
-                        <input type="submit" value="Regestrieren" class="btn btn-block btn-warning"/>
+                        <input type="submit" value="Registrieren" class="btn btn-block btn-warning"/>
                     </div>
                 </div>
             </form>
         </div>
 
+    </div>
+
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Du entscheidest</h2>
+                <p>Durch die Entscheidungen die du wärend deines Abenteuers triffst beeinflust du den Spielverlauf!
+                    Übelege gut welche Entscheidungen du triffst denn du wirst mit den Konsequenzen leben müssen egal ob
+                    poitiv oder negativ.</p>
+            </div>
+            <div class="col-md-4">
+                <h2>Coming Soon</h2>
+                <p>Inventar</p>
+            </div>
+            <div class="col-md-4">
+                <h2>Coming Soon</h2>
+                <p>Skills</p>
+            </div>
+        </div>
     </div>
 </div>
 </body>

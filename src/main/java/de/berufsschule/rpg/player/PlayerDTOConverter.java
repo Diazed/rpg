@@ -20,7 +20,11 @@ public class PlayerDTOConverter {
         model.setLevel(dto.getLevel());
         model.setPassword(dto.getPassword());
         model.setUsername(dto.getUsername());
-
+        model.setPlayerLvl(dto.getPlayerLvl());
+        model.setExp(dto.getExp());
+        model.setHitpoints(dto.getHitpoints());
+        model.setThirst(dto.getThirst());
+        model.setHunger(dto.getHunger());
 
         return model;
     }
@@ -31,9 +35,11 @@ public class PlayerDTOConverter {
         dto.setUsername(model.getUsername());
         dto.setLevel(model.getLevel());
         dto.setPassword(model.getPassword());
-
-
-
+        dto.setPlayerLvl(model.getPlayerLvl());
+        dto.setExp(model.getExp());
+        dto.setHitpoints(model.getHitpoints());
+        dto.setHunger(model.getHunger());
+        dto.setThirst(model.getThirst());
 
         return dto;
     }
