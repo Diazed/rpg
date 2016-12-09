@@ -68,6 +68,12 @@ td, th {
     padding: 5px;
 }
 
+.username{
+    color: #d58512;
+    padding-right: 10px;
+    font-size: medium;
+}
+
 .error-text{
     color: #d43f3a;
 }

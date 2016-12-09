@@ -22,18 +22,26 @@ public class PlayerController {
         this.playerDTOConverter = playerDTOConverter;
     }
 
-    @RequestMapping(value = "/player", method = RequestMethod.GET)
-    public String playingTheGame(Model model, Principal principal){
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String openRegisterPage(Model model, Principal principal){
 
-        String name = principal.getName();
+        PlayerDTO emptyDTO = new PlayerDTO();
+        model.addAttribute("playerDTO", emptyDTO);
+
+        //String name = principal.getName();
         //Player player = playerService.getRequestedPlayer(name);
         //PlayerDTO playerDTO = playerDTOConverter.toDTO(player);
         //model.addAttribute("playerDTO", playerDTO);
         Game game = Parser.parser();
+        return "homepage/register";
+    }
 
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String registerNewPlayer(Model model, PlayerDTO playerDTO){
 
-
-
+        Player player = playerDTOConverter.toModel(playerDTO);
+        player.setLevel("start");
+        playerService.registerPlayer(player);
 
         return "homepage/index";
     }

@@ -16,28 +16,32 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">RPG</a>
+                <a class="navbar-brand" href="/home/">RPG</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/home/">Home</a></li>
-                    <li><a href="/play/">Play</a></li>
+
+                    <li  sec:authorize="isAuthenticated()"><a href="/play/">Play</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <form class="navbar-form navbar-right" th:action="@{/login}" method="post">
-                    <div class="form-group">
-                        <input type="text" id="inputUsername" placeholder="Email" class="form-control" name="username">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="inputPassword" placeholder="Password" class="form-control" name="password">
-                    </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
+                <div sec:authorize="isAuthenticated()">
+                    <div th:replace="fragments/navbars :: auth"></div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <div th:replace="fragments/navbars :: noauth"></div>
+                </div>
             </div>
         </div>
     </nav>
 </div>
+
+
+
+
+
+
+
 
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="playnavbar">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -49,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">RPG</a>
+                <a class="navbar-brand" href="/home/">RPG</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -57,19 +61,31 @@
                     <li class="active"><a href="/play/">Play</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
-                <form class="navbar-form navbar-right" th:action="@{/login}" method="post">
-                    <div class="form-group">
-                        <input type="text" id="inputUsername" placeholder="Email" class="form-control" name="username">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" id="inputPassword" placeholder="Password" class="form-control" name="password">
-                    </div>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <button type="submit" class="btn btn-success">Sign in</button>
-                </form>
+                <div sec:authorize="isAuthenticated()" th:replace="fragments/navbars :: auth"></div>
+                <div sec:authorize="isAnonymous()" th:replace="fragments/navbars :: noauth"></div>
             </div>
         </div>
     </nav>
+</div>
+
+<div th:fragment="auth">
+    <form class="navbar-form navbar-right" th:action="@{/logout}" method="post">
+        <span sec:authentication="name" class="username"></span>
+        <button type="submit" class="btn btn-success">Logout</button>
+    </form>
+</div>
+
+<div th:fragment="noauth">
+    <form class="navbar-form navbar-right" th:action="@{/login}" method="post">
+        <div class="form-group">
+            <input type="text" id="inputUsername" placeholder="Email" class="form-control" name="username">
+        </div>
+        <div class="form-group">
+            <input type="password" id="inputPassword" placeholder="Password" class="form-control" name="password">
+        </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <button type="submit" class="btn btn-success">Login</button>
+    </form>
 </div>
 
 </body>

@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: htmlhead"></div>
+</head>
+<body th:object="${playerDTO}">
+<div th:replace="fragments/navbars :: homenavbar"></div>
+<div class="container" role="main">
+    <div class="jumbotron">
+        <br>
+        <h2 align="center">Willkommen</h2>
+        <form action="#" th:action="@{/register}" method="post">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10 custom-form">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"><span class="error-text" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</span></div>
+
+                        <div class="col-md-2"></div>
+                        <div class="col-md-4"><span class="error-text" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">Benutzername:</div>
+                        <div class="col-md-4"><input type="text" name="username" th:field="*{username}" class="form-control"/></div>
+
+                        <div class="col-md-2">Passwort:</div>
+                        <div class="col-md-4"><input type="password" name="password" th:field="*{password}" class="form-control"/></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <input type="submit" value="Regestrieren" class="btn btn-block btn-warning"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

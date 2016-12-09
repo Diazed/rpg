@@ -17,6 +17,8 @@ public class Player
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
     private String username;
+    private String password;
     private String level;
-    private String page;
+    private String role = "ROLE_USER";
+    private boolean enabled = true;
 }

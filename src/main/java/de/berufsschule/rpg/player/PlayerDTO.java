@@ -1,6 +1,5 @@
 package de.berufsschule.rpg.player;
 
-import de.berufsschule.rpg.game.Page;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +9,7 @@ public class PlayerDTO {
 
     private Integer id;
     private String username;
+    private String password;
     private String level;
-    private Page page;
 
 }

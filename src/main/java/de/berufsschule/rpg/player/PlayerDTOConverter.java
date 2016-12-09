@@ -1,6 +1,5 @@
 package de.berufsschule.rpg.player;
 
-import de.berufsschule.rpg.game.Game;
 import de.berufsschule.rpg.game.Parser;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +18,8 @@ public class PlayerDTOConverter {
         Player model = new Player();
 
         model.setLevel(dto.getLevel());
+        model.setPassword(dto.getPassword());
         model.setUsername(dto.getUsername());
-        model.setPage(dto.getPage().getName());
 
 
         return model;
@@ -31,13 +30,10 @@ public class PlayerDTOConverter {
 
         dto.setUsername(model.getUsername());
         dto.setLevel(model.getLevel());
+        dto.setPassword(model.getPassword());
 
-        Game game = Parser.parser();
-        for (int i=0; i<game.getPages().size(); i++){
-            if (game.getPages().get(i).getName() == model.getPage()){
-                dto.setPage(game.getPages().get(i));
-            }
-        }
+
+
 
         return dto;
     }

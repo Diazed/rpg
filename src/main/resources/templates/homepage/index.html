@@ -8,14 +8,21 @@
 <div class="container" role="main">
     <div class="jumbotron">
         <br>
-        <h2 align="center">Willkommen</h2>
-        <form action="#" th:action="@{/register}" method="get">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-                    <input type="submit" value="Regestrieren" class="btn btn-block btn-warning"/>
+        <div sec:authorize="isAuthenticated()">
+            <h2 align="center">Hallo</h2>
+            <h2 align="center" sec:authentication="name"></h2>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <h2 align="center">Willkommen</h2>
+            <form action="#" th:action="@{/register}" method="get">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <input type="submit" value="Regestrieren" class="btn btn-block btn-warning"/>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
+
     </div>
 </div>
 </body>

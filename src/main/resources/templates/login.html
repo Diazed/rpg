@@ -6,6 +6,7 @@
     </div>
 </head>
 <body>
+<div th:replace="fragments/navbars :: homenavbar"></div>
 <br/>
 <br/>
 <br/>
@@ -15,7 +16,7 @@
 <div class="container" role="main">
     <form class="form-signin" th:action="@{/login}" method="post">
         <div class="login-color">
-            <h2 align="center" class="form-signin-heading">Test</h2>
+            <h2 align="center" class="form-signin-heading">RPG</h2>
             <br/>
             <label for="inputUsername" class="sr-only">Benutzername</label>
             <input type="text" id="inputUsername" class="form-control" placeholder="Benutzername" name="username" required

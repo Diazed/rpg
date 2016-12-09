@@ -17,4 +17,8 @@ public class PlayerService {
         return playerRepository.findByUsername(username);
     }
 
+    public void registerPlayer(Player player){
+        playerRepository.save(player);
+    }
+
 }
