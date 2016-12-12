@@ -1,15 +1,27 @@
-jajaja
 #PAGE
 	#NAME
 	'start'
 	#STORYTEXT
 	'Hier steht der Text der ersten Seite'
 
+	#GIVEITEM
+		#ITEMNAME
+		'Toast'
+		#ITEMDESCRIPTION
+		'Golden Toast'
+		#ITEMVALUE
+		5
+		#ITEMAMOUNT
+		2
+	#IEND
+
 	#DECISION
 		#JUMP
 		'A'
 		#TEXT
 		'Auswahlmöglichkeit A'
+		#ITEMNEEDED
+		'Toast'
 	#DEND
 
 	#DECISION
@@ -25,6 +37,9 @@ jajaja
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
 
+	#USEITEM
+	'Toast'
+
 	#DECISION
 		#JUMP
 		'AA'
@@ -35,6 +50,25 @@ jajaja
 	#DECISION
 		#JUMP
 		'A'
+		#TEXT
+		'und so weiter'
+	#DEND
+#PEND
+#PAGE
+	#NAME
+	'AA'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+	#DECISION
+		#JUMP
+		'AA'
+		#TEXT
+		'hier gehts weiter'
+	#DEND
+
+	#DECISION
+		#JUMP
+		'AA'
 		#TEXT
 		'und so weiter'
 	#DEND

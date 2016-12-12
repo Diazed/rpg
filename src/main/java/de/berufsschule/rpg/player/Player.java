@@ -1,14 +1,14 @@
 package de.berufsschule.rpg.player;
 
+import de.berufsschule.rpg.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,11 +25,13 @@ public class Player
     @Size(min=1, max=30)
     private String password;
     private String level;
-    private Integer playerLvl = 0;
-    private Integer hitpoints = 100;
-    private Integer hunger = 0;
-    private Integer thirst = 0;
-    private Integer exp = 0;
+    private Integer playerLvl;
+    private Integer hitpoints;
+    private Integer hunger;
+    private Integer thirst;
+    private Integer exp;
     private String role = "ROLE_USER";
     private boolean enabled = true;
+    @OneToMany
+    private List<Item> items = new ArrayList<>();
 }

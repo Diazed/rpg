@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.game;
 
+import de.berufsschule.rpg.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,4 +10,5 @@ public class Decision {
 
     private String jump;
     private String text;
+    private Item item = new Item();
 }

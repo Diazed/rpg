@@ -25,6 +25,7 @@ public class PlayerDTOConverter {
         model.setHitpoints(dto.getHitpoints());
         model.setThirst(dto.getThirst());
         model.setHunger(dto.getHunger());
+        model.setItems(dto.getItems());
 
         return model;
     }
@@ -40,6 +41,7 @@ public class PlayerDTOConverter {
         dto.setHitpoints(model.getHitpoints());
         dto.setHunger(model.getHunger());
         dto.setThirst(model.getThirst());
+        dto.setItems(model.getItems());
 
         return dto;
     }
