@@ -25,24 +25,24 @@ public class GameController {
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.GET)
-  public String spielAufrufen(Model model, Principal principal) {
+  public String invokeGame(Model model, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-    Page page = getCurentPageFromPlayer(loggedInPlayer);
-
-    if (!page.getItems().isEmpty()) {
-      addPageItemsToPlayer(page, loggedInPlayer);
-    }
+    Page page = getCurrentPageFromPlayer(loggedInPlayer);
     model.addAttribute("page", page);
     return "game/ingame";
   }
 
   @RequestMapping(value = "/play/{jump}", method = RequestMethod.POST)
-  public String playerLevelAnpassen(@PathVariable String jump, Principal principal) {
+  public String goToNextPage(@PathVariable String jump, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
 
-    Page page = getCurentPageFromPlayer(loggedInPlayer);
+    Page page = getCurrentPageFromPlayer(loggedInPlayer);
+
+    if (!getJumpPage(jump).getItems().isEmpty()){
+      addPageItemsToPlayer(getJumpPage(jump), loggedInPlayer);
+    }
 
     if (isJumpPossible(page, jump)) {
       loggedInPlayer.setLevel(jump);
@@ -57,9 +57,7 @@ public class GameController {
 
   private boolean doesJumpPageUseItem(String jump) {
 
-    if (getJumpPage(jump).getUsedItem() != "")
-      return true;
-    return false;
+    return !Objects.equals(getJumpPage(jump).getUsedItem(), "");
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
@@ -72,14 +70,19 @@ public class GameController {
   private void removeUsedItemFromPlayer(Player player, String jump) {
     for (int i = 0; i < player.getItems().size(); i++) {
       if (player.getItems().get(i).getName().equals(getJumpPage(jump).getUsedItem())) {
-        player.getItems().remove(i);
+
+        if (player.getItems().get(i).getAmount() - 1 != 0){
+          player.getItems().get(i).setAmount(player.getItems().get(i).getAmount() - 1);
+        }else {
+          player.getItems().remove(i);
+        }
         playerService.editPlayer(player, player.getId());
         break;
       }
     }
   }
 
-  public Page getCurentPageFromPlayer(Player player) {
+  public Page getCurrentPageFromPlayer(Player player) {
     Game game = parser.parser();
     Page page = new Page();
 

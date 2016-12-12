@@ -2,7 +2,8 @@
 	#NAME
 	'start'
 	#STORYTEXT
-	'Hier steht der Text der ersten Seite'
+	'The Text of the first Site'
+	#TEXTEND
 
 	#GIVEITEM
 		#ITEMNAME
@@ -36,6 +37,7 @@
 	'A'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
+    #TEXTEND
 
 	#USEITEM
 	'Toast'
@@ -59,6 +61,7 @@
 	'AA'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
+	#TEXTEND
 	#DECISION
 		#JUMP
 		'AA'

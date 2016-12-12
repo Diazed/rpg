@@ -16,6 +16,7 @@ public class Item {
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Integer id;
   private boolean consumable;
+  private boolean drink;
   private String name;
   private String description;
   private Integer value;

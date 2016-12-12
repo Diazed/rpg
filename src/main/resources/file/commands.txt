@@ -1,0 +1,182 @@
+(required)
+#PAGE
+
+is the first command you should use and all other commands belong into a #PAGE. you can imagine this like a book page.
+
+
+(required)
+#PEND
+
+this command marks the end of a page. do not forget this! after closing a page you're allowed to start with the next #PAGE
+
+
+(required)
+#NAME
+'example'
+
+sets the name of your current page. use this command once in every page and down name two page's the same!!! the first
+page should be named "start". the page in the example above would have the name "example". the #NAME command belongs
+between the #PAGE and #PEND command of each page.
+
+
+(required)
+#STORYTEXT
+'alot of text in this line'
+'and some more here'
+#TEXTEND
+
+Here you define the text of your page. always end the #STORYTEXT command with the #TEXTEND command! you can add rows when
+you want to, there's no limitation. the #STORYTEXT command and all his components belong between the #PAGE and #PEND
+command of each page.
+
+
+(optional)
+#USEITEM
+'itemname'
+
+when you're making use of this command the player uses a item (automatically) when he gets to this side. you will learn
+about items next. this command belomgs between the #PAGE and the #PEND command.
+
+
+(optional)
+#GIVEITEM
+
+with the help of this command you are able to give a Item to the player.
+
+
+(required when using #GIVEITEM)
+#IEND
+
+don't forget to end the Item with #IEND.
+
+
+(required when using #GIVEITEM)
+#ITEMNAME
+'itemname'
+
+this command specifies the name of the item and belongs between the #GIVEITEM and the #IEND command.
+
+
+(optional)
+#ITEMDESCRIBTION
+'this item does nothing'
+
+this command specifies the describtion of the item and belongs between the #GIVEITEM and the #IEND command. Don't make
+this to long.
+
+
+(optional)
+#CONSUMABLE
+
+use this only when you want the item to be a drink or food that the player is able to consume. It belongs between the
+#GIVEITEM and the #IEND command.
+
+
+(this or #DRINK required when using #CONSUMABLE)
+#FOOD
+
+use this command when your consumable item is food. This command belongs between the #GIVEITEM and the #IEND command.
+
+
+(this or #FOOD required when using #CONSUMABLE)
+#DRINK
+
+use this command when your consumable item is something to drink. This command belongs between the #GIVEITEM and the
+#IEND command.
+
+
+(required when using #GIVEITEM)
+#ITEMVALUE
+7
+
+this command specifies the value of the item. for example when the player gets a item like bread then you specify with
+this number how many hungerpoints he recieves from eating the bread. the command belongs between the #GIVEITEM and the
+#IEND command.
+
+
+(required when using #GIVEITEM)
+#ITEMAMOUNT
+5
+
+in the example above the player would receive the item 5 times. every time he uses this item this number gets 1 smaller.
+This command belongs between the #GIVEITEM and the #IEND command.
+
+
+(required)
+#DECISION
+
+with this command you add decision to you page. there's at least one needed so the player can proceed but you can add
+a lot more if needed, there's also no limitation. every decision leads to a new page. you can imagine a decision like
+a link to the next page. you are allowed to have multiple pages with decisions that all lead to the same page, otherwise
+the story would have a ton of endings (if you want a ton of endings you can ofc). You may have noticed that you build a
+tree like story.
+
+
+(required)
+#DEND
+
+ends a decision. a decision should end before the page ends.
+
+
+(required)
+#JUMP
+'example'
+
+this command sets the link to the next page the player jumps to. write the name of the next page between the quotation
+marks. in the example above the decision would lead the player to the page with the #NAME "example". the #JUMP command
+belongs between the #DECISION and the #DEND command.
+
+
+(required)
+#TEXT
+'Open the Door'
+
+with the #TEXT command you define what the player will see in the end. this little text should be short and describe what
+the player is doing when he chooses that decision. the #TEXT command belongs between the #DECISION and the #DEND command.
+
+
+(optional)
+#ITEMNEEDED
+'itemname'
+
+you can create decisions the player cant choose when he doesn't own a specific item. this command specifies what item the
+player needs to choose this decision. use the #ITEMNAME of the item here. this command belongs between the #DECISION and
+the #DEND command.
+
+
+EXAMPLE PAGE:
+
+#PAGE
+	#NAME
+	'Used Key'
+	#STORYTEXT
+	'You used your Key and the Door opens.'
+	'You find some Candy'
+	'There is a Open Door at the end of the Room'
+	#TEXTEND
+	#GIVEITEM
+		#ITEMNAME
+		'Snickers'
+		#ITEMDESCRIPTION
+		'Don't be a Diva
+		#ITEMVALUE
+		5
+		#ITEMAMOUNT
+		2
+	#IEND
+	#DECISION
+		#JUMP
+		'Burning Snickers'
+		#TEXT
+		'Make a Fire out of your Candy'
+		#ITEMNEEDED
+		'Lighter'
+	#DEND
+	#DECISION
+		#JUMP
+		'Explore the Door'
+		#TEXT
+		'Explore the Door'
+	#DEND
+
+#PEND

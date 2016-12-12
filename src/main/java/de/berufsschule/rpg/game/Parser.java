@@ -57,10 +57,12 @@ public class Parser {
           }
 
           if (line.contains("#STORYTEXT")) {
-            if (fileIn.hasNextLine()) {
-              line = fileIn.nextLine();
-              String storytext = getStringBetweenQuotationMarks(line);
-              pages.get(pageCounter).setStorytext(storytext);
+            while (!line.contains("#TEXTEND")){
+              if (fileIn.hasNextLine()) {
+                line = fileIn.nextLine();
+                String storytext = getStringBetweenQuotationMarks(line);
+                pages.get(pageCounter).setStorytext(storytext);
+              }
             }
           }
 
@@ -113,6 +115,14 @@ public class Parser {
 
           if (line.contains("#CONSUMABLE")) {
             pages.get(pageCounter).getItems().get(itemCounter).setConsumable(true);
+          }
+
+          if (line.contains("#DRINK")) {
+            pages.get(pageCounter).getItems().get(itemCounter).setDrink(true);
+          }
+
+          if (line.contains("#FOOD")) {
+            pages.get(pageCounter).getItems().get(itemCounter).setDrink(false);
           }
 
           //ENTSCHEIDUNGEN
