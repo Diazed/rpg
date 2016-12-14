@@ -3,6 +3,7 @@ package de.berufsschule.rpg.game;
 import de.berufsschule.rpg.item.Item;
 import de.berufsschule.rpg.item.ItemService;
 import de.berufsschule.rpg.player.Player;
+import de.berufsschule.rpg.player.PlayerDTOConverter;
 import de.berufsschule.rpg.player.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +20,15 @@ public class GameController {
 
   ItemService itemService;
   PlayerService playerService;
+  PlayerDTOConverter playerDTOConverter;
   Parser parser;
 
   @Autowired
-  public GameController(ItemService itemService, PlayerService playerService, Parser parser) {
+  public GameController(ItemService itemService, PlayerService playerService, Parser parser, PlayerDTOConverter playerDTOConverter) {
     this.itemService = itemService;
     this.playerService = playerService;
     this.parser = parser;
+    this.playerDTOConverter = playerDTOConverter;
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.GET)
@@ -34,6 +37,7 @@ public class GameController {
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
     model.addAttribute("page", page);
+    model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
     return "game/ingame";
   }
 

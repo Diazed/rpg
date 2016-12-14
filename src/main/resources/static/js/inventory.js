@@ -1,8 +1,7 @@
 $(document).ready(function(){
-    $(".secret").hide();
+    $(".inventory").next().fadeOut(0);
 
     $(".inventory").click(function(){
-        $(this).next().show();
         $(this).next().fadeToggle("slow");
     });
 });
