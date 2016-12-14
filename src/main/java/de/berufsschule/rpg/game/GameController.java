@@ -1,5 +1,7 @@
 package de.berufsschule.rpg.game;
 
+import de.berufsschule.rpg.item.Item;
+import de.berufsschule.rpg.item.ItemService;
 import de.berufsschule.rpg.player.Player;
 import de.berufsschule.rpg.player.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,13 @@ import java.util.Objects;
 @Controller
 public class GameController {
 
+  ItemService itemService;
   PlayerService playerService;
   Parser parser;
 
   @Autowired
-  public GameController(PlayerService playerService, Parser parser) {
+  public GameController(ItemService itemService, PlayerService playerService, Parser parser) {
+    this.itemService = itemService;
     this.playerService = playerService;
     this.parser = parser;
   }
@@ -40,16 +44,15 @@ public class GameController {
 
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
-    if (!getJumpPage(jump).getItems().isEmpty()){
-      addPageItemsToPlayer(getJumpPage(jump), loggedInPlayer);
-    }
-
     if (isJumpPossible(page, jump)) {
       loggedInPlayer.setLevel(jump);
+      if (!getJumpPage(jump).getItems().isEmpty()){
+        addPageItemsToPlayer(getJumpPage(jump), loggedInPlayer);
+      }
       if (doesJumpPageUseItem(jump)) {
         removeUsedItemFromPlayer(loggedInPlayer, jump);
       }
-
+      playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
 
     return "redirect:/play";
@@ -62,8 +65,7 @@ public class GameController {
 
   private void addPageItemsToPlayer(Page page, Player player) {
     for (int j = 0; j < page.getItems().size(); j++) {
-      player.getItems().add(page.getItems().get(j));
-      playerService.editPlayer(player, player.getId());
+      player.getItems().add(itemService.findItemByName(page.getItems().get(j).getName()));
     }
   }
 
@@ -72,11 +74,13 @@ public class GameController {
       if (player.getItems().get(i).getName().equals(getJumpPage(jump).getUsedItem())) {
 
         if (player.getItems().get(i).getAmount() - 1 != 0){
-          player.getItems().get(i).setAmount(player.getItems().get(i).getAmount() - 1);
+          Item item = player.getItems().get(i);
+          item.setAmount(player.getItems().get(i).getAmount() - 1);
+          itemService.editItem(item);
         }else {
+          itemService.deleteItem(player.getItems().get(i).getId());
           player.getItems().remove(i);
         }
-        playerService.editPlayer(player, player.getId());
         break;
       }
     }

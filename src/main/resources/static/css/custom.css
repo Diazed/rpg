@@ -59,7 +59,6 @@ td, th {
     background-color: white;
     border-radius: 10px;
     padding: 2%;
-    margin: 10px;
 }
 
 .custom-form-group{
@@ -80,4 +79,20 @@ td, th {
 
 .decision{
     padding-top: 5px;
+}
+
+.progress{
+    margin-bottom: 0px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.panel{
+    margin-bottom: 0px;
+}
+
+.badge{
+    float: right;
 }

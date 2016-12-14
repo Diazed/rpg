@@ -2,8 +2,28 @@
 	#NAME
 	'start'
 	#STORYTEXT
+	'Text'
+	#TEND
+	#DECISION
+		#JUMP
+		'test'
+		#TEXT
+		'hier gehts weiter'
+	#DEND
+
+	#DECISION
+		#JUMP
+		'AA'
+		#TEXT
+		'und so weiter'
+	#DEND
+#PEND
+#PAGE
+	#NAME
+	'test'
+	#STORYTEXT
 	'The Text of the first Site'
-	#TEXTEND
+	#TEND
 
 	#GIVEITEM
 		#ITEMNAME
@@ -14,6 +34,17 @@
 		5
 		#ITEMAMOUNT
 		2
+	#IEND
+
+	#GIVEITEM
+		#ITEMNAME
+		'Test'
+		#ITEMDESCRIPTION
+		'Test Toast'
+		#ITEMVALUE
+		2
+		#ITEMAMOUNT
+		4
 	#IEND
 
 	#DECISION
@@ -37,7 +68,7 @@
 	'A'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-    #TEXTEND
+    #TEND
 
 	#USEITEM
 	'Toast'
@@ -61,7 +92,7 @@
 	'AA'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-	#TEXTEND
+	#TEND
 	#DECISION
 		#JUMP
 		'AA'

@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
+
 @Controller
 public class PlayerController {
 
@@ -40,9 +42,12 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String openPlayerProfile(Model model){
+    public String openPlayerProfile(Model model, Principal principal){
 
-        return "";
+        Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
+        model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
+
+        return "game/profile";
     }
 
 }

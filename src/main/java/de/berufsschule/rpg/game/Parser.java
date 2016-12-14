@@ -57,13 +57,17 @@ public class Parser {
           }
 
           if (line.contains("#STORYTEXT")) {
-            while (!line.contains("#TEXTEND")){
+
+            String storytext = "";
+
+            while (!line.contains("#TEND")){
               if (fileIn.hasNextLine()) {
                 line = fileIn.nextLine();
-                String storytext = getStringBetweenQuotationMarks(line);
-                pages.get(pageCounter).setStorytext(storytext);
+                if (!line.contains("#TEND"))
+                  storytext += getStringBetweenQuotationMarks(line);
               }
             }
+            pages.get(pageCounter).setStorytext(storytext);
           }
 
           if (line.contains("#USEITEM")) {

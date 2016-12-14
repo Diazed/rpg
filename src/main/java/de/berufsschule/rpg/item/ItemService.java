@@ -21,4 +21,21 @@ public class ItemService {
     return itemRepository.findByName(name);
   }
 
+  public void editItem(Item editedItem){
+    Item originalItem = itemRepository.findOne(editedItem.getId());
+
+    originalItem.setAmount(editedItem.getAmount());
+    originalItem.setName(editedItem.getName());
+    originalItem.setConsumable(editedItem.isConsumable());
+    originalItem.setDescription(editedItem.getDescription());
+    originalItem.setDrink(editedItem.isDrink());
+    originalItem.setValue(editedItem.getValue());
+
+    itemRepository.save(originalItem);
+  }
+
+  public void deleteItem(Integer id){
+    itemRepository.delete(id);
+  }
+
 }

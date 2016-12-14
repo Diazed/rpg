@@ -23,7 +23,7 @@ between the #PAGE and #PEND command of each page.
 #STORYTEXT
 'alot of text in this line'
 'and some more here'
-#TEXTEND
+#TEND
 
 Here you define the text of your page. always end the #STORYTEXT command with the #TEXTEND command! you can add rows when
 you want to, there's no limitation. the #STORYTEXT command and all his components belong between the #PAGE and #PEND
@@ -153,7 +153,7 @@ EXAMPLE PAGE:
 	'You used your Key and the Door opens.'
 	'You find some Candy'
 	'There is a Open Door at the end of the Room'
-	#TEXTEND
+	#TEND
 	#GIVEITEM
 		#ITEMNAME
 		'Snickers'
