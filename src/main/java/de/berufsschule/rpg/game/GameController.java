@@ -36,6 +36,9 @@ public class GameController {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
+
+    page = prepareDecisions(page, loggedInPlayer);
+
     model.addAttribute("page", page);
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
     return "game/ingame";
@@ -56,10 +59,29 @@ public class GameController {
       if (doesJumpPageUseItem(jump)) {
         removeUsedItemFromPlayer(loggedInPlayer, jump);
       }
+
+
+
+
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
 
     return "redirect:/play";
+  }
+
+  private Page prepareDecisions(Page page, Player player){
+    Integer pageDecisions = page.getDecisions().size();
+    Integer playerItems = player.getItems().size();
+    for (int i=0; i<pageDecisions; i++){
+      if (!Objects.equals(page.getDecisions().get(i).getItem().getName(), null)){
+        for (int j=0; j<playerItems; j++){
+          if (Objects.equals(page.getDecisions().get(i).getItem().getName(), player.getItems().get(j).getName())){
+            page.getDecisions().get(i).setHasItem(true);
+          }
+        }
+      }
+    }
+    return page;
   }
 
   private boolean doesJumpPageUseItem(String jump) {
@@ -75,15 +97,17 @@ public class GameController {
 
   private void removeUsedItemFromPlayer(Player player, String jump) {
     for (int i = 0; i < player.getItems().size(); i++) {
-      if (player.getItems().get(i).getName().equals(getJumpPage(jump).getUsedItem())) {
+      String usedItem = getJumpPage(jump).getUsedItem();
+      if (player.getItems().get(i).getName().equals(usedItem)) {
 
         if (player.getItems().get(i).getAmount() - 1 != 0){
           Item item = player.getItems().get(i);
           item.setAmount(player.getItems().get(i).getAmount() - 1);
           itemService.editItem(item);
         }else {
-          itemService.deleteItem(player.getItems().get(i).getId());
-          player.getItems().remove(i);
+          Item item = itemService.findItemByName(usedItem);
+          player.getItems().remove(item);
+          playerService.editPlayer(player, player.getId());
         }
         break;
       }

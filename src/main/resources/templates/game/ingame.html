@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/header :: htmlhead"></div>
+    <script src="/js/ingame.js"></script>
 </head>
 <body th:object="${page}">
 <div th:replace="fragments/navbars :: playnavbar"></div>
@@ -39,11 +40,29 @@
                 <br>
                 <p th:text="*{storytext}"></p>
             </div>
-        <br>
+
         <div class="row decision" th:each="dec : *{decisions}">
             <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
                 <div class="col-md-4 col-md-offset-4">
-                    <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
+                    <div th:if="${dec.item.name != null}">
+                        <div th:if="${dec.hasItem == true}" class="preitem">
+                            <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
+                        </div>
+                        <div th:if="${dec.hasItem == false}" class="preitem">
+                            <input type="button" th:value="${dec.text}" class="btn btn-block btn-danger" />
+                        </div>
+
+                        <div class="panel panel-warning iteminfo">
+                            <div class="panel-body">
+                                Information
+                            </div>
+                            <div class="panel-footer" th:text="'Du brauchst das '+${dec.item.name}+' Item um diese Entscheidung zu treffen!'"></div>
+                        </div>
+                    </div>
+                    <div th:if="${dec.item.name == null}">
+                        <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
+                    </div>
+
                 </div>
             </form>
         </div>

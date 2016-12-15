@@ -3,6 +3,8 @@ package de.berufsschule.rpg.item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 @Service
 public class ItemService {
 
@@ -15,6 +17,10 @@ public class ItemService {
 
   public void saveNewItem(Item item){
     itemRepository.save(item);
+  }
+
+  public Item findItemById(Integer id) {
+    return itemRepository.findOne(id);
   }
 
   public Item findItemByName(String name){

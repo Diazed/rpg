@@ -59,6 +59,7 @@ td, th {
     background-color: white;
     border-radius: 10px;
     padding: 2%;
+    margin-bottom: 20px;
 }
 
 .custom-form-group{
@@ -95,4 +96,9 @@ ul {
 
 .badge{
     float: right;
+}
+
+.iteminfo{
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

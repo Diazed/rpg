@@ -32,6 +32,6 @@ public class Player
     private Integer exp;
     private String role = "ROLE_USER";
     private boolean enabled = true;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Item> items = new ArrayList<>();
 }

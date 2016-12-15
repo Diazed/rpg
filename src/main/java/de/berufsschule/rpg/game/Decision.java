@@ -11,4 +11,5 @@ public class Decision {
     private String jump;
     private String text;
     private Item item = new Item();
+    private boolean hasItem = false;
 }
