@@ -2,6 +2,7 @@ package de.berufsschule.rpg.game;
 
 import de.berufsschule.rpg.item.Item;
 import de.berufsschule.rpg.item.ItemService;
+import de.berufsschule.rpg.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class Parser {
     this.itemService = itemService;
   }
 
-  public Game parser() {
+  public Game parser(Player player) {
 
     Game game = new Game();
     List<Page> pages = new ArrayList<Page>();
@@ -157,7 +158,7 @@ public class Parser {
               line = fileIn.nextLine();
               String item = getStringBetweenQuotationMarks(line);
 
-              pages.get(pageCounter).getDecisions().get(decisionCounter).setItem(itemService.findItemByName(item));
+              pages.get(pageCounter).getDecisions().get(decisionCounter).setItem(itemService.findItemByNameAndPlayerId(item, player.getId()));
 
             }
           }
@@ -166,7 +167,9 @@ public class Parser {
 
           if (line.contains("#IEND")) {
 
-            if (itemService.findItemByName(pages.get(pageCounter).getItems().get(itemCounter).getName()) == null)
+              pages.get(pageCounter).getItems().get(itemCounter).setPlayerId(player.getId());
+            //wech
+            if (itemService.findItemByNameAndPlayerId(pages.get(pageCounter).getItems().get(itemCounter).getName(), player.getId()) == null)
               itemService.saveNewItem(pages.get(pageCounter).getItems().get(itemCounter));
 
             itemCounter++;
@@ -200,6 +203,5 @@ public class Parser {
 
     return line;
   }
-
 
 }

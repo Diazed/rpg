@@ -19,4 +19,5 @@ public class Item {
   private String description;
   private Integer value;
   private Integer amount;
+  private Integer playerId;
 }

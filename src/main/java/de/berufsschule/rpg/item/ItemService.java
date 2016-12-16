@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -23,8 +25,20 @@ public class ItemService {
     return itemRepository.findOne(id);
   }
 
-  public Item findItemByName(String name){
-    return itemRepository.findByName(name);
+
+
+  public Item findItemByNameAndPlayerId(String itemName, Integer playerId){
+    List<Item> items;
+    items = itemRepository.findByName(itemName);
+    Integer itemSize = items.size();
+
+    for (int i=0; i<itemSize; i++){
+      if (items.get(i).getPlayerId() == playerId){
+        return items.get(i);
+      }
+    }
+
+    return null;
   }
 
   public void editItem(Item editedItem){

@@ -68,7 +68,7 @@
 	'A'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-	'Hallo'
+	' Hallo'
     #TEND
 
 	#USEITEM

@@ -35,6 +35,9 @@ public class GameController {
   public String invokeGame(Model model, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
+
+
+
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
     page = prepareDecisions(page, loggedInPlayer);
@@ -53,10 +56,10 @@ public class GameController {
 
     if (isJumpPossible(page, jump, loggedInPlayer)) {
       loggedInPlayer.setLevel(jump);
-      if (!getJumpPage(jump).getItems().isEmpty()){
-        addPageItemsToPlayer(getJumpPage(jump), loggedInPlayer);
+      if (!getJumpPage(jump, loggedInPlayer).getItems().isEmpty()){
+        addPageItemsToPlayer(getJumpPage(jump, loggedInPlayer), loggedInPlayer);
       }
-      if (doesJumpPageUseItem(jump)) {
+      if (doesJumpPageUseItem(jump, loggedInPlayer)) {
         removeUsedItemFromPlayer(loggedInPlayer, jump);
       }
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
@@ -80,20 +83,20 @@ public class GameController {
     return page;
   }
 
-  private boolean doesJumpPageUseItem(String jump) {
+  private boolean doesJumpPageUseItem(String jump, Player player) {
 
-    return !Objects.equals(getJumpPage(jump).getUsedItem(), "");
+    return !Objects.equals(getJumpPage(jump, player).getUsedItem(), "");
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
     for (int j = 0; j < page.getItems().size(); j++) {
-      player.getItems().add(itemService.findItemByName(page.getItems().get(j).getName()));
+      player.getItems().add(itemService.findItemByNameAndPlayerId(page.getItems().get(j).getName(), player.getId()));
     }
   }
 
   private void removeUsedItemFromPlayer(Player player, String jump) {
     for (int i = 0; i < player.getItems().size(); i++) {
-      String usedItem = getJumpPage(jump).getUsedItem();
+      String usedItem = getJumpPage(jump, player).getUsedItem();
       if (player.getItems().get(i).getName().equals(usedItem)) {
 
         if (player.getItems().get(i).getAmount() - 1 != 0){
@@ -101,7 +104,7 @@ public class GameController {
           item.setAmount(player.getItems().get(i).getAmount() - 1);
           itemService.editItem(item);
         }else {
-          Item item = itemService.findItemByName(usedItem);
+          Item item = itemService.findItemByNameAndPlayerId(usedItem, player.getId());
           player.getItems().remove(item);
           playerService.editPlayer(player, player.getId());
         }
@@ -111,7 +114,7 @@ public class GameController {
   }
 
   public Page getCurrentPageFromPlayer(Player player) {
-    Game game = parser.parser();
+    Game game = parser.parser(player);
     Page page = new Page();
 
     int pagesSize = game.getPages().size();
@@ -174,8 +177,8 @@ public class GameController {
     return false;
   }
 
-  public Page getJumpPage(String jump) {
-    Game game = parser.parser();
+  public Page getJumpPage(String jump, Player player) {
+    Game game = parser.parser(player);
 
     for (int i = 0; i < game.getPages().size(); i++) {
       if (game.getPages().get(i).getName().equals(jump)) {

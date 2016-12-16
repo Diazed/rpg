@@ -45,9 +45,13 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="row">
                     <div class="col-md-4">
+                        <div class="row" th:if="*{usedItem != ''}">
+                            <h4><span class="label label-danger" th:text="'-'+*{usedItem}"></span></h4>
+                        </div>
+                        <div class="row" th:each="ite : *{items}">
+                            <h4 class="itemlable"><span class="label label-success" th:text="'+'+${ite.amount}+' '+${ite.name}"></span></h4>
+                        </div>
 
-                        Items +-
-                        </form>
                     </div>
                     <div class="col-md-8">
                         <div class="row" th:each="dec : *{decisions}">
