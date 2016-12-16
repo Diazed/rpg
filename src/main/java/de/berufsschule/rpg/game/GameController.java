@@ -51,7 +51,7 @@ public class GameController {
 
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
-    if (isJumpPossible(page, jump)) {
+    if (isJumpPossible(page, jump, loggedInPlayer)) {
       loggedInPlayer.setLevel(jump);
       if (!getJumpPage(jump).getItems().isEmpty()){
         addPageItemsToPlayer(getJumpPage(jump), loggedInPlayer);
@@ -59,10 +59,6 @@ public class GameController {
       if (doesJumpPageUseItem(jump)) {
         removeUsedItemFromPlayer(loggedInPlayer, jump);
       }
-
-
-
-
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
 
@@ -128,11 +124,53 @@ public class GameController {
     return page;
   }
 
-  public boolean isJumpPossible(Page page, String jump) {
+  public boolean isJumpPossible(Page page, String jump, Player player) {
+
+      Decision jumpDecision = getJumpDecision(page, jump);
+
+      if (jumpDecision.getItem().getName() == null){
+        return false;
+      }
+      else {
+        if (doesDecisionRequireItem(jumpDecision)){
+          return doesPlayerOwnRequiredItem(jumpDecision, player);
+        }else{
+          return true;
+        }
+      }
+  }
+
+  public Decision getJumpDecision(Page page, String jump){
+    Decision jumpDecision = new Decision();
     for (int i = 0; i < page.getDecisions().size(); i++) {
-      if (Objects.equals(page.getDecisions().get(i).getJump(), jump))
-        return true;
+      if (isJumpInPlayerPage(page.getDecisions().get(i), jump))
+        jumpDecision = page.getDecisions().get(i);
     }
+    return jumpDecision;
+  }
+
+  public boolean isJumpInPlayerPage(Decision decision, String jump){
+      if (Objects.equals(decision.getJump(), jump))
+        return true;
+    return false;
+  }
+
+  public boolean doesDecisionRequireItem(Decision decision){
+
+      if (decision.getItem().getName() != null ){
+        return true;
+      }
+    return false;
+  }
+
+  public boolean doesPlayerOwnRequiredItem(Decision decision, Player player){
+
+    Integer playerItemSize = player.getItems().size();
+      for (int i=0; i<playerItemSize; i++){
+        if (Objects.equals(player.getItems().get(i).getName(), decision.getItem().getName())){
+          return true;
+        }
+      }
     return false;
   }
 
