@@ -15,8 +15,9 @@ this command marks the end of a page. do not forget this! after closing a page y
 'example'
 
 sets the name of your current page. use this command once in every page and down name two page's the same!!! the first
-page should be named "start". the page in the example above would have the name "example". the #NAME command belongs
-between the #PAGE and #PEND command of each page.
+page should be named "start" and the name of the page you want to disapear when the player starves should be names "R.I.P.".
+the page in the example above would have the name "example". the #NAME command belongs between the #PAGE and #PEND
+command of each page.
 
 
 (required)

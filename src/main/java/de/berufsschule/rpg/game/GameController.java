@@ -35,9 +35,6 @@ public class GameController {
   public String invokeGame(Model model, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-
-
-
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
     page = prepareDecisions(page, loggedInPlayer);
@@ -51,12 +48,12 @@ public class GameController {
   public String goToNextPage(@PathVariable String jump, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
     if (isJumpPossible(page, jump, loggedInPlayer)) {
       loggedInPlayer.setLevel(jump);
-      if (!getJumpPage(jump, loggedInPlayer).getItems().isEmpty()){
+      roundEffects(loggedInPlayer);
+      if (!getJumpPage(jump, loggedInPlayer).getItems().isEmpty()) {
         addPageItemsToPlayer(getJumpPage(jump, loggedInPlayer), loggedInPlayer);
       }
       if (doesJumpPageUseItem(jump, loggedInPlayer)) {
@@ -64,17 +61,37 @@ public class GameController {
       }
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
-
     return "redirect:/play";
   }
 
-  private Page prepareDecisions(Page page, Player player){
+  private void roundEffects(Player player) {
+    roundHunger(player);
+    roundThirst(player);
+  }
+
+  private void roundThirst(Player player) {
+    if (player.getThirst() + 5 > 100) {
+      player.setLevel("R.I.P.");
+    } else {
+      player.setThirst(player.getThirst() + 5);
+    }
+  }
+
+  private void roundHunger(Player player) {
+    if (player.getHunger() + 3 > 100) {
+      player.setLevel("R.I.P.");
+    } else {
+      player.setHunger(player.getHunger() + 3);
+    }
+  }
+
+  private Page prepareDecisions(Page page, Player player) {
     Integer pageDecisions = page.getDecisions().size();
     Integer playerItems = player.getItems().size();
-    for (int i=0; i<pageDecisions; i++){
-      if (!Objects.equals(page.getDecisions().get(i).getItem().getName(), null)){
-        for (int j=0; j<playerItems; j++){
-          if (Objects.equals(page.getDecisions().get(i).getItem().getName(), player.getItems().get(j).getName())){
+    for (int i = 0; i < pageDecisions; i++) {
+      if (!Objects.equals(page.getDecisions().get(i).getItem().getName(), null)) {
+        for (int j = 0; j < playerItems; j++) {
+          if (Objects.equals(page.getDecisions().get(i).getItem().getName(), player.getItems().get(j).getName())) {
             page.getDecisions().get(i).setHasItem(true);
           }
         }
@@ -84,7 +101,6 @@ public class GameController {
   }
 
   private boolean doesJumpPageUseItem(String jump, Player player) {
-
     return !Objects.equals(getJumpPage(jump, player).getUsedItem(), "");
   }
 
@@ -99,11 +115,11 @@ public class GameController {
       String usedItem = getJumpPage(jump, player).getUsedItem();
       if (player.getItems().get(i).getName().equals(usedItem)) {
 
-        if (player.getItems().get(i).getAmount() - 1 != 0){
+        if (player.getItems().get(i).getAmount() - 1 != 0) {
           Item item = player.getItems().get(i);
           item.setAmount(player.getItems().get(i).getAmount() - 1);
           itemService.editItem(item);
-        }else {
+        } else {
           Item item = itemService.findItemByNameAndPlayerId(usedItem, player.getId());
           player.getItems().remove(item);
           playerService.editPlayer(player, player.getId());
@@ -113,10 +129,9 @@ public class GameController {
     }
   }
 
-  public Page getCurrentPageFromPlayer(Player player) {
+  private Page getCurrentPageFromPlayer(Player player) {
     Game game = parser.parser(player);
     Page page = new Page();
-
     int pagesSize = game.getPages().size();
     for (int i = 0; i < pagesSize; i++) {
       if (Objects.equals(game.getPages().get(i).getName(), player.getLevel())) {
@@ -127,23 +142,20 @@ public class GameController {
     return page;
   }
 
-  public boolean isJumpPossible(Page currentPlayerPage, String jump, Player player) {
-
-      Decision clickedDecision = getClickedDecision(currentPlayerPage, jump);
-
-      if (clickedDecision.getJump() == null){
-        return false;
+  private boolean isJumpPossible(Page currentPlayerPage, String jump, Player player) {
+    Decision clickedDecision = getClickedDecision(currentPlayerPage, jump);
+    if (clickedDecision.getJump() == null) {
+      return false;
+    } else {
+      if (doesDecisionRequireItem(clickedDecision)) {
+        return doesPlayerOwnRequiredItem(clickedDecision, player);
+      } else {
+        return true;
       }
-      else {
-        if (doesDecisionRequireItem(clickedDecision)){
-          return doesPlayerOwnRequiredItem(clickedDecision, player);
-        }else{
-          return true;
-        }
-      }
+    }
   }
 
-  public Decision getClickedDecision(Page currentPlayerPage, String jump){
+  private Decision getClickedDecision(Page currentPlayerPage, String jump) {
     Decision jumpDecision = new Decision();
     for (int i = 0; i < currentPlayerPage.getDecisions().size(); i++) {
       if (isJumpInPlayerPage(currentPlayerPage.getDecisions().get(i), jump))
@@ -152,40 +164,31 @@ public class GameController {
     return jumpDecision;
   }
 
-  public boolean isJumpInPlayerPage(Decision decision, String jump){
-      if (Objects.equals(decision.getJump(), jump))
-        return true;
-    return false;
+  private boolean isJumpInPlayerPage(Decision decision, String jump) {
+    return Objects.equals(decision.getJump(), jump);
   }
 
-  public boolean doesDecisionRequireItem(Decision decision){
-
-      if (decision.getItem().getName() != null ){
-        return true;
-      }
-    return false;
+  private boolean doesDecisionRequireItem(Decision decision) {
+    return decision.getItem().getName() != null;
   }
 
-  public boolean doesPlayerOwnRequiredItem(Decision decision, Player player){
-
+  private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
     Integer playerItemSize = player.getItems().size();
-      for (int i=0; i<playerItemSize; i++){
-        if (Objects.equals(player.getItems().get(i).getName(), decision.getItem().getName())){
-          return true;
-        }
+    for (int i = 0; i < playerItemSize; i++) {
+      if (Objects.equals(player.getItems().get(i).getName(), decision.getItem().getName())) {
+        return true;
       }
+    }
     return false;
   }
 
-  public Page getJumpPage(String jump, Player player) {
+  private Page getJumpPage(String jump, Player player) {
     Game game = parser.parser(player);
-
     for (int i = 0; i < game.getPages().size(); i++) {
       if (game.getPages().get(i).getName().equals(jump)) {
         return game.getPages().get(i);
       }
     }
-
     return new Page();
   }
 
