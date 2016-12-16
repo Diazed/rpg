@@ -124,27 +124,27 @@ public class GameController {
     return page;
   }
 
-  public boolean isJumpPossible(Page page, String jump, Player player) {
+  public boolean isJumpPossible(Page currentPlayerPage, String jump, Player player) {
 
-      Decision jumpDecision = getJumpDecision(page, jump);
+      Decision clickedDecision = getClickedDecision(currentPlayerPage, jump);
 
-      if (jumpDecision.getItem().getName() == null){
+      if (clickedDecision.getJump() == null){
         return false;
       }
       else {
-        if (doesDecisionRequireItem(jumpDecision)){
-          return doesPlayerOwnRequiredItem(jumpDecision, player);
+        if (doesDecisionRequireItem(clickedDecision)){
+          return doesPlayerOwnRequiredItem(clickedDecision, player);
         }else{
           return true;
         }
       }
   }
 
-  public Decision getJumpDecision(Page page, String jump){
+  public Decision getClickedDecision(Page currentPlayerPage, String jump){
     Decision jumpDecision = new Decision();
-    for (int i = 0; i < page.getDecisions().size(); i++) {
-      if (isJumpInPlayerPage(page.getDecisions().get(i), jump))
-        jumpDecision = page.getDecisions().get(i);
+    for (int i = 0; i < currentPlayerPage.getDecisions().size(); i++) {
+      if (isJumpInPlayerPage(currentPlayerPage.getDecisions().get(i), jump))
+        jumpDecision = currentPlayerPage.getDecisions().get(i);
     }
     return jumpDecision;
   }

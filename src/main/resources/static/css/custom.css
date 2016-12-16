@@ -79,7 +79,7 @@ td, th {
 }
 
 .decision{
-    padding-top: 5px;
+    margin-top: 5px;
 }
 
 .progress{
@@ -96,9 +96,4 @@ ul {
 
 .badge{
     float: right;
-}
-
-.iteminfo{
-    margin-top: 15px;
-    margin-bottom: 15px;
 }
