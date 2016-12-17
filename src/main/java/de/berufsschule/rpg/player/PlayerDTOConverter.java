@@ -26,6 +26,7 @@ public class PlayerDTOConverter {
         model.setThirst(dto.getThirst());
         model.setHunger(dto.getHunger());
         model.setItems(dto.getItems());
+        model.setCheckpoint(dto.getCheckpoint());
 
         return model;
     }
@@ -42,8 +43,8 @@ public class PlayerDTOConverter {
         dto.setHunger(model.getHunger());
         dto.setThirst(model.getThirst());
         dto.setItems(model.getItems());
+        dto.setCheckpoint(model.getCheckpoint());
 
         return dto;
     }
-
 }

@@ -31,6 +31,10 @@ you want to, there's no limitation. the #STORYTEXT command and all his component
 command of each page.
 
 
+#CHECKPOINT
+
+marks a page as a checkpoint. when the player dies he will be snt to the last checkpoint (the player loses all Items).
+
 (optional)
 #USEITEM
 'itemname'
@@ -110,7 +114,8 @@ with this command you add decision to you page. there's at least one needed so t
 a lot more if needed, there's also no limitation. every decision leads to a new page. you can imagine a decision like
 a link to the next page. you are allowed to have multiple pages with decisions that all lead to the same page, otherwise
 the story would have a ton of endings (if you want a ton of endings you can ofc). You may have noticed that you build a
-tree like story.
+tree like story. when a player dies (on the page with name "R.I.P.") the decision will always send the player back to
+the last checkpoint
 
 
 (required)

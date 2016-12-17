@@ -49,6 +49,10 @@ public class Parser {
             pages.add(page);
           }
 
+          if (line.contains("#CHECKPOINT")) {
+              pages.get(pageCounter).setCheckpoint(true);
+          }
+
           if (line.contains("#NAME")) {
             if (fileIn.hasNextLine()) {
               line = fileIn.nextLine();

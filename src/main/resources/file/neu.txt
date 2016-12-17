@@ -70,9 +70,9 @@
 	'A'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-	' Hallo'
+	' Checkpoint'
     #TEND
-
+    #CHECKPOINT
 	#USEITEM
 	'Toast'
 
@@ -80,7 +80,7 @@
 		#JUMP
 		'AA'
 		#TEXT
-		'hier gehts weiter'
+		'weg hier'
 	#DEND
 
 	#DECISION
@@ -110,5 +110,18 @@
 		'AA'
 		#TEXT
 		'und so weiter'
+	#DEND
+#PEND
+#PAGE
+	#NAME
+	'R.I.P.'
+	#STORYTEXT
+	'Du bist gestorben und hast alle deine Items verloren.'
+	#TEND
+	#DECISION
+		#JUMP
+		'AA'
+		#TEXT
+		'Zum letzten Checkpoint'
 	#DEND
 #PEND

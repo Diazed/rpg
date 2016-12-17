@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Controller
@@ -39,6 +40,11 @@ public class GameController {
 
     page = prepareDecisions(page, loggedInPlayer);
 
+    if (Objects.equals(page.getName(), "R.I.P.")){
+      loggedInPlayer.setItems(new ArrayList<>());
+      playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
+    }
+
     model.addAttribute("page", page);
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
     return "game/ingame";
@@ -48,16 +54,27 @@ public class GameController {
   public String goToNextPage(@PathVariable String jump, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-    Page page = getCurrentPageFromPlayer(loggedInPlayer);
+    Page currentPage = getCurrentPageFromPlayer(loggedInPlayer);
 
-    if (isJumpPossible(page, jump, loggedInPlayer)) {
+    if (Objects.equals(currentPage.getName(), "R.I.P.")){
+      jump = loggedInPlayer.getCheckpoint();
+    }
+    Page jumpPage = getJumpPage(jump, loggedInPlayer);
+    if (isJumpPossible(currentPage, jumpPage, loggedInPlayer) || playerDied(currentPage)) {
       loggedInPlayer.setLevel(jump);
-      roundEffects(loggedInPlayer);
-      if (!getJumpPage(jump, loggedInPlayer).getItems().isEmpty()) {
-        addPageItemsToPlayer(getJumpPage(jump, loggedInPlayer), loggedInPlayer);
+      checkpointHandling(loggedInPlayer, jumpPage);
+      if (playerDied(currentPage)){
+        respawn(loggedInPlayer);
+      }else {
+        roundEffects(loggedInPlayer);
       }
-      if (doesJumpPageUseItem(jump, loggedInPlayer)) {
-        removeDecisionItemFromPlayer(loggedInPlayer, jump);
+
+
+      if (!jumpPage.getItems().isEmpty()) {
+        addPageItemsToPlayer(jumpPage, loggedInPlayer);
+      }
+      if (doesJumpPageUseItem(jumpPage) && !playerDied(currentPage)) {
+        removeDecisionItemFromPlayer(loggedInPlayer, jumpPage);
       }
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
@@ -73,6 +90,21 @@ public class GameController {
     itemEffects(usedItem, loggedInPlayer);
     playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     return "redirect:/profile";
+  }
+
+  private void respawn(Player player){
+    player.setHunger(0);
+    player.setThirst(0);
+    player.setHitpoints(100);
+  }
+
+  private boolean playerDied(Page page){
+    return Objects.equals(page.getName(), "R.I.P.");
+  }
+
+  private void checkpointHandling(Player player, Page page){
+    if (page.isCheckpoint())
+      player.setCheckpoint(page.getName());
   }
 
   private void itemEffects(Item item, Player player) {
@@ -139,8 +171,8 @@ public class GameController {
     return page;
   }
 
-  private boolean doesJumpPageUseItem(String jump, Player player) {
-    return !Objects.equals(getJumpPage(jump, player).getUsedItem(), "");
+  private boolean doesJumpPageUseItem(Page jumpPage) {
+    return !Objects.equals(jumpPage.getUsedItem(), "");
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
@@ -149,9 +181,9 @@ public class GameController {
     }
   }
 
-  private void removeDecisionItemFromPlayer(Player player, String jump) {
+  private void removeDecisionItemFromPlayer(Player player, Page jumpPage) {
     for (int i = 0; i < player.getItems().size(); i++) {
-      String usedItem = getJumpPage(jump, player).getUsedItem();
+      String usedItem = jumpPage.getUsedItem();
       if (player.getItems().get(i).getName().equals(usedItem)) {
 
         removeItemFromPlayer(player, itemService.findItemByNameAndPlayerId(usedItem, player.getId()));
@@ -191,8 +223,8 @@ public class GameController {
     return page;
   }
 
-  private boolean isJumpPossible(Page currentPlayerPage, String jump, Player player) {
-    Decision clickedDecision = getClickedDecision(currentPlayerPage, jump);
+  private boolean isJumpPossible(Page currentPlayerPage, Page jumpPage, Player player) {
+    Decision clickedDecision = getClickedDecision(currentPlayerPage, jumpPage.getName());
     if (clickedDecision.getJump() == null) {
       return false;
     } else {

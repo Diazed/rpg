@@ -24,6 +24,7 @@ public class Player
     @NotNull
     @Size(min=1, max=30)
     private String password;
+    private String checkpoint;
     private String level;
     private Integer playerLvl;
     private Integer hitpoints;
