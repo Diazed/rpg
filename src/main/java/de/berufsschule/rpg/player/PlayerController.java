@@ -49,5 +49,4 @@ public class PlayerController {
 
         return "game/profile";
     }
-
 }

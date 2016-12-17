@@ -65,7 +65,7 @@ td, th {
 .custom-form-group{
     background-color: #eee;
     border-radius: 10px;
-    padding: 5px;
+    padding: 1px;
 }
 
 .username{
@@ -101,4 +101,8 @@ ul {
 .itemlable{
         margin-top: 10px;
         margin-bottom: 0px;
+}
+
+.startcol{
+    padding-left: 0px;
 }

@@ -57,11 +57,50 @@ public class GameController {
         addPageItemsToPlayer(getJumpPage(jump, loggedInPlayer), loggedInPlayer);
       }
       if (doesJumpPageUseItem(jump, loggedInPlayer)) {
-        removeUsedItemFromPlayer(loggedInPlayer, jump);
+        removeDecisionItemFromPlayer(loggedInPlayer, jump);
       }
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
     }
     return "redirect:/play";
+  }
+
+  @RequestMapping(value = "/profile/{id}", method = RequestMethod.POST)
+  public String useItem(@PathVariable Integer id, Principal principal) {
+
+    Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
+    Item usedItem = itemService.findItemById(id);
+    removeItemFromPlayer(loggedInPlayer, usedItem);
+    itemEffects(usedItem, loggedInPlayer);
+    playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
+    return "redirect:/profile";
+  }
+
+  private void itemEffects(Item item, Player player) {
+    if (item.isDrink()) {
+      itemDrink(item, player);
+    } else {
+      itemFood(item, player);
+    }
+  }
+
+  private void itemFood(Item item, Player player) {
+    Integer playerHunger = player.getHunger();
+    Integer itemValue = item.getValue();
+    if (playerHunger - itemValue < 0) {
+      player.setHunger(0);
+    } else {
+      player.setHunger(playerHunger - itemValue);
+    }
+  }
+
+  private void itemDrink(Item item, Player player) {
+    Integer playerThirst = player.getThirst();
+    Integer itemValue = item.getValue();
+    if (playerThirst - itemValue < 0) {
+      player.setThirst(0);
+    } else {
+      player.setThirst(playerThirst - itemValue);
+    }
   }
 
   private void roundEffects(Player player) {
@@ -110,21 +149,31 @@ public class GameController {
     }
   }
 
-  private void removeUsedItemFromPlayer(Player player, String jump) {
+  private void removeDecisionItemFromPlayer(Player player, String jump) {
     for (int i = 0; i < player.getItems().size(); i++) {
       String usedItem = getJumpPage(jump, player).getUsedItem();
       if (player.getItems().get(i).getName().equals(usedItem)) {
 
-        if (player.getItems().get(i).getAmount() - 1 != 0) {
-          Item item = player.getItems().get(i);
-          item.setAmount(player.getItems().get(i).getAmount() - 1);
-          itemService.editItem(item);
-        } else {
-          Item item = itemService.findItemByNameAndPlayerId(usedItem, player.getId());
-          player.getItems().remove(item);
-          playerService.editPlayer(player, player.getId());
-        }
+        removeItemFromPlayer(player, itemService.findItemByNameAndPlayerId(usedItem, player.getId()));
+
         break;
+      }
+    }
+  }
+
+  private void removeItemFromPlayer(Player player, Item item) {
+    Integer playerItemSize = player.getItems().size();
+    for (int i = 0; i < playerItemSize; i++) {
+      if (player.getItems().get(i).getId() == item.getId()) {
+        Item playerItem = player.getItems().get(i);
+        if (playerItem.getAmount() - 1 != 0) {
+          item.setAmount(playerItem.getAmount() - 1);
+          itemService.editItem(item);
+          break;
+        } else {
+          player.getItems().remove(item);
+          break;
+        }
       }
     }
   }
