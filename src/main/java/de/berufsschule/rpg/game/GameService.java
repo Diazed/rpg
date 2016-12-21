@@ -93,8 +93,12 @@ public class GameService {
     if (probability >= 100)
       player.setLevel(jump);
     int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
-    if (random > probability)
+    if (random > probability){
       player.setLevel(failJump);
+    }else {
+      player.setLevel(jump);
+    }
+
 
 
   }

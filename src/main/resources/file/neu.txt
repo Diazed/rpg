@@ -1,3 +1,6 @@
+//
+//
+
 #PAGE
 	#NAME
 	'start'
@@ -9,15 +12,12 @@
 		'test'
 		#TEXT
 		'hier gehts weiter'
-	#DEND
 
 	#DECISION
 		#JUMP
 		'AA'
 		#TEXT
 		'und so weiter'
-	#DEND
-#PEND
 #PAGE
 	#NAME
 	'test'
@@ -97,17 +97,33 @@
 	'AA'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
+	'A'
 	#TEND
 	#DECISION
 		#JUMP
 		'AA'
+		#ALTERNATIVEJUMP
+		'H'
+		#CHANCE
+		50
 		#TEXT
-		'hier gehts weiter'
+		'und so weiter'
 	#DEND
-
+#PEND
+#PAGE
+	#NAME
+	'H'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+	'BBB'
+	#TEND
 	#DECISION
 		#JUMP
 		'AA'
+		#ALTERNATIVEJUMP
+		'H'
+		#CHANCE
+		50
 		#TEXT
 		'und so weiter'
 	#DEND
