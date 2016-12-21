@@ -1,9 +1,11 @@
 package de.berufsschule.rpg.player;
 
+import de.berufsschule.rpg.game.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,11 +14,13 @@ import java.security.Principal;
 @Controller
 public class PlayerController {
 
+    private GameService gameService;
     private PlayerService playerService;
     private PlayerDTOConverter playerDTOConverter;
 
     @Autowired
-    public PlayerController(PlayerService playerService, PlayerDTOConverter playerDTOConverter){
+    public PlayerController(GameService gameService, PlayerService playerService, PlayerDTOConverter playerDTOConverter){
+        this.gameService = gameService;
         this.playerService = playerService;
         this.playerDTOConverter = playerDTOConverter;
     }
@@ -48,5 +52,14 @@ public class PlayerController {
         model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
 
         return "game/profile";
+    }
+
+
+    @RequestMapping(value = "/profile/{id}", method = RequestMethod.POST)
+    public String useItem(@PathVariable Integer id, Principal principal) {
+
+        Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
+        gameService.prepareProfile(id, loggedInPlayer);
+        return "redirect:/profile";
     }
 }
