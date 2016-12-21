@@ -1,16 +1,15 @@
 package de.berufsschule.rpg.player;
 
-import de.berufsschule.rpg.game.Parser;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PlayerDTOConverter {
 
-    private Parser parser;
 
-    public PlayerDTOConverter(Parser parser){
 
-        this.parser = parser;
+    public PlayerDTOConverter(){
+
+
     }
 
     public Player toModel(PlayerDTO dto){

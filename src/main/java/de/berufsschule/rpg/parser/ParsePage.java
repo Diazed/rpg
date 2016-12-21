@@ -4,14 +4,17 @@ import de.berufsschule.rpg.game.Decision;
 import de.berufsschule.rpg.game.Game;
 import de.berufsschule.rpg.game.Page;
 import de.berufsschule.rpg.item.Item;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
-public class ParsePage implements Parser {
+@Component
+public class ParsePage extends BaseParser {
   @Override
-  public boolean parse(Game game, String line) {
+  public boolean parse(Game game, String line, Scanner fileIn) {
 
     if (Objects.equals(line, "#PAGE")){
       Page page = new Page();

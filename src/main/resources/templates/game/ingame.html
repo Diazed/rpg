@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row" th:each="dec : *{decisions}">
-                            <div th:if="${dec.item.name != null}">
+                            <div th:if="${dec.neededItem != null}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
                                         <div th:if="${dec.hasItem == true}" class="preitem">
@@ -64,13 +64,13 @@
                                     </form>
                                 </div>
                                 <div class="col-md-6" th:if="${dec.hasItem == true}">
-                                    <h4><span class="label label-warning iteminfo" th:text="'-'+${dec.item.name}+' Item'">Warning</span></h4>
+                                    <h4><span class="label label-warning iteminfo" th:text="'-'+${dec.neededItem}+' Item'">Warning</span></h4>
                                 </div>
                                 <div class="col-md-6" th:if="${dec.hasItem == false}">
-                                    <h4><span class="label label-danger iteminfo" th:text="${dec.item.name}+' Item fehlt'">Warning</span></h4>
+                                    <h4><span class="label label-danger iteminfo" th:text="${dec.neededItem}+' Item fehlt'">Warning</span></h4>
                                 </div>
                             </div>
-                            <div th:if="${dec.item.name == null}">
+                            <div th:if="${dec.neededItem == null}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
                                         <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>

@@ -1,13 +1,21 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.game.*;
+import de.berufsschule.rpg.game.Game;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
+@Component
+@Getter
+@Setter
 public class ParserRunner {
 
   Game game;
@@ -18,25 +26,36 @@ public class ParserRunner {
     this.parser = parser;
   }
 
-  public void parse(String filename){
+  public void parse(){
+
+    String filename = "neu";
 
     ClassLoader classLoader = getClass().getClassLoader();
     try(Scanner fileIn = new Scanner(new File(classLoader.getResource("file/"+filename+".txt").getFile()))) {
       game = new Game();
-      while (fileIn.hasNext()){
-        runAllParser(game, fileIn.nextLine());
-      }
+      game.setPages(new ArrayList<>());
+      runAllParser(game, fileIn);
     }
     catch (IOException e){
       e.printStackTrace();
     }
   }
 
-  private void runAllParser(Game game, String line){
-    for (Parser aParser : parser) {
-      if (aParser.parse(game, line))
-        return;
+  private void runAllParser(Game game, Scanner fileIn){
+
+    while (fileIn.hasNext()){
+      String line = fileIn.nextLine();
+
+      if (!line.startsWith("//") && !Objects.equals(line, ""))
+      {
+        for (Parser aParser : parser) {
+          if (aParser.parse(game, line, fileIn))
+            break;
+        }
+      }
     }
+
+
   }
 
 }

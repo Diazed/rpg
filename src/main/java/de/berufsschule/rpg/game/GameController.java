@@ -2,6 +2,7 @@ package de.berufsschule.rpg.game;
 
 import de.berufsschule.rpg.item.Item;
 import de.berufsschule.rpg.item.ItemService;
+import de.berufsschule.rpg.parser.ParserRunner;
 import de.berufsschule.rpg.player.Player;
 import de.berufsschule.rpg.player.PlayerDTOConverter;
 import de.berufsschule.rpg.player.PlayerService;
@@ -22,23 +23,25 @@ public class GameController {
   ItemService itemService;
   PlayerService playerService;
   PlayerDTOConverter playerDTOConverter;
-  Parser parser;
+  ParserRunner parserRunner;
 
   @Autowired
-  public GameController(ItemService itemService, PlayerService playerService, Parser parser, PlayerDTOConverter playerDTOConverter) {
+  public GameController(ItemService itemService, PlayerService playerService, PlayerDTOConverter playerDTOConverter, ParserRunner parserRunner) {
     this.itemService = itemService;
     this.playerService = playerService;
-    this.parser = parser;
     this.playerDTOConverter = playerDTOConverter;
+    this.parserRunner = parserRunner;
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.GET)
   public String invokeGame(Model model, Principal principal) {
-
+    parserRunner.parse();
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
     Page page = getCurrentPageFromPlayer(loggedInPlayer);
 
     page = prepareDecisions(page, loggedInPlayer);
+
+
 
     if (Objects.equals(page.getName(), "R.I.P.")){
       loggedInPlayer.setItems(new ArrayList<>());
@@ -73,7 +76,7 @@ public class GameController {
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, loggedInPlayer);
       }
-      if (doesJumpPageUseItem(jumpPage) && !playerDied(currentPage)) {
+      if (doesDecisionNeedItem(jumpPage) && !playerDied(currentPage)) {
         removeDecisionItemFromPlayer(loggedInPlayer, jumpPage);
       }
       playerService.editPlayer(loggedInPlayer, loggedInPlayer.getId());
@@ -160,9 +163,9 @@ public class GameController {
     Integer pageDecisions = page.getDecisions().size();
     Integer playerItems = player.getItems().size();
     for (int i = 0; i < pageDecisions; i++) {
-      if (!Objects.equals(page.getDecisions().get(i).getItem().getName(), null)) {
+      if (!Objects.equals(page.getDecisions().get(i).getNeededItem(), null)) {
         for (int j = 0; j < playerItems; j++) {
-          if (Objects.equals(page.getDecisions().get(i).getItem().getName(), player.getItems().get(j).getName())) {
+          if (Objects.equals(page.getDecisions().get(i).getNeededItem(), player.getItems().get(j).getName())) {
             page.getDecisions().get(i).setHasItem(true);
           }
         }
@@ -171,12 +174,15 @@ public class GameController {
     return page;
   }
 
-  private boolean doesJumpPageUseItem(Page jumpPage) {
+  private boolean doesDecisionNeedItem(Page jumpPage) {
     return !Objects.equals(jumpPage.getUsedItem(), "");
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
     for (int j = 0; j < page.getItems().size(); j++) {
+
+      page.getItems().get(j).setPlayerId(player.getId());
+      itemService.saveNewItem(page.getItems().get(j));
       player.getItems().add(itemService.findItemByNameAndPlayerId(page.getItems().get(j).getName(), player.getId()));
     }
   }
@@ -211,7 +217,7 @@ public class GameController {
   }
 
   private Page getCurrentPageFromPlayer(Player player) {
-    Game game = parser.parser(player);
+    Game game = parserRunner.getGame();
     Page page = new Page();
     int pagesSize = game.getPages().size();
     for (int i = 0; i < pagesSize; i++) {
@@ -256,7 +262,7 @@ public class GameController {
   private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
     Integer playerItemSize = player.getItems().size();
     for (int i = 0; i < playerItemSize; i++) {
-      if (Objects.equals(player.getItems().get(i).getName(), decision.getItem().getName())) {
+      if (Objects.equals(player.getItems().get(i).getName(), decision.getNeededItem())) {
         return true;
       }
     }
@@ -264,7 +270,7 @@ public class GameController {
   }
 
   private Page getJumpPage(String jump, Player player) {
-    Game game = parser.parser(player);
+    Game game = parserRunner.getGame();
     for (int i = 0; i < game.getPages().size(); i++) {
       if (game.getPages().get(i).getName().equals(jump)) {
         return game.getPages().get(i);
