@@ -15,11 +15,11 @@ public class ParseItemValue extends BaseParser{
     if (line.contains("#ITEMVALUE")) {
       if (fileIn.hasNextLine()) {
         line = fileIn.nextLine();
-        String value = getStringBetweenQuotationMarks(line);
+        int value = Integer.parseInt(prepareStringForParseInt(line));
         List<Page> pages = game.getPages();
         int pageIndx = pages.size() - 1;
         int itemIndx = pages.get(pageIndx).getItems().size() - 1;
-        pages.get(pageIndx).getItems().get(itemIndx).setValue(Integer.parseInt(value));
+        pages.get(pageIndx).getItems().get(itemIndx).setValue(value);
         return true;
       }
     }

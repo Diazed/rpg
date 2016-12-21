@@ -16,6 +16,8 @@ public class ParseStorytext extends BaseParser{
       while (!line.contains("#TEND")){
         if (fileIn.hasNextLine()) {
           line = fileIn.nextLine();
+          if (!line.endsWith(" "))
+            line += " ";
           if (!line.contains("#TEND"))
             storytext += getStringBetweenQuotationMarks(line);
         }

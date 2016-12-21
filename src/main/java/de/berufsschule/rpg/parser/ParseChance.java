@@ -14,7 +14,7 @@ public class ParseChance extends BaseParser{
     if (line.contains("#CHANCE")){
       if (fileIn.hasNext()){
         line = fileIn.nextLine();
-        int probability = Integer.parseInt(getStringBetweenQuotationMarks(line));
+        int probability = Integer.parseInt(prepareStringForParseInt(line));
         List<Page> pages = game.getPages();
         int pageIndx = pages.size() - 1;
         int decisionIndx = pages.get(pageIndx).getDecisions().size() - 1;
