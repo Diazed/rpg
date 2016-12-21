@@ -8,9 +8,11 @@ import lombok.Setter;
 @Setter
 public class Decision {
 
-    private String jump;
-    private String text;
-    private String neededItem;
-    private Item item = new Item();
-    private boolean hasItem = false;
+  private String jump;
+  private String alternativeJump;
+  private int probability;
+  private String text;
+  private String neededItem;
+  private Item item = new Item();
+  private boolean hasItem = false;
 }

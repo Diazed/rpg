@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class GameService {
@@ -43,21 +44,25 @@ public class GameService {
 
   public void prepareJump(Player player, String jump){
     Page currentPage = getCurrentPageFromPlayer(player);
+    Decision clickedDecision = getClickedDecision(currentPage, jump);
 
-    if (Objects.equals(currentPage.getName(), "R.I.P.")){
+    if (playerDied(currentPage)){
       jump = player.getCheckpoint();
     }
     Page jumpPage = getJumpPage(jump);
-    if (isJumpPossible(currentPage, jumpPage, player) || playerDied(currentPage)) {
-      player.setLevel(jump);
+    if (isJumpPossible(clickedDecision, jumpPage, player) || playerDied(currentPage)) {
+      if (isFailPossible(clickedDecision)){
+        decisionFailOrSuccess(clickedDecision.getProbability(), jump, clickedDecision.getAlternativeJump(), player);
+      }else {
+        player.setLevel(jump);
+      }
+
       checkpointHandling(player, jumpPage);
       if (playerDied(currentPage)){
         respawn(player);
       }else {
         roundEffects(player);
       }
-
-
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
       }
@@ -72,6 +77,24 @@ public class GameService {
     player.setHunger(0);
     player.setThirst(0);
     player.setHitpoints(100);
+  }
+
+  private boolean isFailPossible(Decision clickedDecision){
+    if (clickedDecision.getProbability() != 0 && clickedDecision.getAlternativeJump() != null){
+      return true;
+    }
+    return false;
+  }
+
+  private void decisionFailOrSuccess(int probability, String jump, String failJump, Player player){
+
+    if (probability >= 100)
+      player.setLevel(jump);
+    int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
+    if (random > probability)
+      player.setLevel(failJump);
+
+
   }
 
   private boolean playerDied(Page page){
@@ -175,7 +198,7 @@ public class GameService {
   private void removeItemFromPlayer(Player player, Item item) {
     Integer playerItemSize = player.getItems().size();
     for (int i = 0; i < playerItemSize; i++) {
-      if (player.getItems().get(i).getId() == item.getId()) {
+      if (Objects.equals(player.getItems().get(i).getId(), item.getId())) {
         Item playerItem = player.getItems().get(i);
         if (playerItem.getAmount() - 1 != 0) {
           item.setAmount(playerItem.getAmount() - 1);
@@ -202,8 +225,8 @@ public class GameService {
     return page;
   }
 
-  private boolean isJumpPossible(Page currentPlayerPage, Page jumpPage, Player player) {
-    Decision clickedDecision = getClickedDecision(currentPlayerPage, jumpPage.getName());
+  private boolean isJumpPossible(Decision clickedDecision, Page jumpPage, Player player) {
+
     if (clickedDecision.getJump() == null) {
       return false;
     } else {
