@@ -8,5 +8,8 @@ import java.util.List;
 @Setter
 @Getter
 public class Game {
-    private List<Page> pages;
+  private String name;
+  private String startPage;
+  private String deathPage;
+  private List<Page> pages;
 }

@@ -7,7 +7,10 @@ import de.berufsschule.rpg.player.Player;
 import de.berufsschule.rpg.player.PlayerService;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -31,49 +34,104 @@ public class GameService {
     playerService.editPlayer(player, player.getId());
   }
 
-  public Page preparePage(Player player){
-    Game game = parserRunner.getGame();
+  public Page preparePage(Player player, String gameName){
+    Game game = parserRunner.getGames().get(gameName);
+    if (game == null){
+      return null;
+    }
+    if (firstStart(player, game.getName())){
+      player.getPosition().put(game.getName(), game.getStartPage());
+      playerService.editPlayer(player, player.getId());
+    }
+
     Page page = getCurrentPageFromPlayer(player, game);
 
-    page = prepareDecisions(page, player);
-    if (playerDied(page)){
+    prepareDecisions(page, player);
+    if (playerDied(page, game.getDeathPage())){
       player.setItems(new ArrayList<>());
       playerService.editPlayer(player, player.getId());
     }
     return page;
   }
 
-  public void prepareJump(Player player, String jump){
-    Game game = parserRunner.getGame();
+  public void initiateGame(){
+    List<String> fileNames = getFileNames();
+    for (String fileName : fileNames) {
+      parserRunner.parse(fileName);
+    }
+  }
+
+  public boolean prepareJump(Player player, String jump, String gameName){
+    Game game = parserRunner.getGames().get(gameName);
+    if (game == null)
+      return false;
+
+    String deathPage = game.getDeathPage();
     Page currentPage = getCurrentPageFromPlayer(player, game);
     Decision clickedDecision = getClickedDecision(currentPage, jump);
 
-    if (playerDied(currentPage)){
+    if (playerDied(currentPage, deathPage)){
       jump = player.getCheckpoint();
     }
     Page jumpPage = getJumpPage(jump, game);
-    if (isJumpPossible(clickedDecision, player) || playerDied(currentPage)) {
+    if (isJumpPossible(clickedDecision, player) || playerDied(currentPage, deathPage)) {
       if (isFailPossible(clickedDecision)){
-        decisionFailOrSuccess(clickedDecision.getProbability(), jump, clickedDecision.getAlternativeJump(), player);
+        decisionFailOrSuccess(clickedDecision.getProbability(), clickedDecision.getAlternativeJump(), game.getName(), jump, player);
       }else {
-        player.setLevel(jump);
+        player.getPosition().put(game.getName(), jump);
       }
 
       checkpointHandling(player, jumpPage);
-      if (playerDied(currentPage)){
+      if (playerDied(currentPage, deathPage)){
         respawn(player);
       }else {
-        roundEffects(player);
+        roundEffects(player, game.getName(), game.getDeathPage());
       }
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
       }
-      if (doesDecisionNeedItem(jumpPage) && !playerDied(currentPage)) {
+      if (doesDecisionNeedItem(jumpPage) && !playerDied(currentPage, deathPage)) {
         removeDecisionItemFromPlayer(player, jumpPage);
       }
       playerService.editPlayer(player, player.getId());
     }
+    return true;
   }
+
+  public List<Game> getGameList(){
+    Iterator<Game> itr = parserRunner.getGames().values().iterator();
+    List<Game> games = new ArrayList<>();
+    while (itr.hasNext()){
+      games.add(itr.next());
+    }
+    return games;
+  }
+
+  private List<String> getFileNames(){
+    List<String> fileNames = new ArrayList<>();
+
+
+    ClassLoader classLoader = getClass().getClassLoader();
+    File folder;
+    folder = new File(classLoader.getResource("file").getFile());
+    File[] listOfFiles = folder.listFiles();
+
+    assert listOfFiles != null;
+    for (File listOfFile : listOfFiles) {
+      if (listOfFile.isFile()) {
+        fileNames.add(listOfFile.getName());
+      }
+    }
+
+    return fileNames;
+  }
+
+  private boolean firstStart(Player player, String gameName) {
+    if (Objects.equals(player.getPosition().get(gameName), null))
+      return true;
+    return false;
+  }
+
 
   private void respawn(Player player){
     player.setHunger(0);
@@ -88,23 +146,23 @@ public class GameService {
     return false;
   }
 
-  private void decisionFailOrSuccess(int probability, String jump, String failJump, Player player){
+  private void decisionFailOrSuccess(int probability, String failJump,String gameName, String jump, Player player){
 
     if (probability >= 100)
-      player.setLevel(jump);
+      player.getPosition().put(gameName, jump);
     int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
     if (random > probability){
-      player.setLevel(failJump);
+      player.getPosition().put(gameName, failJump);
     }else {
-      player.setLevel(jump);
+      player.getPosition().put(gameName, jump);
     }
 
 
 
   }
 
-  private boolean playerDied(Page page){
-    return Objects.equals(page.getName(), "R.I.P.");
+  private boolean playerDied(Page page, String deathPage){
+    return Objects.equals(page.getName(), "R.I.P.") || Objects.equals(page.getName(), deathPage);
   }
 
   private void checkpointHandling(Player player, Page page){
@@ -140,22 +198,30 @@ public class GameService {
     }
   }
 
-  private void roundEffects(Player player) {
-    roundHunger(player);
-    roundThirst(player);
+  private void roundEffects(Player player, String gameName, String deathPage) {
+    roundHunger(player, gameName, deathPage);
+    roundThirst(player, gameName, deathPage);
   }
 
-  private void roundThirst(Player player) {
+  private void roundThirst(Player player, String gameName, String deathPage) {
     if (player.getThirst() + 5 > 100) {
-      player.setLevel("R.I.P.");
+      if (deathPage == null || deathPage == "") {
+        player.getPosition().put(gameName, "R.I.P.");
+      }else {
+        player.getPosition().put(gameName, deathPage);
+      }
     } else {
       player.setThirst(player.getThirst() + 5);
     }
   }
 
-  private void roundHunger(Player player) {
+  private void roundHunger(Player player, String gameName, String deathPage) {
     if (player.getHunger() + 3 > 100) {
-      player.setLevel("R.I.P.");
+      if (deathPage == null || deathPage == "") {
+        player.getPosition().put(gameName, "R.I.P.");
+      }else {
+        player.getPosition().put(gameName, deathPage);
+      }
     } else {
       player.setHunger(player.getHunger() + 3);
     }
@@ -222,7 +288,7 @@ public class GameService {
     Page page = new Page();
     int pagesSize = game.getPages().size();
     for (int i = 0; i < pagesSize; i++) {
-      if (Objects.equals(game.getPages().get(i).getName(), player.getLevel())) {
+      if (Objects.equals(game.getPages().get(i).getName(), player.getPosition().get(game.getName()))) {
         page = game.getPages().get(i);
         break;
       }

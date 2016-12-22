@@ -54,7 +54,7 @@
                         <div class="row" th:each="dec : *{decisions}">
                             <div th:if="${dec.neededItem != null}">
                                 <div class="col-md-6 decision">
-                                    <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
+                                    <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">
                                         <div th:if="${dec.hasItem == true}" class="preitem">
                                             <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
                                         </div>
@@ -72,7 +72,7 @@
                             </div>
                             <div th:if="${dec.neededItem == null}">
                                 <div class="col-md-6 decision">
-                                    <form th:action="@{/play/{jump}(jump=${dec.jump})}" method="post">
+                                    <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">
                                         <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
                                     </form>
                                 </div>

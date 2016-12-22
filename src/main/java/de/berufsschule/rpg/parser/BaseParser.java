@@ -1,7 +1,9 @@
 package de.berufsschule.rpg.parser;
 
+import de.berufsschule.rpg.game.Game;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,10 +17,17 @@ public abstract class BaseParser implements Parser{
     Matcher matcher = pattern.matcher(line);
     if (matcher.find())
       line = matcher.group(1);
-
-
-
     return line;
+  }
+
+  public HashMap<String, Integer> getIndexes(Game game){
+
+    HashMap<String, Integer> indexes = new HashMap<>();
+    indexes.put("pageIndx", game.getPages().size() - 1);
+    indexes.put("itemIndx", game.getPages().get(indexes.get("pageIndx")).getItems().size() - 1);
+    indexes.put("decisionIndx", game.getPages().get(indexes.get("pageIndx")).getDecisions().size() - 1);
+
+    return indexes;
   }
 
   public String prepareStringForParseInt(String line) {

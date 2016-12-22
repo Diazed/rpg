@@ -4,7 +4,7 @@ import de.berufsschule.rpg.game.Game;
 import de.berufsschule.rpg.game.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Scanner;
 
 @Component
@@ -16,15 +16,19 @@ public class ParseStorytext extends BaseParser{
       while (!line.contains("#TEND")){
         if (fileIn.hasNextLine()) {
           line = fileIn.nextLine();
-          if (!line.endsWith(" "))
-            line += " ";
-          if (!line.contains("#TEND"))
-            storytext += getStringBetweenQuotationMarks(line);
+
+          if (!line.contains("#TEND")){
+            line = getStringBetweenQuotationMarks(line);
+            if (!line.endsWith(" "))
+              line += " ";
+            storytext += line;
+          }
+
         }
       }
-      List<Page> pages = game.getPages();
-      int pageIndx = pages.size() - 1;
-      pages.get(pageIndx).setStorytext(storytext);
+      HashMap<String, Integer> indexes = getIndexes(game);
+      Page latestPage = game.getPages().get(indexes.get("pageIndx"));
+      latestPage.setStorytext(storytext);
       return true;
     }
     return false;

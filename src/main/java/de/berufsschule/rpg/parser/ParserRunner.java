@@ -8,46 +8,49 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 @Component
 @Getter
 @Setter
 public class ParserRunner {
 
-  Game game;
-  List<de.berufsschule.rpg.parser.Parser> parser;
+  HashMap<String, Game> games = new HashMap<String, Game>();
+
+  List<Parser> parser;
 
   @Autowired
-  public ParserRunner(List<Parser> parser){
+  public ParserRunner(List<Parser> parser) {
     this.parser = parser;
   }
 
-  public void parse(){
-
-    String filename = "neu";
+  public void parse(String filename) {
 
     ClassLoader classLoader = getClass().getClassLoader();
-    try(Scanner fileIn = new Scanner(new File(classLoader.getResource("file/"+filename+".txt").getFile()))) {
-      game = new Game();
+    try (Scanner fileIn = new Scanner(new File(classLoader.getResource("file/" + filename).getFile()))) {
+      if (fileIn.hasNextLine()){
+        if (!fileIn.nextLine().contains("#RPG")){
+          return;
+        }
+      }else {
+        return;
+      }
+      Game game = new Game();
       game.setPages(new ArrayList<>());
       runAllParser(game, fileIn);
-    }
-    catch (IOException e){
+      games.put(game.getName(), game);
+    } catch (IOException e) {
       e.printStackTrace();
     }
+
   }
 
-  private void runAllParser(Game game, Scanner fileIn){
+  private void runAllParser(Game game, Scanner fileIn) {
 
-    while (fileIn.hasNext()){
+    while (fileIn.hasNext()) {
       String line = fileIn.nextLine();
 
-      if (!line.startsWith("//") && !Objects.equals(line, ""))
-      {
+      if (!line.startsWith("//") && !Objects.equals(line, "")) {
         for (Parser aParser : parser) {
           if (aParser.parse(game, line, fileIn))
             break;

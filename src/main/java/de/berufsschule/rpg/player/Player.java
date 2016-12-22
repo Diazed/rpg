@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,9 @@ public class Player
     @Size(min=1, max=30)
     private String password;
     private String checkpoint;
-    private String level;
+
+    private HashMap<String, String> position;
+
     private Integer playerLvl;
     private Integer hitpoints;
     private Integer hunger;

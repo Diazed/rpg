@@ -2,9 +2,10 @@ package de.berufsschule.rpg.parser;
 
 import de.berufsschule.rpg.game.Game;
 import de.berufsschule.rpg.game.Page;
+import de.berufsschule.rpg.item.Item;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Scanner;
 
 @Component
@@ -15,10 +16,10 @@ public class ParseItemDescription extends BaseParser{
       if (fileIn.hasNextLine()) {
         line = fileIn.nextLine();
         String description = getStringBetweenQuotationMarks(line);
-        List<Page> pages = game.getPages();
-        int pageIndx = pages.size() - 1;
-        int itemIndx = pages.get(pageIndx).getItems().size() - 1;
-        pages.get(pageIndx).getItems().get(itemIndx).setDescription(description);
+        HashMap<String, Integer> indexes = getIndexes(game);
+        Page latestPage = game.getPages().get(indexes.get("pageIndx"));
+        Item latestItem = latestPage.getItems().get(indexes.get("itemIndx"));
+        latestItem.setDescription(description);
         return true;
       }
     }

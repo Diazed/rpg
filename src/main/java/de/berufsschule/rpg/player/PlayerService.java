@@ -30,7 +30,7 @@ public class PlayerService {
 
     public void editPlayer(Player editedPlayer, Integer id){
         Player originalPlayer = playerRepository.findOne(id);
-        originalPlayer.setLevel(editedPlayer.getLevel());
+        originalPlayer.setPosition(editedPlayer.getPosition());
         originalPlayer.setUsername(editedPlayer.getUsername());
         originalPlayer.setPassword(editedPlayer.getPassword());
 

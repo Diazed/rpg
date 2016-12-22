@@ -29,26 +29,38 @@ public class GameController {
     this.parserRunner = parserRunner;
   }
 
-  @RequestMapping(value = "/play", method = RequestMethod.GET)
-  public String invokeGame(Model model, Principal principal) {
-    parserRunner.parse();
+  @RequestMapping(value = "/play/{gamename}", method = RequestMethod.GET)
+  public String invokeGame(@PathVariable String gamename,Model model, Principal principal) {
+
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
 
-    Page page = gameService.preparePage(loggedInPlayer);
+    Page page = gameService.preparePage(loggedInPlayer, gamename);
+    if (page == null){
+      return "redirect:/play";
+    }
 
     model.addAttribute("page", page);
+    model.addAttribute("gamename", gamename);
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(loggedInPlayer));
     return "game/ingame";
   }
 
-  @RequestMapping(value = "/play/{jump}", method = RequestMethod.POST)
-  public String goToNextPage(@PathVariable String jump, Principal principal) {
+  @RequestMapping(value = "/play/{gamename}/{jump}", method = RequestMethod.POST)
+  public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-    gameService.prepareJump(loggedInPlayer, jump);
+    if (!gameService.prepareJump(loggedInPlayer, jump, gamename)){
+      return "redirect:/play";
+    }
+    return "redirect:/play/"+gamename;
+  }
 
+  @RequestMapping(value = "/play", method = RequestMethod.GET)
+  public String initiateTheGame(Model model){
+    gameService.initiateGame();
+    model.addAttribute("games", gameService.getGameList());
 
-    return "redirect:/play";
+    return "game/pickgame";
   }
 
 }

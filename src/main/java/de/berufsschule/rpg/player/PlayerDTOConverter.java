@@ -16,7 +16,8 @@ public class PlayerDTOConverter {
 
         Player model = new Player();
 
-        model.setLevel(dto.getLevel());
+        model.setPosition(dto.getPosition());
+
         model.setPassword(dto.getPassword());
         model.setUsername(dto.getUsername());
         model.setPlayerLvl(dto.getPlayerLvl());
@@ -33,8 +34,9 @@ public class PlayerDTOConverter {
     public PlayerDTO toDTO(Player model){
         PlayerDTO dto = new PlayerDTO();
 
+        dto.setPosition(model.getPosition());
         dto.setUsername(model.getUsername());
-        dto.setLevel(model.getLevel());
+
         dto.setPassword(model.getPassword());
         dto.setPlayerLvl(model.getPlayerLvl());
         dto.setExp(model.getExp());

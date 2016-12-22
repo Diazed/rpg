@@ -1,6 +1,10 @@
+#RPG
 //
 //
-
+#GAMENAME
+'Hai'
+#STARTPAGE
+'start'
 #PAGE
 	#NAME
 	'start'
@@ -36,7 +40,7 @@
 		2
 		#CONSUMABLE
 		#FOOD
-	#IEND
+
 
 	#GIVEITEM
 		#ITEMNAME
@@ -47,7 +51,7 @@
 		2
 		#ITEMAMOUNT
 		4
-	#IEND
+
 
 	#DECISION
 		#JUMP
@@ -56,15 +60,15 @@
 		'Auswahlmöglichkeit A'
 		#ITEMNEEDED
 		'Toast'
-	#DEND
+
 
 	#DECISION
 		#JUMP
 		'B'
 		#TEXT
 		'Auswahlmöglichkeit B'
-	#DEND
-#PEND
+
+
 #PAGE
 	#NAME
 	'A'

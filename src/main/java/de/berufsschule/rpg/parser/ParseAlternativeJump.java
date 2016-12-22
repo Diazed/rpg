@@ -1,10 +1,11 @@
 package de.berufsschule.rpg.parser;
 
+import de.berufsschule.rpg.game.Decision;
 import de.berufsschule.rpg.game.Game;
 import de.berufsschule.rpg.game.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Scanner;
 
 @Component
@@ -15,10 +16,10 @@ public class ParseAlternativeJump extends BaseParser{
       if (fileIn.hasNext()){
         line = fileIn.nextLine();
         String alternativeJump = getStringBetweenQuotationMarks(line);
-        List<Page> pages = game.getPages();
-        int pageIndx = pages.size() - 1;
-        int decisionIndx = pages.get(pageIndx).getDecisions().size() - 1;
-        pages.get(pageIndx).getDecisions().get(decisionIndx).setAlternativeJump(alternativeJump);
+        HashMap<String, Integer> indexes = getIndexes(game);
+        Page latestPage = game.getPages().get(indexes.get("pageIndx"));
+        Decision latestDecision = latestPage.getDecisions().get(indexes.get("decisionIndx"));
+        latestDecision.setAlternativeJump(alternativeJump);
         return true;
       }
     }

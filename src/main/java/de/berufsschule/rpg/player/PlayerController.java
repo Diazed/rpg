@@ -38,7 +38,7 @@ public class PlayerController {
     public String registerNewPlayer(Model model, PlayerDTO playerDTO, BindingResult bindingResult){
 
         Player player = playerDTOConverter.toModel(playerDTO);
-        player.setLevel("start");
+
         playerService.registerPlayer(player, bindingResult);
         if (bindingResult.hasErrors())
             return "homepage/register";

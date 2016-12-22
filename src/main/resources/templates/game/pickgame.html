@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: htmlhead"></div>
+</head>
+<body>
+<div th:replace="fragments/navbars :: playnavbar"></div>
+<div class="container" role="main">
+    <div class="jumbotron">
+        <br>
+        <h2 align="center">Wähle ein Spiel</h2>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 custom-form">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        Spiele
+                    </a>
+                    <a th:each="game : ${games}" th:href="@{/play/{gamename}(gamename=${game.name})}"
+                       class="list-group-item" th:text="${game.name}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
