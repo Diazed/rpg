@@ -21,6 +21,9 @@ public class ParseStorytext extends BaseParser{
             line = getStringBetweenQuotationMarks(line);
             if (!line.endsWith(" "))
               line += " ";
+
+            line = splitLongWords(line);
+
             storytext += line;
           }
 
@@ -32,5 +35,35 @@ public class ParseStorytext extends BaseParser{
       return true;
     }
     return false;
+  }
+
+  private String splitLongWords(String line){
+
+    String[] words = line.split(" ");
+
+    for (int i=0; i<words.length; i++){
+      String word = words[i];
+      String newWord = "";
+      boolean start = true;
+      while (word.length() > 25){
+        if (start){
+          newWord += word.substring(0, 25);
+        }else {
+          newWord += "- "+word.substring(0, 25);
+        }
+        start = false;
+        word = word.substring(25, word.length());
+        if (word.length() < 25){
+          newWord += "- "+word;
+        }
+      }
+      words[i] = newWord;
+    }
+    String result = "";
+    for (int i=0; i<words.length; i++){
+      result += words[i];
+    }
+
+    return result;
   }
 }

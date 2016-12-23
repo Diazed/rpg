@@ -12,6 +12,7 @@ public abstract class BaseParser implements Parser{
 
   public String getStringBetweenQuotationMarks(String line) {
     line = line.replace("\t", "");
+    line = line.trim();
 
     Pattern pattern = Pattern.compile("'(.*?)'");
     Matcher matcher = pattern.matcher(line);
