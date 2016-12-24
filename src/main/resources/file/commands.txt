@@ -1,23 +1,43 @@
 (required)
-#PAGE
+#RPG
 
-is the first command you should use and all other commands belong into a #PAGE. you can imagine this like a book page.
+without this command the file won't be parsed. it HAS to be in the first line of the document.
+
+(required)
+#GAMENAME
+'examplename'
+
+the name you enter here will be displayed on the website.
 
 
 (required)
-#PEND
+#STARTPAGE
+'A New Beginning'
 
-this command marks the end of a page. do not forget this! after closing a page you're allowed to start with the next #PAGE
+tells the game the name of the first page. the game would start with the page that has the #NAME 'A New Beginning'
+
+
+(optional)
+#DEATHPAGE
+'You Died'
+
+tells the game what page to show when the player dies with this command you can write your own custom death page. The
+standart deathpage is 'R.I.P.'
+
+
+(required)
+#PAGE
+
+starts a new page.
 
 
 (required)
 #NAME
 'example'
 
-sets the name of your current page. use this command once in every page and down name two page's the same!!! the first
-page should be named "start" and the name of the page you want to disapear when the player starves should be names "R.I.P.".
-the page in the example above would have the name "example". the #NAME command belongs between the #PAGE and #PEND
-command of each page.
+sets the name of your current page. use this command once in every page and don't name two page's the same!!!
+the page in the example above would have the name "example". the #NAME command belongs under the #PAGE command of
+each page.
 
 
 (required)
@@ -26,21 +46,22 @@ command of each page.
 'and some more here'
 #TEND
 
-Here you define the text of your page. always end the #STORYTEXT command with the #TEXTEND command! you can add rows when
-you want to, there's no limitation. the #STORYTEXT command and all his components belong between the #PAGE and #PEND
-command of each page.
+Here you define the text of your page. ALWAYS end the #STORYTEXT command with the #TEND command! you can add rows when
+you want to, there's no limitation. the #STORYTEXT command and all his components belong under the #PAGE command of each
+page. Also you dont have to end a line with a space that will be done automatically!
 
 
 #CHECKPOINT
 
-marks a page as a checkpoint. when the player dies he will be snt to the last checkpoint (the player loses all Items).
+marks a page as a checkpoint. when the player dies he will be sent to the last checkpoint (the player loses all Items).
+
 
 (optional)
 #USEITEM
 'itemname'
 
 when you're making use of this command the player uses a item (automatically) when he gets to this side. you will learn
-about items next. this command belomgs between the #PAGE and the #PEND command.
+about items next. this command belongs under the #PAGE command.
 
 
 (optional)
@@ -119,12 +140,6 @@ the last checkpoint
 
 
 (required)
-#DEND
-
-ends a decision. a decision should end before the page ends.
-
-
-(required)
 #JUMP
 'example'
 
@@ -160,6 +175,8 @@ EXAMPLE PAGE:
 	'You find some Candy'
 	'There is a Open Door at the end of the Room'
 	#TEND
+	#USEITEM
+    'key'
 	#GIVEITEM
 		#ITEMNAME
 		'Snickers'
@@ -177,12 +194,9 @@ EXAMPLE PAGE:
 		'Make a Fire out of your Candy'
 		#ITEMNEEDED
 		'Lighter'
-	#DEND
+
 	#DECISION
 		#JUMP
 		'Explore the Door'
 		#TEXT
 		'Explore the Door'
-	#DEND
-
-#PEND
