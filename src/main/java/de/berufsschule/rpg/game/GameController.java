@@ -49,10 +49,10 @@ public class GameController {
   public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
 
     Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-    if (!gameService.prepareJump(loggedInPlayer, jump, gamename)){
-      return "redirect:/play";
+    if (gameService.prepareJump(loggedInPlayer, jump, gamename)){
+      return "redirect:/play/"+gamename;
     }
-    return "redirect:/play/"+gamename;
+    return "redirect:/play";
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.GET)

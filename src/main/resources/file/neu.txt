@@ -31,13 +31,15 @@
 
 	#GIVEITEM
 		#ITEMNAME
-		'Toast'
+		'Heilungs Toast'
 		#ITEMDESCRIPTION
-		'Golden Toast'
+		'Es heilt dir 5 HP'
 		#ITEMVALUE
 		5
 		#ITEMAMOUNT
 		2
+		#HEALING
+		5
 		#CONSUMABLE
 		#FOOD
 
@@ -51,6 +53,7 @@
 		2
 		#ITEMAMOUNT
 		4
+
 
 
 	#DECISION
@@ -67,6 +70,14 @@
 		'B'
 		#TEXT
 		'Auswahlmöglichkeit B'
+
+	#DECISION
+	    #JUMP
+	    'C'
+	    #TEXT
+	    'Schaden'
+	    #INJURY
+	    10
 
 
 #PAGE
@@ -119,6 +130,24 @@
 	'H'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
+	'BBB'
+	#TEND
+	#DECISION
+		#JUMP
+		'AA'
+		#ALTERNATIVEJUMP
+		'H'
+		#CHANCE
+		50
+		#TEXT
+		'und so weiter'
+	#DEND
+#PEND
+#PAGE
+	#NAME
+	'C'
+	#STORYTEXT
+	'geht'
 	'BBB'
 	#TEND
 	#DECISION

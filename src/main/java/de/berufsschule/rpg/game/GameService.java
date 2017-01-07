@@ -85,7 +85,7 @@ public class GameService {
       if (playerDied(currentPage, deathPage)){
         respawn(player);
       }else {
-        roundEffects(player, game.getName(), game.getDeathPage());
+        roundEffects(player, game.getName(), game.getDeathPage(), clickedDecision);
       }
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
@@ -176,6 +176,19 @@ public class GameService {
     } else {
       itemFood(item, player);
     }
+    if (item.getHealing() >= 0)
+      itemHealing(item, player);
+
+  }
+
+  private void itemHealing(Item item, Player player){
+    Integer playerHealth = player.getHitpoints();
+    Integer itemHealing = item.getHealing();
+    if (playerHealth + itemHealing > 100){
+      player.setHitpoints(100);
+    } else {
+      player.setHitpoints(playerHealth + itemHealing);
+    }
   }
 
   private void itemFood(Item item, Player player) {
@@ -198,18 +211,29 @@ public class GameService {
     }
   }
 
-  private void roundEffects(Player player, String gameName, String deathPage) {
+  private void roundEffects(Player player, String gameName, String deathPage, Decision clickedDecision) {
     roundHunger(player, gameName, deathPage);
     roundThirst(player, gameName, deathPage);
+    roundInjury(player, gameName, deathPage, clickedDecision);
+  }
+
+  private void roundInjury(Player player, String gameName, String deathPage, Decision clickedDecision){
+
+    int injury = clickedDecision.getInjury();
+    int playerHealth = player.getHitpoints();
+
+    if (injury > 0){
+      if (playerHealth - injury < 0){
+        playerDied(player, gameName, deathPage);
+      } else {
+        player.setHitpoints(playerHealth - injury);
+      }
+    }
   }
 
   private void roundThirst(Player player, String gameName, String deathPage) {
     if (player.getThirst() + 5 > 100) {
-      if (deathPage == null || deathPage == "") {
-        player.getPosition().put(gameName, "R.I.P.");
-      }else {
-        player.getPosition().put(gameName, deathPage);
-      }
+      playerDied(player, gameName, deathPage);
     } else {
       player.setThirst(player.getThirst() + 5);
     }
@@ -217,13 +241,17 @@ public class GameService {
 
   private void roundHunger(Player player, String gameName, String deathPage) {
     if (player.getHunger() + 3 > 100) {
-      if (deathPage == null || deathPage == "") {
-        player.getPosition().put(gameName, "R.I.P.");
-      }else {
-        player.getPosition().put(gameName, deathPage);
-      }
+      playerDied(player, gameName, deathPage);
     } else {
       player.setHunger(player.getHunger() + 3);
+    }
+  }
+
+  private void playerDied(Player player, String gameName, String deathPage){
+    if (deathPage == null || Objects.equals(deathPage, "")) {
+      player.getPosition().put(gameName, "R.I.P.");
+    }else {
+      player.getPosition().put(gameName, deathPage);
     }
   }
 
