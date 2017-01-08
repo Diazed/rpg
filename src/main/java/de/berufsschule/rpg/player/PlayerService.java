@@ -34,6 +34,7 @@ public class PlayerService {
         originalPlayer.setUsername(editedPlayer.getUsername());
         originalPlayer.setPassword(editedPlayer.getPassword());
 
+
         playerRepository.save(originalPlayer);
     }
 

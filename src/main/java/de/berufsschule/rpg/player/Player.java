@@ -17,7 +17,7 @@ import java.util.List;
 public class Player
 {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
     @Size(min=1, max=30)

@@ -35,7 +35,7 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerNewPlayer(Model model, PlayerDTO playerDTO, BindingResult bindingResult){
+    public String registerNewPlayer(PlayerDTO playerDTO, BindingResult bindingResult){
 
         Player player = playerDTOConverter.toModel(playerDTO);
 

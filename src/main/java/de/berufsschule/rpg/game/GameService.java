@@ -85,7 +85,10 @@ public class GameService {
       if (playerDied(currentPage, deathPage)){
         respawn(player);
       }else {
-        roundEffects(player, game.getName(), game.getDeathPage(), clickedDecision);
+        roundHunger(player, gameName, deathPage);
+        roundThirst(player, gameName, deathPage);
+        roundInjury(player, gameName, deathPage, clickedDecision);
+        roundExp(player);
       }
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
@@ -210,11 +213,25 @@ public class GameService {
       player.setThirst(playerThirst - itemValue);
     }
   }
+  
+  private void roundExp(Player player){
+    Integer playerLvl = player.getPlayerLvl();
+    Integer playerXp = player.getExp();
+    Integer neededXp = 0;
 
-  private void roundEffects(Player player, String gameName, String deathPage, Decision clickedDecision) {
-    roundHunger(player, gameName, deathPage);
-    roundThirst(player, gameName, deathPage);
-    roundInjury(player, gameName, deathPage, clickedDecision);
+    for (int i=0; i<playerLvl; i++){
+      neededXp += i * 50;
+    }
+    neededXp = neededXp - playerXp;
+
+    if (neededXp - 10 < 0){
+      player.setPlayerLvl(playerLvl + 1);
+      player.setExp(0);
+    } else {
+      player.setExp(playerXp + 10);
+    }
+
+
   }
 
   private void roundInjury(Player player, String gameName, String deathPage, Decision clickedDecision){
