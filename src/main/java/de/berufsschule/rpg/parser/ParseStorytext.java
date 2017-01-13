@@ -56,12 +56,13 @@ public class ParseStorytext extends BaseParser{
         if (word.length() < 25){
           newWord += "- "+word;
         }
+
       }
-      words[i] = newWord;
+      words[i] += newWord;
     }
     String result = "";
     for (int i=0; i<words.length; i++){
-      result += words[i];
+      result += words[i]+" ";
     }
 
     return result;
