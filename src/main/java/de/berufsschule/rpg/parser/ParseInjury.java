@@ -1,8 +1,8 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.game.Decision;
-import de.berufsschule.rpg.game.Game;
-import de.berufsschule.rpg.game.Page;
+import de.berufsschule.rpg.model.Decision;
+import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.model.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

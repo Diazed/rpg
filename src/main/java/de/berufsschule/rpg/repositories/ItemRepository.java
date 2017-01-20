@@ -1,5 +1,6 @@
-package de.berufsschule.rpg.item;
+package de.berufsschule.rpg.repositories;
 
+import de.berufsschule.rpg.model.Item;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

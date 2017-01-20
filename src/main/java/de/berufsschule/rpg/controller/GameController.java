@@ -1,9 +1,11 @@
-package de.berufsschule.rpg.game;
+package de.berufsschule.rpg.controller;
 
+import de.berufsschule.rpg.services.GameService;
+import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.parser.ParserRunner;
-import de.berufsschule.rpg.player.Player;
-import de.berufsschule.rpg.player.PlayerDTOConverter;
-import de.berufsschule.rpg.player.PlayerService;
+import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.dto.PlayerDTOConverter;
+import de.berufsschule.rpg.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

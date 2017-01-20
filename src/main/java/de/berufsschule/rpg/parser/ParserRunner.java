@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.game.Game;
+import de.berufsschule.rpg.model.Game;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;

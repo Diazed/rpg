@@ -1,5 +1,7 @@
-package de.berufsschule.rpg.player;
+package de.berufsschule.rpg.validation;
 
+import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.repositories.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;

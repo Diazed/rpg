@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.game.Game;
+import de.berufsschule.rpg.model.Game;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;

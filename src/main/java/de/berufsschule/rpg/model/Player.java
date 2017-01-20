@@ -1,6 +1,5 @@
-package de.berufsschule.rpg.player;
+package de.berufsschule.rpg.model;
 
-import de.berufsschule.rpg.item.Item;
 import lombok.Getter;
 import lombok.Setter;
 

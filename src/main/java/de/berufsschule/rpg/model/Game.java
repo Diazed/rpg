@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.game;
+package de.berufsschule.rpg.model;
 
 import lombok.Getter;
 import lombok.Setter;

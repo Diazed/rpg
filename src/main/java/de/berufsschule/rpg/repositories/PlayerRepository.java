@@ -1,5 +1,6 @@
-package de.berufsschule.rpg.player;
+package de.berufsschule.rpg.repositories;
 
+import de.berufsschule.rpg.model.Player;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

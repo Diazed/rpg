@@ -1,10 +1,10 @@
-package de.berufsschule.rpg.item;
+package de.berufsschule.rpg.services;
 
+import de.berufsschule.rpg.model.Item;
+import de.berufsschule.rpg.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

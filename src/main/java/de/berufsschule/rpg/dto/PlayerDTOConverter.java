@@ -1,5 +1,6 @@
-package de.berufsschule.rpg.player;
+package de.berufsschule.rpg.dto;
 
+import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;
 
 @Component

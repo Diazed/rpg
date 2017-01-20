@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.homepage;
+package de.berufsschule.rpg.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
