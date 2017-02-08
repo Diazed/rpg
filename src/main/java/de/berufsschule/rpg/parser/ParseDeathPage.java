@@ -1,11 +1,11 @@
 package de.berufsschule.rpg.parser;
 
 import de.berufsschule.rpg.model.Game;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-@Controller
+@Component
 public class ParseDeathPage extends BaseParser{
   @Override
   public boolean parse(Game game, String line, Scanner fileIn) {

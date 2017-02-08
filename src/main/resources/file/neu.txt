@@ -29,28 +29,23 @@
 	'The Text of the first Site'
 	#TEND
 
-	#GIVEITEM
+	#FOODITEM
+	    #EATING
+	    5
 		#ITEMNAME
 		'Heilungs Toast'
 		#ITEMDESCRIPTION
 		'Es heilt dir 5 HP'
-		#ITEMVALUE
-		5
 		#ITEMAMOUNT
 		2
-		#HEALING
-		5
 		#CONSUMABLE
-		#FOOD
 
 
-	#GIVEITEM
+	#NORMALITEM
 		#ITEMNAME
 		'Test'
 		#ITEMDESCRIPTION
 		'Test Toast'
-		#ITEMVALUE
-		2
 		#ITEMAMOUNT
 		4
 

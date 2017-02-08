@@ -27,6 +27,7 @@ public class Player
     private String checkpoint;
 
     private HashMap<String, String> position;
+    private HashMap<String, Boolean> liveStatusInGame;
 
     private Integer playerLvl;
     private Integer hitpoints;

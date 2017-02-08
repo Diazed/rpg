@@ -1,7 +1,6 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.repositories.PlayerRepository;
 import de.berufsschule.rpg.validation.PlayerValidation;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 @Service
@@ -56,31 +56,35 @@ public class PlayerService {
     }
 
     public void firstStart(Player player, String gameName, String startPage){
-        if (isFirstStart(player, gameName))
-            setPlayerPosition(gameName, startPage, player);
+        if (isFirstStart(player, gameName)){
+          player.setLiveStatusInGame(new HashMap<String, Boolean>());
+          player.getLiveStatusInGame().put(gameName, true);
+          setPlayerPosition(gameName, startPage, player);
+
+        }
+
     }
 
-    public boolean playerDeath(Player player, Page currentPage, String deathPage, String gameName){
-        if (isPlayerDead(currentPage, deathPage)){
+    public boolean playerDeath(Player player,String deathPage, String gameName){
+
             player.setItems(new ArrayList<>());
-            if (player.getCheckpoint() == null){
+            if (deathPage == null || Objects.equals(deathPage, "")){
               setPlayerPosition(gameName, "R.I.P.", player);
             } else {
-              setPlayerPosition(gameName, player.getCheckpoint(), player);
+              setPlayerPosition(gameName, deathPage, player);
             }
 
             player.setHunger(0);
             player.setThirst(0);
             player.setHitpoints(100);
+            player.getLiveStatusInGame().put(gameName, true);
             editPlayer(player, player.getId());
             return true;
-        }
-        return false;
+
+
     }
 
-    private boolean isPlayerDead(Page currentPage, String deathPage){
-        return Objects.equals(currentPage.getName(), "R.I.P.") || Objects.equals(currentPage.getName(), deathPage);
-    }
+
 
     public void roundEffects(Player player, String gameName, String deathPage, Decision clickedDecision, Integer hunger, Integer thirst){
       roundExp(player);
@@ -122,11 +126,7 @@ public class PlayerService {
   }
 
   private void playerDied(Player player, String gameName, String deathPage){
-    if (deathPage == null || Objects.equals(deathPage, "")) {
-      player.getPosition().put(gameName, "R.I.P.");
-    }else {
-      player.getPosition().put(gameName, deathPage);
-    }
+    player.getLiveStatusInGame().put(gameName, false);
   }
 
   private void roundExp(Player player){

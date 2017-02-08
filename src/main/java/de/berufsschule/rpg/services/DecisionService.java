@@ -3,10 +3,12 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Component
 public class DecisionService {
 
   public Page prepareDecisions(Page page, Player player) {

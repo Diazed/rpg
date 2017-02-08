@@ -1,6 +1,8 @@
 package de.berufsschule.rpg.services;
 
+import de.berufsschule.rpg.item.ItemHandler;
 import de.berufsschule.rpg.model.Item;
+import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,19 @@ import java.util.List;
 public class ItemService {
 
   ItemRepository itemRepository;
+  List<ItemHandler> itemHandlers;
 
   @Autowired
-  ItemService(ItemRepository itemRepository){
+  ItemService(ItemRepository itemRepository, List<ItemHandler> itemHandlers){
     this.itemRepository = itemRepository;
+    this.itemHandlers = itemHandlers;
+  }
+
+  public void itemEffects(Item usedItem, Player player){
+    for(ItemHandler aItemHandler : itemHandlers){
+      if (aItemHandler.effect(usedItem, player))
+        break;
+    }
   }
 
   public void saveNewItem(Item item){
@@ -41,15 +52,10 @@ public class ItemService {
     return null;
   }
 
-  public void editItem(Item editedItem){
+  public void editItemAmount(Item editedItem){
     Item originalItem = itemRepository.findOne(editedItem.getId());
 
     originalItem.setAmount(editedItem.getAmount());
-    originalItem.setName(editedItem.getName());
-    originalItem.setConsumable(editedItem.isConsumable());
-    originalItem.setDescription(editedItem.getDescription());
-    originalItem.setDrink(editedItem.isDrink());
-    originalItem.setValue(editedItem.getValue());
 
     itemRepository.save(originalItem);
   }

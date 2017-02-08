@@ -14,27 +14,27 @@ import java.util.Objects;
 @Service
 public class GameService {
 
-  ParserRunner parserRunner;
-  ItemService itemService;
-  PlayerService playerService;
-  DecisionService decisionService;
+  private ParserRunner parserRunner;
+  private ItemService itemService;
+  private PlayerService playerService;
+  private DecisionService decisionService;
 
   @Autowired
-  public GameService(ParserRunner parserRunner, ItemService itemService, PlayerService playerService){
+  public GameService(ParserRunner parserRunner, ItemService itemService, PlayerService playerService, DecisionService decisionService){
     this.parserRunner = parserRunner;
     this.itemService = itemService;
     this.playerService = playerService;
-    this.decisionService = new DecisionService();
+    this.decisionService = decisionService;
   }
 
   public Game getGame(String gameName){
     return parserRunner.getGames().get(gameName);
   }
 
-  public void prepareProfile(Integer id, Player player){
+  public void useItem(Integer id, Player player){
     Item usedItem = itemService.findItemById(id);
     removeItemFromPlayer(player, usedItem);
-    itemEffects(usedItem, player);
+    itemService.itemEffects(usedItem, player);
     playerService.editPlayer(player, player.getId());
   }
 
@@ -45,9 +45,15 @@ public class GameService {
     }
 
     playerService.firstStart(player, gameName, game.getStartPage());
+
+    if (!player.getLiveStatusInGame().get(gameName)){
+      playerService.playerDeath(player, game.getDeathPage(), gameName);
+    }
+
+
     Page page = getPageFromPlayerPosition(player, game);
     decisionService.prepareDecisions(page, player);
-    playerService.playerDeath(player, page, game.getDeathPage(), gameName);
+
     return page;
   }
 
@@ -62,23 +68,26 @@ public class GameService {
     Game game = parserRunner.getGames().get(gameName);
     if (game == null)
       return false;
-    boolean dead = false;
+
     String deathPage = game.getDeathPage();
     Page currentPage = getPageFromPlayerPosition(player, game);
     Decision clickedDecision = decisionService.getClickedDecision(currentPage, jump);
     playerService.roundEffects(player, gameName, deathPage, clickedDecision, 3, 15);
-    String playerPosition = player.getPosition().get(gameName);
+
+
+    if (!player.getLiveStatusInGame().get(gameName))
+      return true;
 
     if (currentPage.getName().equals("R.I.P.") || currentPage.getName().equals(deathPage)){
-      if (deathPage == null){
-        jump = "start";
+      if (player.getCheckpoint() == null || player.getCheckpoint().equals("")){
+        player.getPosition().put(gameName, "start");
       } else {
-        jump = player.getCheckpoint();
+        player.getPosition().put(gameName, player.getCheckpoint());
       }
-      dead = true;
-    }
-    if (playerPosition.equals(deathPage) || playerPosition.equals("R.I.P.") && !dead)
+      playerService.editPlayer(player, player.getId());
       return true;
+    }
+
 
     Page jumpPage = getJumpPage(jump, game);
     if (isJumpPossible(clickedDecision, player) ) {
@@ -132,57 +141,18 @@ public class GameService {
       player.setCheckpoint(page.getName());
   }
 
-  private void itemEffects(Item item, Player player) {
-    if (item.isDrink()) {
-      itemDrink(item, player);
-    } else {
-      itemFood(item, player);
-    }
-    if (item.getHealing() >= 0)
-      itemHealing(item, player);
 
-  }
-
-  private void itemHealing(Item item, Player player){
-    Integer playerHealth = player.getHitpoints();
-    Integer itemHealing = item.getHealing();
-    if (playerHealth + itemHealing > 100){
-      player.setHitpoints(100);
-    } else {
-      player.setHitpoints(playerHealth + itemHealing);
-    }
-  }
-
-  private void itemFood(Item item, Player player) {
-    Integer playerHunger = player.getHunger();
-    Integer itemValue = item.getValue();
-    if (playerHunger - itemValue < 0) {
-      player.setHunger(0);
-    } else {
-      player.setHunger(playerHunger - itemValue);
-    }
-  }
-
-  private void itemDrink(Item item, Player player) {
-    Integer playerThirst = player.getThirst();
-    Integer itemValue = item.getValue();
-    if (playerThirst - itemValue < 0) {
-      player.setThirst(0);
-    } else {
-      player.setThirst(playerThirst - itemValue);
-    }
-  }
 
   private boolean doesDecisionNeedItem(Page jumpPage) {
     return !Objects.equals(jumpPage.getUsedItem(), "");
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
-    for (int j = 0; j < page.getItems().size(); j++) {
+    for (int i = 0; i < page.getItems().size(); i++) {
 
-      page.getItems().get(j).setPlayerId(player.getId());
-      itemService.saveNewItem(page.getItems().get(j));
-      player.getItems().add(itemService.findItemByNameAndPlayerId(page.getItems().get(j).getName(), player.getId()));
+      page.getItems().get(i).setPlayerId(player.getId());
+      itemService.saveNewItem(page.getItems().get(i));
+      player.getItems().add(itemService.findItemByNameAndPlayerId(page.getItems().get(i).getName(), player.getId()));
     }
   }
 
@@ -205,7 +175,7 @@ public class GameService {
         Item playerItem = player.getItems().get(i);
         if (playerItem.getAmount() - 1 != 0) {
           item.setAmount(playerItem.getAmount() - 1);
-          itemService.editItem(item);
+          itemService.editItemAmount(item);
           break;
         } else {
           player.getItems().remove(item);

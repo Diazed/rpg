@@ -63,7 +63,7 @@ public class PlayerController {
     public String useItem(@PathVariable Integer id, Principal principal) {
 
         Player loggedInPlayer = playerService.getRequestedPlayer(principal.getName());
-        gameService.prepareProfile(id, loggedInPlayer);
+        gameService.useItem(id, loggedInPlayer);
         return "redirect:/profile";
     }
 }
