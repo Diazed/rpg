@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.item.HealItem;
+import de.berufsschule.rpg.model.HealItem;
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Page;
 import org.springframework.stereotype.Component;

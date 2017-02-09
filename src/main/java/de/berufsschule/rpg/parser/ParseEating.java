@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.item.FoodItem;
+import de.berufsschule.rpg.model.FoodItem;
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;

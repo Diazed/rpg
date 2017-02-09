@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.item;
 
+import de.berufsschule.rpg.model.DrinkItem;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;

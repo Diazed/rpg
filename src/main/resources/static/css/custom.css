@@ -103,6 +103,12 @@ ul {
         margin-bottom: 0px;
 }
 
+.homepage-container{
+        background-color: #f0ad4e;
+        border-radius: 30px;
+        height: 200px;
+}
+
 .startcol{
     padding-left: 0px;
 }

@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.parser;
 
 import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.services.FileService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +19,26 @@ public class ParserRunner {
   HashMap<String, Game> games = new HashMap<String, Game>();
 
   List<Parser> parser;
+  FileService fileService;
 
   @Autowired
-  public ParserRunner(List<Parser> parser) {
+  public ParserRunner(List<Parser> parser, FileService fileService) {
     this.parser = parser;
+    this.fileService = fileService;
+  }
+
+  public void parseAllGames(){
+    List<String> fileNames = fileService.getFileNames();
+    for (String fileName : fileNames) {
+      parse(fileName);
+    }
   }
 
   public void parse(String filename) {
 
-    ClassLoader classLoader = getClass().getClassLoader();
-    try (Scanner fileIn = new Scanner(new File(classLoader.getResource("file/" + filename).getFile()))) {
+    File fileToParse = fileService.getGameByFileName(filename);
+
+    try (Scanner fileIn = new Scanner(fileToParse)) {
       if (fileIn.hasNextLine()){
         if (!fileIn.nextLine().contains("#RPG")){
           return;

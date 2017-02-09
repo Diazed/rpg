@@ -5,7 +5,6 @@ import de.berufsschule.rpg.parser.ParserRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,10 +57,9 @@ public class GameService {
   }
 
   public void initiateGame(){
-    List<String> fileNames = getFileNames();
-    for (String fileName : fileNames) {
-      parserRunner.parse(fileName);
-    }
+
+      parserRunner.parseAllGames();
+
   }
 
   public boolean prepareJump(Player player, String jump, String gameName){
@@ -73,21 +71,9 @@ public class GameService {
     Page currentPage = getPageFromPlayerPosition(player, game);
     Decision clickedDecision = decisionService.getClickedDecision(currentPage, jump);
     playerService.roundEffects(player, gameName, deathPage, clickedDecision, 3, 15);
-
-
     if (!player.getLiveStatusInGame().get(gameName))
       return true;
-
-    if (currentPage.getName().equals("R.I.P.") || currentPage.getName().equals(deathPage)){
-      if (player.getCheckpoint() == null || player.getCheckpoint().equals("")){
-        player.getPosition().put(gameName, "start");
-      } else {
-        player.getPosition().put(gameName, player.getCheckpoint());
-      }
-      playerService.editPlayer(player, player.getId());
-      return true;
-    }
-
+    if (isPlayerOnDeathPage(player, gameName, deathPage, currentPage)) return true;
 
     Page jumpPage = getJumpPage(jump, game);
     if (isJumpPossible(clickedDecision, player) ) {
@@ -96,9 +82,7 @@ public class GameService {
       }else {
         player.getPosition().put(game.getName(), jump);
       }
-
       checkpointHandling(player, jumpPage);
-
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
       }
@@ -110,6 +94,19 @@ public class GameService {
     return true;
   }
 
+  private boolean isPlayerOnDeathPage(Player player, String gameName, String deathPage, Page currentPage) {
+    if (currentPage.getName().equals("R.I.P.") || currentPage.getName().equals(deathPage)){
+      if (player.getCheckpoint() == null || player.getCheckpoint().equals("")){
+        player.getPosition().put(gameName, "start");
+      } else {
+        player.getPosition().put(gameName, player.getCheckpoint());
+      }
+      playerService.editPlayer(player, player.getId());
+      return true;
+    }
+    return false;
+  }
+
   public List<Game> getGameList(){
     Iterator<Game> itr = parserRunner.getGames().values().iterator();
     List<Game> games = new ArrayList<>();
@@ -119,22 +116,7 @@ public class GameService {
     return games;
   }
 
-  private List<String> getFileNames(){
-    List<String> fileNames = new ArrayList<>();
 
-    ClassLoader classLoader = getClass().getClassLoader();
-    File folder;
-    folder = new File(classLoader.getResource("file").getFile());
-    File[] listOfFiles = folder.listFiles();
-
-    assert listOfFiles != null;
-    for (File listOfFile : listOfFiles) {
-      if (listOfFile.isFile()) {
-        fileNames.add(listOfFile.getName());
-      }
-    }
-    return fileNames;
-  }
 
   private void checkpointHandling(Player player, Page page){
     if (page.isCheckpoint())

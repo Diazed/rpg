@@ -1,6 +1,5 @@
-package de.berufsschule.rpg.item;
+package de.berufsschule.rpg.model;
 
-import de.berufsschule.rpg.model.Item;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +9,9 @@ import javax.persistence.Inheritance;
 
 @Entity
 @Inheritance
-@DiscriminatorValue("Food")
+@DiscriminatorValue("Heal")
 @Getter
 @Setter
-public class FoodItem extends Item {
+public class HealItem extends Item{
   private int value;
 }
