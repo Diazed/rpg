@@ -26,7 +26,7 @@ public class GameService {
     this.decisionService = decisionService;
   }
 
-  public Game getGame(String gameName){
+  public GamePlan getGame(String gameName){
     return parserRunner.getGames().get(gameName);
   }
 
@@ -38,19 +38,19 @@ public class GameService {
   }
 
   public Page preparePage(Player player, String gameName){
-    Game game = parserRunner.getGames().get(gameName);
-    if (game == null){
+    GamePlan gamePlan = parserRunner.getGames().get(gameName);
+    if (gamePlan == null){
       return null;
     }
 
-    playerService.firstStart(player, gameName, game.getStartPage());
+    playerService.firstStart(player, gameName, gamePlan.getStartPage());
 
     if (!player.getLiveStatusInGame().get(gameName)){
-      playerService.playerDeath(player, game.getDeathPage(), gameName);
+      playerService.playerDeath(player, gamePlan.getDeathPage(), gameName);
     }
 
 
-    Page page = getPageFromPlayerPosition(player, game);
+    Page page = getPageFromPlayerPosition(player, gamePlan);
     decisionService.prepareDecisions(page, player);
 
     return page;
@@ -63,24 +63,24 @@ public class GameService {
   }
 
   public boolean prepareJump(Player player, String jump, String gameName){
-    Game game = parserRunner.getGames().get(gameName);
-    if (game == null)
+    GamePlan gamePlan = parserRunner.getGames().get(gameName);
+    if (gamePlan == null)
       return false;
 
-    String deathPage = game.getDeathPage();
-    Page currentPage = getPageFromPlayerPosition(player, game);
+    String deathPage = gamePlan.getDeathPage();
+    Page currentPage = getPageFromPlayerPosition(player, gamePlan);
     Decision clickedDecision = decisionService.getClickedDecision(currentPage, jump);
     playerService.roundEffects(player, gameName, deathPage, clickedDecision, 3, 15);
     if (!player.getLiveStatusInGame().get(gameName))
       return true;
     if (isPlayerOnDeathPage(player, gameName, deathPage, currentPage)) return true;
 
-    Page jumpPage = getJumpPage(jump, game);
+    Page jumpPage = getJumpPage(jump, gamePlan);
     if (isJumpPossible(clickedDecision, player) ) {
       if (decisionService.isFailPossible(clickedDecision)){
-        decisionService.decisionFailOrSuccess(clickedDecision.getProbability(), clickedDecision.getAlternativeJump(), game.getName(), jump, player);
+        decisionService.decisionFailOrSuccess(clickedDecision.getProbability(), clickedDecision.getAlternativeJump(), gamePlan.getName(), jump, player);
       }else {
-        player.getPosition().put(game.getName(), jump);
+        player.getPosition().put(gamePlan.getName(), jump);
       }
       checkpointHandling(player, jumpPage);
       if (!jumpPage.getItems().isEmpty()) {
@@ -107,13 +107,13 @@ public class GameService {
     return false;
   }
 
-  public List<Game> getGameList(){
-    Iterator<Game> itr = parserRunner.getGames().values().iterator();
-    List<Game> games = new ArrayList<>();
+  public List<GamePlan> getGameList(){
+    Iterator<GamePlan> itr = parserRunner.getGames().values().iterator();
+    List<GamePlan> gamePlans = new ArrayList<>();
     while (itr.hasNext()){
-      games.add(itr.next());
+      gamePlans.add(itr.next());
     }
-    return games;
+    return gamePlans;
   }
 
 
@@ -167,12 +167,12 @@ public class GameService {
     }
   }
 
-  private Page getPageFromPlayerPosition(Player player, Game game) {
+  private Page getPageFromPlayerPosition(Player player, GamePlan gamePlan) {
     Page page = new Page();
-    int pagesSize = game.getPages().size();
+    int pagesSize = gamePlan.getPages().size();
     for (int i = 0; i < pagesSize; i++) {
-      if (Objects.equals(game.getPages().get(i).getName(), player.getPosition().get(game.getName()))) {
-        page = game.getPages().get(i);
+      if (Objects.equals(gamePlan.getPages().get(i).getName(), player.getPosition().get(gamePlan.getName()))) {
+        page = gamePlan.getPages().get(i);
         break;
       }
     }
@@ -206,10 +206,10 @@ public class GameService {
     return false;
   }
 
-  private Page getJumpPage(String jump, Game game) {
-    for (int i = 0; i < game.getPages().size(); i++) {
-      if (game.getPages().get(i).getName().equals(jump)) {
-        return game.getPages().get(i);
+  private Page getJumpPage(String jump, GamePlan gamePlan) {
+    for (int i = 0; i < gamePlan.getPages().size(); i++) {
+      if (gamePlan.getPages().get(i).getName().equals(jump)) {
+        return gamePlan.getPages().get(i);
       }
     }
     return new Page();

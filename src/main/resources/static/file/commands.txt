@@ -14,14 +14,14 @@ the name you enter here will be displayed on the website.
 #STARTPAGE
 'A New Beginning'
 
-tells the game the name of the first page. the game would start with the page that has the #NAME 'A New Beginning'
+tells the gamePlan the name of the first page. the gamePlan would start with the page that has the #NAME 'A New Beginning'
 
 
 (optional)
 #DEATHPAGE
 'You Died'
 
-tells the game what page to show when the player dies with this command you can write your own custom death page. The
+tells the gamePlan what page to show when the player dies with this command you can write your own custom death page. The
 standart deathpage is 'R.I.P.'
 
 

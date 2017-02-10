@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.services.FileService;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.*;
 @Setter
 public class ParserRunner {
 
-  HashMap<String, Game> games = new HashMap<String, Game>();
+  HashMap<String, GamePlan> games = new HashMap<String, GamePlan>();
 
   List<Parser> parser;
   FileService fileService;
@@ -46,24 +46,24 @@ public class ParserRunner {
       }else {
         return;
       }
-      Game game = new Game();
-      game.setPages(new ArrayList<>());
-      runAllParser(game, fileIn);
-      games.put(game.getName(), game);
+      GamePlan gamePlan = new GamePlan();
+      gamePlan.setPages(new ArrayList<>());
+      runAllParser(gamePlan, fileIn);
+      games.put(gamePlan.getName(), gamePlan);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
   }
 
-  private void runAllParser(Game game, Scanner fileIn) {
+  private void runAllParser(GamePlan gamePlan, Scanner fileIn) {
 
     while (fileIn.hasNext()) {
       String line = fileIn.nextLine();
 
       if (!line.startsWith("//") && !Objects.equals(line, "")) {
         for (Parser aParser : parser) {
-          if (aParser.parse(game, line, fileIn))
+          if (aParser.parse(gamePlan, line, fileIn))
             break;
         }
       }

@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.model.GamePlan;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -21,12 +21,12 @@ public abstract class BaseParser implements Parser{
     return line;
   }
 
-  public HashMap<String, Integer> getIndexes(Game game){
+  public HashMap<String, Integer> getIndexes(GamePlan gamePlan){
 
     HashMap<String, Integer> indexes = new HashMap<>();
-    indexes.put("pageIndx", game.getPages().size() - 1);
-    indexes.put("itemIndx", game.getPages().get(indexes.get("pageIndx")).getItems().size() - 1);
-    indexes.put("decisionIndx", game.getPages().get(indexes.get("pageIndx")).getDecisions().size() - 1);
+    indexes.put("pageIndx", gamePlan.getPages().size() - 1);
+    indexes.put("itemIndx", gamePlan.getPages().get(indexes.get("pageIndx")).getItems().size() - 1);
+    indexes.put("decisionIndx", gamePlan.getPages().get(indexes.get("pageIndx")).getDecisions().size() - 1);
 
     return indexes;
   }
