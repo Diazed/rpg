@@ -12,7 +12,6 @@ public class Page {
     private String name;
     private String storytext;
     private List<Decision> decisions;
-    private List<Item> items;
-    private String usedItem = "";
+  private List<String> items;
     private boolean checkpoint = false;
 }

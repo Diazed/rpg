@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.parser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.parser.gameplanparser.GamePlanParser;
 import de.berufsschule.rpg.services.FileService;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,20 +19,29 @@ public class ParserRunner {
 
   HashMap<String, GamePlan> games = new HashMap<String, GamePlan>();
 
-  List<Parser> parser;
+  List<GamePlanParser> gamePlanParsers;
   FileService fileService;
 
   @Autowired
-  public ParserRunner(List<Parser> parser, FileService fileService) {
-    this.parser = parser;
+  public ParserRunner(List<GamePlanParser> gamePlanParsers, FileService fileService) {
+    this.gamePlanParsers = gamePlanParsers;
     this.fileService = fileService;
   }
 
   public void parseAllGames(){
     List<String> fileNames = fileService.getFileNames();
     for (String fileName : fileNames) {
-      parse(fileName);
+      if (!gameAlreadyParsed(fileName))
+        parse(fileName);
     }
+  }
+
+  private boolean gameAlreadyParsed(String fileName) {
+    for (GamePlan gamePlan : games.values()) {
+      if (gamePlan.getFilename() == fileName)
+        return true;
+    }
+    return false;
   }
 
   public void parse(String filename) {
@@ -47,7 +57,9 @@ public class ParserRunner {
         return;
       }
       GamePlan gamePlan = new GamePlan();
+      gamePlan.setFilename(filename);
       gamePlan.setPages(new ArrayList<>());
+      gamePlan.setItems(new ArrayList<>());
       runAllParser(gamePlan, fileIn);
       games.put(gamePlan.getName(), gamePlan);
     } catch (IOException e) {
@@ -62,8 +74,8 @@ public class ParserRunner {
       String line = fileIn.nextLine();
 
       if (!line.startsWith("//") && !Objects.equals(line, "")) {
-        for (Parser aParser : parser) {
-          if (aParser.parse(gamePlan, line, fileIn))
+        for (GamePlanParser parser : gamePlanParsers) {
+          if (parser.parseGamePlan(gamePlan, line, fileIn))
             break;
         }
       }

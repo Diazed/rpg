@@ -2,119 +2,145 @@ package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.model.*;
 import de.berufsschule.rpg.parser.ParserRunner;
+import de.berufsschule.rpg.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
 
 @Service
 public class GameService {
 
+  private GameRepository gameRepository;
   private ParserRunner parserRunner;
   private ItemService itemService;
   private PlayerService playerService;
   private DecisionService decisionService;
+  private UserService userService;
+  private GamePlanService gamePlanService;
 
   @Autowired
-  public GameService(ParserRunner parserRunner, ItemService itemService, PlayerService playerService, DecisionService decisionService){
+  public GameService(ParserRunner parserRunner, ItemService itemService, PlayerService playerService, DecisionService decisionService, GameRepository gameRepository, UserService userService, GamePlanService gamePlanService) {
     this.parserRunner = parserRunner;
     this.itemService = itemService;
     this.playerService = playerService;
     this.decisionService = decisionService;
+    this.gameRepository = gameRepository;
+    this.userService = userService;
+    this.gamePlanService = gamePlanService;
   }
 
-  public GamePlan getGame(String gameName){
-    return parserRunner.getGames().get(gameName);
+  public Game getGame(String gameName) {
+    return gameRepository.findByName(gameName);
   }
 
-  public void useItem(Integer id, Player player){
-    Item usedItem = itemService.findItemById(id);
-    removeItemFromPlayer(player, usedItem);
-    itemService.itemEffects(usedItem, player);
-    playerService.editPlayer(player, player.getId());
+  public Page getPage(String pageName, Game game) {
+    return game.getPages().get(pageName);
   }
 
-  public Page preparePage(Player player, String gameName){
-    GamePlan gamePlan = parserRunner.getGames().get(gameName);
-    if (gamePlan == null){
+
+  public Page preparePage(User user, String gameName) {
+    Game game = prepareGame(gameName, user);
+    if (game == null) {
       return null;
     }
+    Player player = game.getPlayer();
+    playerService.firstStart(player, game.getStartPage());
 
-    playerService.firstStart(player, gameName, gamePlan.getStartPage());
-
-    if (!player.getLiveStatusInGame().get(gameName)){
-      playerService.playerDeath(player, gamePlan.getDeathPage(), gameName);
+    if (!player.getAlive()) {
+      playerService.playerDeath(player, game.getDeathPage());
     }
 
 
-    Page page = getPageFromPlayerPosition(player, gamePlan);
+    Page page = getPage(player.getPosition(), game);
     decisionService.prepareDecisions(page, player);
 
     return page;
   }
 
-  public void initiateGame(){
+  public void initiateGames() {
 
       parserRunner.parseAllGames();
 
   }
 
-  public boolean prepareJump(Player player, String jump, String gameName){
-    GamePlan gamePlan = parserRunner.getGames().get(gameName);
-    if (gamePlan == null)
-      return false;
+  public boolean prepareJump(User user, String jump, String gameName) {
+    switchGame(gameName, user);
+    Game game = prepareGame(gameName, user);
+    Player player = game.getPlayer();
 
-    String deathPage = gamePlan.getDeathPage();
-    Page currentPage = getPageFromPlayerPosition(player, gamePlan);
+    String deathPage = game.getDeathPage();
+    Page currentPage = getPage(player.getPosition(), game);
     Decision clickedDecision = decisionService.getClickedDecision(currentPage, jump);
-    playerService.roundEffects(player, gameName, deathPage, clickedDecision, 3, 15);
-    if (!player.getLiveStatusInGame().get(gameName))
+    playerService.roundEffects(player, clickedDecision, 3, 15);
+    if (!player.getAlive())
       return true;
     if (isPlayerOnDeathPage(player, gameName, deathPage, currentPage)) return true;
 
-    Page jumpPage = getJumpPage(jump, gamePlan);
+    Page jumpPage = getPage(jump, game);
     if (isJumpPossible(clickedDecision, player) ) {
       if (decisionService.isFailPossible(clickedDecision)){
-        decisionService.decisionFailOrSuccess(clickedDecision.getProbability(), clickedDecision.getAlternativeJump(), gamePlan.getName(), jump, player);
+        decisionService.decisionFailOrSuccess(clickedDecision.getProbability(), clickedDecision.getAlternativeJump(), jump, player);
       }else {
-        player.getPosition().put(gamePlan.getName(), jump);
+        player.setPosition(jump);
       }
       checkpointHandling(player, jumpPage);
       if (!jumpPage.getItems().isEmpty()) {
         addPageItemsToPlayer(jumpPage, player);
       }
-      if (doesDecisionNeedItem(jumpPage)) {
-        removeDecisionItemFromPlayer(player, jumpPage);
+      if (doesDecisionNeedItem(clickedDecision)) {
+        removeDecisionItemFromPlayer(player, clickedDecision);
       }
-      playerService.editPlayer(player, player.getId());
+      playerService.editPlayer(player);
     }
+    gameRepository.save(game);
     return true;
+  }
+
+  public void switchGame(String gameName, User user) {
+    if (!user.getCurrentGame().equals(gameName)) {
+      user.setCurrentGame(gameName);
+      userService.editUser(user);
+    }
+  }
+
+  private Game prepareGame(String gameName, User user) {
+
+
+    for (Game save : user.getSavedGames()) {
+      if (save.getName().equals(gameName)) {
+        fillPagesAndItems(gameName, save);
+        return save;
+      }
+
+    }
+
+    Game game = getGame(gameName);
+    fillPagesAndItems(gameName, game);
+
+    return game;
+  }
+
+  private void fillPagesAndItems(String gameName, Game game) {
+    if (game.getItems() == null || game.getItems().isEmpty())
+      game.setItems(gamePlanService.getItemHashMapOfGamePlan(gameName));
+    if (game.getPages() == null || game.getPages().isEmpty())
+      game.setPages(gamePlanService.getPageHashMapOfGamePlan(gameName));
   }
 
   private boolean isPlayerOnDeathPage(Player player, String gameName, String deathPage, Page currentPage) {
     if (currentPage.getName().equals("R.I.P.") || currentPage.getName().equals(deathPage)){
       if (player.getCheckpoint() == null || player.getCheckpoint().equals("")){
-        player.getPosition().put(gameName, "start");
+        player.setPosition("start");
       } else {
-        player.getPosition().put(gameName, player.getCheckpoint());
+        player.setPosition(player.getCheckpoint());
       }
-      playerService.editPlayer(player, player.getId());
+      playerService.editPlayer(player);
       return true;
     }
     return false;
   }
 
-  public List<GamePlan> getGameList(){
-    Iterator<GamePlan> itr = parserRunner.getGames().values().iterator();
-    List<GamePlan> gamePlans = new ArrayList<>();
-    while (itr.hasNext()){
-      gamePlans.add(itr.next());
-    }
-    return gamePlans;
-  }
 
 
 
@@ -124,59 +150,25 @@ public class GameService {
   }
 
 
-
-  private boolean doesDecisionNeedItem(Page jumpPage) {
-    return !Objects.equals(jumpPage.getUsedItem(), "");
+  private boolean doesDecisionNeedItem(Decision clickedDecision) {
+    return !Objects.equals(clickedDecision.getNeededItem(), "") && !Objects.equals(clickedDecision.getNeededItem(), null);
   }
 
   private void addPageItemsToPlayer(Page page, Player player) {
-    for (int i = 0; i < page.getItems().size(); i++) {
 
-      page.getItems().get(i).setPlayerId(player.getId());
-      itemService.saveNewItem(page.getItems().get(i));
-      player.getItems().add(itemService.findItemByNameAndPlayerId(page.getItems().get(i).getName(), player.getId()));
+    for (String item : page.getItems()) {
+      player.getItems().add(item);
     }
   }
 
-  private void removeDecisionItemFromPlayer(Player player, Page jumpPage) {
-    for (int i = 0; i < player.getItems().size(); i++) {
-      String usedItem = jumpPage.getUsedItem();
-      if (player.getItems().get(i).getName().equals(usedItem)) {
+  private void removeDecisionItemFromPlayer(Player player, Decision clickedDecision) {
+    String usedItem = clickedDecision.getNeededItem();
 
-        removeItemFromPlayer(player, itemService.findItemByNameAndPlayerId(usedItem, player.getId()));
-
-        break;
-      }
+    for (String item : player.getItems()) {
+      if (item.equals(usedItem))
+        itemService.useItem(usedItem, player);
     }
-  }
 
-  private void removeItemFromPlayer(Player player, Item item) {
-    Integer playerItemSize = player.getItems().size();
-    for (int i = 0; i < playerItemSize; i++) {
-      if (Objects.equals(player.getItems().get(i).getId(), item.getId())) {
-        Item playerItem = player.getItems().get(i);
-        if (playerItem.getAmount() - 1 != 0) {
-          item.setAmount(playerItem.getAmount() - 1);
-          itemService.editItemAmount(item);
-          break;
-        } else {
-          player.getItems().remove(item);
-          break;
-        }
-      }
-    }
-  }
-
-  private Page getPageFromPlayerPosition(Player player, GamePlan gamePlan) {
-    Page page = new Page();
-    int pagesSize = gamePlan.getPages().size();
-    for (int i = 0; i < pagesSize; i++) {
-      if (Objects.equals(gamePlan.getPages().get(i).getName(), player.getPosition().get(gamePlan.getName()))) {
-        page = gamePlan.getPages().get(i);
-        break;
-      }
-    }
-    return page;
   }
 
   private boolean isJumpPossible(Decision clickedDecision, Player player) {
@@ -197,21 +189,11 @@ public class GameService {
   }
 
   private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
-    Integer playerItemSize = player.getItems().size();
-    for (int i = 0; i < playerItemSize; i++) {
-      if (Objects.equals(player.getItems().get(i).getName(), decision.getNeededItem())) {
+    String neededItem = decision.getNeededItem();
+    for (String item : player.getItems()) {
+      if (item.equals(neededItem))
         return true;
-      }
     }
     return false;
-  }
-
-  private Page getJumpPage(String jump, GamePlan gamePlan) {
-    for (int i = 0; i < gamePlan.getPages().size(); i++) {
-      if (gamePlan.getPages().get(i).getName().equals(jump)) {
-        return gamePlan.getPages().get(i);
-      }
-    }
-    return new Page();
   }
 }

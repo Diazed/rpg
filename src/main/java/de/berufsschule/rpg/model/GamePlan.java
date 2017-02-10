@@ -8,6 +8,7 @@ import java.util.List;
 @Setter
 @Getter
 public class GamePlan {
+  private String filename;
   private String name;
   private String startPage;
   private String deathPage;

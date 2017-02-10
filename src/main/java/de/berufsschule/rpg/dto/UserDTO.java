@@ -1,28 +1,22 @@
-package de.berufsschule.rpg.model;
+package de.berufsschule.rpg.dto;
 
+import de.berufsschule.rpg.model.Game;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
-public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDTO {
+
   private Integer id;
-  @NotNull
-  @Size(min=1, max=30)
+  @Size(min = 1, max = 30)
   private String username;
-  @NotNull
-  @Size(min=1, max=30)
+  @Size(min = 1, max = 30)
   private String password;
   private String currentGame;
-  @OneToMany
   private List<Game> savedGames;
   private String role = "ROLE_USER";
   private boolean enabled = true;

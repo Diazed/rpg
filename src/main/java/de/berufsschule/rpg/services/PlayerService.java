@@ -1,132 +1,125 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.model.Decision;
+import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.repositories.PlayerRepository;
-import de.berufsschule.rpg.validation.PlayerValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class PlayerService {
 
     private PlayerRepository playerRepository;
-    private PlayerValidation playerValidation;
+
 
     @Autowired
-    public PlayerService(PlayerRepository playerRepository, PlayerValidation playerValidation){
+    public PlayerService(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
-        this.playerValidation = playerValidation;
     }
 
-    public Player getRequestedPlayer(String username){
-        return playerRepository.findByUsername(username);
+
+  public void editPlayer(Player editedPlayer) {
+    playerRepository.save(editedPlayer);
     }
 
-    public void registerPlayer(Player player, BindingResult bindingResult)
-    {
-        playerValidation.validate(player, bindingResult);
-        if (bindingResult.hasErrors())
-            return;
+  public void removeItemFromPlayer(Player player, Item item) {
+
+    List<String> playerItems = player.getItems();
+
+    for (int i = 0; i < playerItems.size(); i++) {
+      String playerItem = playerItems.get(i);
+      if (item.getName().equals(playerItem)) {
+        playerItems.remove(i);
+        player.setItems(playerItems);
         playerRepository.save(player);
+        break;
+      }
+    }
+  }
+
+
+  public void setPlayerPosition(String position, Player player) {
+    player.setPosition(position);
+    editPlayer(player);
     }
 
-    public void editPlayer(Player editedPlayer, Integer id){
-        Player originalPlayer = playerRepository.findOne(id);
-        originalPlayer.setPosition(editedPlayer.getPosition());
-        originalPlayer.setUsername(editedPlayer.getUsername());
-        originalPlayer.setPassword(editedPlayer.getPassword());
-
-
-        playerRepository.save(originalPlayer);
+  private boolean isFirstStart(Player player) {
+    return Objects.equals(player.getPosition(), null);
     }
 
-    public void setPlayerPosition(String gameName, String position, Player player){
-        player.getPosition().put(gameName, position);
-        editPlayer(player, player.getId());
-    }
-
-    private boolean isFirstStart(Player player, String gameName) {
-        return Objects.equals(player.getPosition().get(gameName), null);
-    }
-
-    public void firstStart(Player player, String gameName, String startPage){
-        if (isFirstStart(player, gameName)){
-          player.setLiveStatusInGame(new HashMap<String, Boolean>());
-          player.getLiveStatusInGame().put(gameName, true);
-          setPlayerPosition(gameName, startPage, player);
+  public void firstStart(Player player, String startPage) {
+    if (isFirstStart(player)) {
+      player.setAlive(true);
+      if (startPage == null) {
+        setPlayerPosition("start", player);
+      } else {
+        setPlayerPosition(startPage, player);
+      }
 
         }
 
     }
 
-    public boolean playerDeath(Player player,String deathPage, String gameName){
+  public boolean playerDeath(Player player, String deathPage) {
 
             player.setItems(new ArrayList<>());
             if (deathPage == null || Objects.equals(deathPage, "")){
-              setPlayerPosition(gameName, "R.I.P.", player);
+              setPlayerPosition("R.I.P.", player);
             } else {
-              setPlayerPosition(gameName, deathPage, player);
+              setPlayerPosition(deathPage, player);
             }
 
             player.setHunger(0);
             player.setThirst(0);
             player.setHitpoints(100);
-            player.getLiveStatusInGame().put(gameName, true);
-            editPlayer(player, player.getId());
+    player.setAlive(true);
+    editPlayer(player);
             return true;
-
-
     }
 
 
-
-    public void roundEffects(Player player, String gameName, String deathPage, Decision clickedDecision, Integer hunger, Integer thirst){
+  public void roundEffects(Player player, Decision clickedDecision, Integer hunger, Integer thirst) {
       roundExp(player);
-      increaseHunger(player, gameName, deathPage, hunger);
-      increaseThirst(player, gameName, deathPage, thirst);
-      decisionInjury(player, gameName, deathPage, clickedDecision);
-      editPlayer(player, player.getId());
+    increaseHunger(player, hunger);
+    increaseThirst(player, thirst);
+    decisionInjury(player, clickedDecision);
+    editPlayer(player);
     }
 
-  private void decisionInjury(Player player, String gameName, String deathPage, Decision clickedDecision){
+  private void decisionInjury(Player player, Decision clickedDecision) {
 
     int injury = clickedDecision.getInjury();
     int playerHealth = player.getHitpoints();
 
     if (injury > 0){
       if (playerHealth - injury < 0){
-        playerDied(player, gameName, deathPage);
+        player.setAlive(false);
       } else {
         player.setHitpoints(playerHealth - injury);
       }
     }
   }
 
-  private void increaseThirst(Player player, String gameName, String deathPage, Integer thirst) {
+  private void increaseThirst(Player player, Integer thirst) {
     if (player.getThirst() + thirst > 100) {
-      playerDied(player, gameName, deathPage);
+      player.setAlive(false);
     } else {
       player.setThirst(player.getThirst() + thirst);
     }
   }
 
-  private void increaseHunger(Player player, String gameName, String deathPage, Integer hunger) {
+  private void increaseHunger(Player player, Integer hunger) {
     if (player.getHunger() + hunger > 100) {
-      playerDied(player, gameName, deathPage);
+      player.setAlive(false);
     } else {
       player.setHunger(player.getHunger() + hunger);
     }
 
-  }
-
-  private void playerDied(Player player, String gameName, String deathPage){
-    player.getLiveStatusInGame().put(gameName, false);
   }
 
   private void roundExp(Player player){

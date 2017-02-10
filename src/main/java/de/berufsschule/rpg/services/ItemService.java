@@ -3,7 +3,6 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.item.ItemHandler;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.repositories.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,56 +11,33 @@ import java.util.List;
 @Service
 public class ItemService {
 
-  ItemRepository itemRepository;
-  List<ItemHandler> itemHandlers;
+  private List<ItemHandler> itemHandlers;
+  private PlayerService playerService;
 
   @Autowired
-  ItemService(ItemRepository itemRepository, List<ItemHandler> itemHandlers){
-    this.itemRepository = itemRepository;
+  ItemService(List<ItemHandler> itemHandlers, PlayerService playerService) {
     this.itemHandlers = itemHandlers;
+    this.playerService = playerService;
   }
 
   public void itemEffects(Item usedItem, Player player){
-    for(ItemHandler aItemHandler : itemHandlers){
-      if (aItemHandler.effect(usedItem, player))
+
+    for (ItemHandler itemHandler : itemHandlers) {
+      if (itemHandler.effect(usedItem, player))
         break;
     }
   }
 
-  public void saveNewItem(Item item){
-    itemRepository.save(item);
+  public Item getItem(String usedItem, Player player) {
+    return player.getGame().getItems().get(usedItem);
   }
 
-  public Item findItemById(Integer id) {
-    return itemRepository.findOne(id);
+  public void useItem(String usedItem, Player player) {
+
+    Item item = getItem(usedItem, player);
+    playerService.removeItemFromPlayer(player, item);
+    if (item.isConsumable())
+      itemEffects(item, player);
+    playerService.editPlayer(player);
   }
-
-
-
-  public Item findItemByNameAndPlayerId(String itemName, Integer playerId){
-    List<Item> items;
-    items = itemRepository.findByName(itemName);
-    Integer itemSize = items.size();
-
-    for (int i=0; i<itemSize; i++){
-      if (items.get(i).getPlayerId() == playerId){
-        return items.get(i);
-      }
-    }
-
-    return null;
-  }
-
-  public void editItemAmount(Item editedItem){
-    Item originalItem = itemRepository.findOne(editedItem.getId());
-
-    originalItem.setAmount(editedItem.getAmount());
-
-    itemRepository.save(originalItem);
-  }
-
-  public void deleteItem(Integer id){
-    itemRepository.delete(id);
-  }
-
 }
