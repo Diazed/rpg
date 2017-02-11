@@ -14,4 +14,5 @@ public class Page {
     private List<Decision> decisions;
   private List<String> items;
     private boolean checkpoint = false;
+  private String usedItem = "";
 }

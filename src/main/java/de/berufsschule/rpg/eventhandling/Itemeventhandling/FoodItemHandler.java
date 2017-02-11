@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.item;
+package de.berufsschule.rpg.eventhandling.Itemeventhandling;
 
 import de.berufsschule.rpg.model.FoodItem;
 import de.berufsschule.rpg.model.Item;

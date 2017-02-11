@@ -47,7 +47,8 @@
                             <h4><span class="label label-danger" th:text="'-'+*{usedItem}"></span></h4>
                         </div>
                         <div class="row" th:each="ite : *{items}">
-                            <h4 class="itemlable"><span class="label label-success" th:text="'+'+${ite.amount}+' '+${ite.name}"></span></h4>
+                            <h4 class="itemlable"><span class="label label-success" th:text="'+'+${ite.name}"></span>
+                            </h4>
                         </div>
                     </div>
                     <div class="col-md-8">

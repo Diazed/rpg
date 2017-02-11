@@ -16,14 +16,15 @@ public class Game {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
+  private Integer userId;
   private String name;
   private String startPage;
   private String deathPage;
   @Transient
-  private HashMap<String, Page> pages;
+  private HashMap<String, Page> pages = new HashMap<String, Page>();
   @Transient
-  private HashMap<String, Item> items;
-  @OneToOne
+  private HashMap<String, Item> items = new HashMap<String, Item>();
+  @OneToOne(mappedBy = "game")
   @Cascade(CascadeType.ALL)
   private Player player;
 }

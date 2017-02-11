@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.item.ItemHandler;
+import de.berufsschule.rpg.eventhandling.Itemeventhandling.ItemHandler;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;

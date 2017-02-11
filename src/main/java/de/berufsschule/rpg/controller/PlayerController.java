@@ -38,8 +38,13 @@ public class PlayerController {
 
   @RequestMapping(value = "/profile/{gamename}", method = RequestMethod.GET)
   public String openPlayerProfile(@PathVariable String gamename, Model model, Principal principal) {
-    addUserDtoToModel(principal, model);
-    Player currentPlayer = gameService.getGame(gamename).getPlayer();
+    UserDTO userDTO = new UserDTO();
+
+    User user = userService.getRequestedUser(principal.getName());
+    userDTO = userDTOConverter.toDto(user);
+
+    model.addAttribute("userDTO", userDTO);
+    Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
 
         return "game/profile";
@@ -49,19 +54,11 @@ public class PlayerController {
   @RequestMapping(value = "/profile/{gamename}/{itemName}", method = RequestMethod.POST)
   public String useItem(@PathVariable String itemName, @PathVariable String gamename, Principal principal) {
 
-
-    Player currentPlayer = gameService.getGame(gamename).getPlayer();
+    User user = userService.getRequestedUser(principal.getName());
+    Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
 
     itemService.useItem(itemName, currentPlayer);
         return "redirect:/profile";
     }
 
-  private void addUserDtoToModel(Principal principal, Model model) {
-    UserDTO userDTO = new UserDTO();
-    if (principal != null) {
-      User user = userService.getRequestedUser(principal.getName());
-      userDTO = userDTOConverter.toDto(user);
-    }
-    model.addAttribute("userDTO", userDTO);
-  }
 }

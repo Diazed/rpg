@@ -22,8 +22,8 @@ public class User {
   @Size(min=1, max=30)
   private String password;
   private String currentGame;
-  @OneToMany
-  private List<Game> savedGames;
+  @ElementCollection
+  private List<String> savedGames;
   private String role = "ROLE_USER";
   private boolean enabled = true;
 

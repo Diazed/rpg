@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -20,16 +21,18 @@ public class ParsePages implements GamePlanParser {
 
   @Override
   public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("PAGES")) {
+    if (line.contains("#PAGES")) {
 
       while (!line.contains("#ENDPAGES")) {
 
         if (fileIn.hasNextLine()) {
           line = fileIn.nextLine();
-          for (PageParser parser : pageParsers) {
+          if (!line.startsWith("//") && !Objects.equals(line, "")) {
+            for (PageParser parser : pageParsers) {
 
-            if (parser.parsePage(gamePlan, line, fileIn))
-              break;
+              if (parser.parsePage(gamePlan, line, fileIn))
+                break;
+            }
           }
         } else {
           return false;

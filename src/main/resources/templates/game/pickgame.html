@@ -16,7 +16,7 @@
                     <a href="#" class="list-group-item active">
                         Spiele
                     </a>
-                    <a th:each="gamePlan : ${gamePlans}" th:href="@{/play/{gamename}(gamename=${gamePlan.name})}"
+                    <a th:each="gamePlan : ${games}" th:href="@{/play/{gamename}(gamename=${gamePlan.name})}"
                        class="list-group-item" th:text="${gamePlan.name}"></a>
                 </div>
             </div>

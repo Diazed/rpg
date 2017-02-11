@@ -18,12 +18,14 @@ public class Player
     private String checkpoint;
   private String position;
   private Boolean alive;
+  private Boolean onDeathPage;
     private Integer playerLvl;
     private Integer hitpoints;
     private Integer hunger;
     private Integer thirst;
     private Integer exp;
   @OneToOne
+  @PrimaryKeyJoinColumn
   private Game game;
   @ElementCollection
   private List<String> items = new ArrayList<>();

@@ -6,19 +6,25 @@
 #DEATHPAGE
 'Du bist gestorben'
 
+#ITEMS
+
+#ENDITEMS
+
+#PAGES
+
 #PAGE
 #CHECKPOINT
 |	#NAME
 |	'Du bist gestorben'
 |	#STORYTEXT
 |	'Du bist leider gestorben und hast alle deine Items verloren'
-|	#TEND
+|	#ENDTEXT
 |	#DECISION
 |		#JUMP
 |		'check'
 |		#TEXT
 |		'Zum letzten Checkpoint'
-|	
+|
 #PAGE
 #CHECKPOINT
 	#NAME
@@ -29,7 +35,7 @@
 	'mehr schlaf wäre sicher gut aber die Frage wo du bist treibt dich aus dem Bett. Bei dem Versuch aufzustehen'
 	'fällt dir auf das du an einem Schlauch aus der Wand hängst, der direkt zu einer art Adapter führt das in deinem'
 	'Unterarm plaziert ist. Durch den Schlauch fließt eine klare grüne Flüssigkeit direkt in deinen Körper.'
-	#TEND
+	#ENDTEXT
 	#DECISION
 	|	#JUMP
 	|	'Uniform'
@@ -47,7 +53,7 @@
     	'weiß wie so ziehmlich alles hier. Nur ein paar grüne Details zieren die Uniform. Der Raum in dem du stehst'
     	'ist kaum möbeliert außer einem Schreibtisch dem Bett und einem Schrank in dem weiter Uniformen hängen ist '
     	'der Raum leer. Es gibt keine Fenster nur eine Tür die aus dem Raum führt.'
-    	#TEND
+    	#ENDTEXT
     	#DECISION
     	|	#JUMP
     	|	'Fremder'
@@ -69,9 +75,12 @@
         	'einfällt! "Ist schon okay! Das geht allen so am Anfang, war bei mir nicht anders.""Du weißt also auch nicht wo wir hier sind ?"'
         	'"Nein genau weiß das keiner. Aber schon bald kannst du dich an mehr erinnern. Leider bringt das auch keine wirklichen Antworten. Ich'
         	'war mein ganzes Leben an solchen Orten wie hier. Zumindest kann ich mich an nichts anderes Erinnern"'
-        	#TEND
+        	#ENDTEXT
         	#DECISION
         	|	#JUMP
         	|	''
         	|	#TEXT
         	|	'"Ich habe so viele Fragen."'
+
+#ENDPAGES
+

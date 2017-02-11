@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -25,10 +26,12 @@ public class ParseItems implements GamePlanParser {
 
         if (fileIn.hasNextLine()) {
           line = fileIn.nextLine();
-          for (ItemParser parser : itemParsers) {
+          if (!line.startsWith("//") && !Objects.equals(line, "")) {
+            for (ItemParser parser : itemParsers) {
 
-            if (parser.parseItem(gamePlan, line, fileIn))
-              break;
+              if (parser.parseItem(gamePlan, line, fileIn))
+                break;
+            }
           }
         } else {
           return false;

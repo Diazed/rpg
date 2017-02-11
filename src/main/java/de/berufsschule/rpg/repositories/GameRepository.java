@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
-  Game findByName(String name);
+  Game findByNameAndUserId(String name, Integer userId);
 }

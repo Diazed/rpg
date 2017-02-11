@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -26,10 +27,12 @@ public class ParseDecisions implements PageParser {
 
         if (fileIn.hasNextLine()) {
           line = fileIn.nextLine();
-          for (DecisionParser parser : decisionParsers) {
+          if (!line.startsWith("//") && !Objects.equals(line, "")) {
+            for (DecisionParser parser : decisionParsers) {
 
-            if (parser.parseDecision(gamePlan, line, fileIn))
-              break;
+              if (parser.parseDecision(gamePlan, line, fileIn))
+                break;
+            }
           }
         } else {
           return false;

@@ -1,6 +1,5 @@
 package de.berufsschule.rpg.dto;
 
-import de.berufsschule.rpg.model.Game;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,7 @@ public class UserDTO {
   @Size(min = 1, max = 30)
   private String password;
   private String currentGame;
-  private List<Game> savedGames;
+  private List<String> savedGames;
   private String role = "ROLE_USER";
   private boolean enabled = true;
 

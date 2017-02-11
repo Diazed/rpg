@@ -8,6 +8,7 @@ import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.GamePlanService;
 import de.berufsschule.rpg.services.GameService;
+import de.berufsschule.rpg.services.PageService;
 import de.berufsschule.rpg.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,16 @@ public class GameController {
   private UserDTOConverter userDTOConverter;
   private UserService userService;
   private GamePlanService gamePlanService;
+  private PageService pageService;
 
   @Autowired
-  public GameController(GameService gameService, PlayerDTOConverter playerDTOConverter, UserService userService, GamePlanService gamePlanService, UserDTOConverter userDTOConverter) {
+  public GameController(GameService gameService, PlayerDTOConverter playerDTOConverter, UserService userService, GamePlanService gamePlanService, UserDTOConverter userDTOConverter, PageService pageService) {
     this.gameService = gameService;
     this.playerDTOConverter = playerDTOConverter;
     this.userService = userService;
     this.gamePlanService = gamePlanService;
     this.userDTOConverter = userDTOConverter;
+    this.pageService = pageService;
   }
 
   @RequestMapping(value = "/play/{gamename}", method = RequestMethod.GET)
@@ -41,8 +44,7 @@ public class GameController {
 
 
     User currentUser = userService.getRequestedUser(principal.getName());
-    Player currentPlayer = gameService.getGame(gamename).getPlayer();
-    Page page = gameService.preparePage(currentUser, gamename);
+    Page page = pageService.playPage(currentUser, gamename);
     if (page == null){
       return "redirect:/play";
     }
@@ -50,6 +52,7 @@ public class GameController {
     model.addAttribute("userDTO", userDTOConverter.toDto(currentUser));
     model.addAttribute("page", page);
     model.addAttribute("gamename", gamename);
+    Player currentPlayer = gameService.getGame(gamename, currentUser.getId()).getPlayer();
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
     return "game/ingame";
   }
@@ -58,13 +61,13 @@ public class GameController {
   public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
 
     User currentUser = userService.getRequestedUser(principal.getName());
-    if (gameService.prepareJump(currentUser, jump, gamename)) {
+    if (pageService.jumpToNextPage(currentUser, gamename, jump)) {
       return "redirect:/play/"+gamename;
     }
     return "redirect:/play";
   }
 
-  @RequestMapping(value = "/play", method = RequestMethod.GET)
+  @RequestMapping(value = "/games", method = RequestMethod.GET)
   public String initiateTheGame(Model model, Principal principal) {
     gameService.initiateGames();
     addUserDtoToModel(principal, model);

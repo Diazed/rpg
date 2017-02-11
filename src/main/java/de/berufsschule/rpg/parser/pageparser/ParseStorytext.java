@@ -14,9 +14,9 @@ public class ParseStorytext extends BaseParser implements PageParser {
   public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#STORYTEXT")) {
       String storytext = "";
-      while (!line.contains("#TEXTEND")) {
+      while (!line.contains("#ENDTEXT")) {
         line = getNextLine(fileIn);
-        if (!line.contains("#TEXTEND")) {
+        if (!line.contains("#ENDTEXT")) {
           if (!line.endsWith(" "))
             line += " ";
           line = splitLongWords(line);
