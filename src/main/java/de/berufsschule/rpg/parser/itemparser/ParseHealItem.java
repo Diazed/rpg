@@ -16,6 +16,8 @@ public class ParseHealItem extends BaseParser implements ItemParser {
       HealItem healItem = new HealItem();
       line = getNextLine(fileIn);
       healItem.setValue(parseInt(line));
+      healItem.setConsumable(true);
+      healItem.setDrink(true);
       gamePlan.getItems().add(healItem);
       return true;
     }

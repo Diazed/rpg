@@ -6,7 +6,7 @@ import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,28 +32,16 @@ public abstract class BaseParser {
   }
 
   public Page getLastCreatedPage(GamePlan gamePlan) {
-    HashMap<String, Integer> indexes = getIndexes(gamePlan);
-    return gamePlan.getPages().get(indexes.get("pageIndx"));
+    return gamePlan.getPages().get(gamePlan.getPages().size() - 1);
   }
 
   public Item getLastCreatedItem(GamePlan gamePlan) {
-    HashMap<String, Integer> indexes = getIndexes(gamePlan);
-    return gamePlan.getItems().get(indexes.get("itemIndx"));
+    return gamePlan.getItems().get(gamePlan.getItems().size() - 1);
   }
 
   public Decision getLastCreatedDecision(GamePlan gamePlan) {
-    HashMap<String, Integer> indexes = getIndexes(gamePlan);
-    return getLastCreatedPage(gamePlan).getDecisions().get(indexes.get("decisionIndx"));
-  }
-
-  public HashMap<String, Integer> getIndexes(GamePlan gamePlan){
-
-    HashMap<String, Integer> indexes = new HashMap<>();
-    indexes.put("pageIndx", gamePlan.getPages().size() - 1);
-    indexes.put("itemIndx", gamePlan.getItems().size() - 1);
-    indexes.put("decisionIndx", gamePlan.getPages().get(indexes.get("pageIndx")).getDecisions().size() - 1);
-
-    return indexes;
+    List<Decision> decisions = getLastCreatedPage(gamePlan).getDecisions();
+    return decisions.get(decisions.size() - 1);
   }
 
   public Integer parseInt(String line) {

@@ -19,8 +19,8 @@ public class ItemUseHandler implements DecisionEventHandler {
 
   @Override
   public boolean event(Decision decision, Player player, String jump, Page page) {
-    if (decision.getNeededItem() != null) {
-      String usedItem = decision.getNeededItem();
+    if (decision.getUsedItem() != null) {
+      String usedItem = decision.getUsedItem();
       for (String item : player.getItems()) {
         if (item.equals(usedItem)) {
           itemService.useItem(usedItem, player);

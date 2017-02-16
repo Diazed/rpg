@@ -7,6 +7,4 @@ import lombok.Setter;
 @Setter
 public class FoodItem extends Item {
   private int value;
-  private boolean drink = false;
-  private boolean consumable = true;
 }

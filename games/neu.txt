@@ -1,0 +1,181 @@
+﻿#RPG
+//
+//
+#GAMENAME
+'Haio'
+#STARTPAGE
+'start'
+
+#ITEMS
+
+#FOOD
+'5'
+#NAME
+'Toast'
+#DESCRIPTION
+'Gibt 5 Food'
+
+#SIMPLEITEM
+#NAME
+'Test'
+#DESCRIPTION
+'Test Toast'
+
+#ENDITEMS
+
+#PAGES
+
+#PAGE
+	#NAME
+	'start'
+	#STORYTEXT
+		'Text'
+		'this is it'
+	#ENDTEXT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'test'
+			#TEXT
+			'hier gehts weiter'
+
+		#DECISION
+			#JUMP
+			'AA'
+			#TEXT
+			'und so weiter'
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'test'
+	#STORYTEXT
+	'The Text of the first Site'
+	#ENDTEXT
+	#GIVE
+	'Test'
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'A'
+			#TEXT
+			'Auswahlmöglichkeit A'
+			#USEITEM
+			'Toast'
+		#DECISION
+			#JUMP
+			'B'
+			#TEXT
+			'Auswahlmöglichkeit B'
+
+		#DECISION
+		 	#JUMP
+			'C'
+			#TEXT
+			'Schaden'
+			#INJURY
+			10
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'A'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+	' Checkpoint'
+	#ENDTEXT
+	#CHECKPOINT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'AA'
+			#TEXT
+			'weg hier'
+
+		#DECISION
+			#JUMP
+			'A'
+			#TEXT
+			'und so weiter'
+			#ITEMNEEDED
+			'Toast'
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'AA'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+	'A'
+	#ENDTEXT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'AA'
+			#ALTERNATIVEJUMP
+			'H'
+			#CHANCE
+			50
+			#TEXT
+			'und so weiter'
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'H'
+	#STORYTEXT
+	'Der Text der ersten Auswahlmöglichkeit'
+	'BBB'
+	#ENDTEXT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'AA'
+			#ALTERNATIVEJUMP
+			'H'
+			#CHANCE
+			50
+			#TEXT
+			'und so weiter'
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'C'
+	#STORYTEXT
+	'geht'
+	'BBB'
+	#ENDTEXT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'AA'
+			#ALTERNATIVEJUMP
+			'H'
+			#CHANCE
+			50
+			#TEXT
+			'und so weiter'
+	#ENDDECISIONS
+
+#PAGE
+	#NAME
+	'R.I.P.'
+	#STORYTEXT
+	'Du bist gestorben und hast alle deine Items verloren.'
+	#ENDTEXT
+	#DECISIONS
+		#DECISION
+			#JUMP
+			'AA'
+			#TEXT
+			'Zum letzten Checkpoint'
+	#ENDDECISIONS
+
+#ENDPAGES
+
+
+
+
+
+

@@ -12,7 +12,7 @@ public class Decision {
   private int probability;
   private String text;
   private Integer injury = 0;
-  private String neededItem;
+  private String usedItem;
   private Item item = new Item();
   private boolean hasItem = false;
 }
