@@ -16,6 +16,8 @@ public class ParseFoodItem extends BaseParser implements ItemParser {
       FoodItem foodItem = new FoodItem();
       line = getNextLine(fileIn);
       foodItem.setValue(parseInt(line));
+      foodItem.setConsumable(true);
+      foodItem.setDrink(false);
       gamePlan.getItems().add(foodItem);
       return true;
     }

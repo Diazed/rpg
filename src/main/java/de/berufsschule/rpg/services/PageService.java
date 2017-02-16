@@ -73,7 +73,7 @@ public class PageService {
   private Page setHasItemFlagInPageDecisions(Page page, Player player) {
 
     for (Decision decision : page.getDecisions()) {
-      String neededItem = decision.getNeededItem();
+      String neededItem = decision.getUsedItem();
       if (neededItem != null) {
         for (String item : player.getItems()) {
           if (item.equals(neededItem)) {

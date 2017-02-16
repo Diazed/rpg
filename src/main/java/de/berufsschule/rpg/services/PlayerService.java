@@ -155,7 +155,7 @@ public class PlayerService {
   }
 
   private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
-    String neededItem = decision.getNeededItem();
+    String neededItem = decision.getUsedItem();
     for (String item : player.getItems()) {
       if (item.equals(neededItem))
         return true;

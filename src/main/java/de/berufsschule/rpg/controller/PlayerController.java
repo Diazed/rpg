@@ -38,13 +38,14 @@ public class PlayerController {
 
   @RequestMapping(value = "/profile/{gamename}", method = RequestMethod.GET)
   public String openPlayerProfile(@PathVariable String gamename, Model model, Principal principal) {
-    UserDTO userDTO = new UserDTO();
+    UserDTO userDTO;
 
     User user = userService.getRequestedUser(principal.getName());
     userDTO = userDTOConverter.toDto(user);
 
     model.addAttribute("userDTO", userDTO);
     Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
+    model.addAttribute("items", itemService.createInventory(currentPlayer));
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
 
         return "game/profile";

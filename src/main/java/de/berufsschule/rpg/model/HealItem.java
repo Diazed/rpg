@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class HealItem extends Item{
   private int value;
-  private boolean consumable = true;
 }
