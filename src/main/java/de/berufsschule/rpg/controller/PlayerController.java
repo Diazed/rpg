@@ -8,14 +8,13 @@ import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.GameService;
 import de.berufsschule.rpg.services.ItemService;
 import de.berufsschule.rpg.services.UserService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.security.Principal;
 
 @Controller
 public class PlayerController {
@@ -47,6 +46,7 @@ public class PlayerController {
     Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
     model.addAttribute("items", itemService.createInventory(currentPlayer));
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
+    model.addAttribute("gamename", gamename);
 
         return "game/profile";
     }
@@ -59,7 +59,7 @@ public class PlayerController {
     Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
 
     itemService.useItem(itemName, currentPlayer);
-        return "redirect:/profile";
+    return "redirect:/profile/" + gamename;
     }
 
 }

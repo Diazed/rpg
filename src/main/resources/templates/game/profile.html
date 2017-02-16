@@ -88,7 +88,9 @@
                                     <div class="panel-footer secret">
                                         <span th:text="${item.description}"></span>
                                         <div th:if="${item.consumable == true}">
-                                            <form th:action="@{/profile/{id}(id=${item.id})}" method="post">
+                                            <form
+                                                th:action="@{/profile/{gamename}/{itemname}(itemname=${item.name}, gamename=${gamename})}"
+                                                method="post">
                                                 <div th:if="${item.drink == true}">
                                                     <br>
                                                     <button type="submit" class="btn btn-warning btn-xs btn-block">Trinken</button>

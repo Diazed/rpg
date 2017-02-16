@@ -10,7 +10,7 @@ public class Item {
 
   private boolean consumable;
   private boolean drink;
-  private Integer amount;
+  private int amount;
   private String name;
   private String description;
 

@@ -54,6 +54,10 @@
 	#ENDTEXT
 	#GIVE
 	'Test'
+	#GIVE
+  'Test'
+  #GIVE
+  'Toast'
 	#DECISIONS
 		#DECISION
 			#JUMP
