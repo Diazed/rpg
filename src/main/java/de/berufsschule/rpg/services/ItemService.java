@@ -3,12 +3,12 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.eventhandling.Itemeventhandling.ItemHandler;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ItemService {
@@ -41,39 +41,43 @@ public class ItemService {
   }
 
   public List<Item> createInventory(Player player) {
-    List<Item> result = new ArrayList<>();
 
-    for (String item : player.getItems()) {
-      Item itemToAdd = getItem(item, player);
-      boolean isAlreadyInInventory = false;
-      boolean newItemForInventory = false;
+    boolean newItem;
+    List<Item> inventory = new ArrayList<>();
 
-      if (itemToAdd.getAmount() == 0) {
-        newItemForInventory = true;
+    for (String ownedItem : player.getItems()) {
+
+      Item item = getItem(ownedItem, player);
+      newItem = isNewItem(inventory, ownedItem);
+      if (newItem) {
+        item.setAmount(0);
+        setItemAmount(player, ownedItem, item);
+        inventory.add(item);
       }
-
-      for (Item resultItem : result) {
-        if (Objects.equals(resultItem.getName(), item)) {
-          if (newItemForInventory) {
-            resultItem.setAmount(resultItem.getAmount() + 1);
-          }
-          isAlreadyInInventory = true;
-        }
-
-      }
-      if (!isAlreadyInInventory) {
-
-        int amount = 0;
-        if (newItemForInventory) {
-          amount = itemToAdd.getAmount();
-        }
-        itemToAdd.setAmount(amount + 1);
-        result.add(itemToAdd);
-      }
-
-
     }
-    return result;
+    return inventory;
+  }
+
+  private void setItemAmount(Player player, String ownedItem, Item item) {
+    for (String otherItem : player.getItems()) {
+
+      if (otherItem.equals(ownedItem)) {
+        int amount = item.getAmount();
+        item.setAmount(amount + 1);
+      }
+    }
+  }
+
+  private boolean isNewItem(List<Item> inventory, String ownedItem) {
+    boolean newItem;
+    newItem = true;
+    for (Item invItem : inventory) {
+      if (invItem.getName().equals(ownedItem)) {
+        newItem = false;
+        break;
+      }
+    }
+    return newItem;
   }
 
   public void useItem(String usedItem, Player player) {
