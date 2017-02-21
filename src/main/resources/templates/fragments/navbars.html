@@ -21,11 +21,12 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="/home/">Home</a></li>
+                    <li sec:authorize="isAuthenticated()"><a href="/games">Games</a></li>
 
                     <li sec:authorize="isAuthenticated()"><a
                             th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
                     <li sec:authorize="isAuthenticated()"><a
-                            th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profil</a></li>
+                            th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a></li>
                 </ul>
                 <div sec:authorize="isAuthenticated()">
                     <div th:replace="fragments/navbars :: auth"></div>
@@ -54,8 +55,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/home/">Home</a></li>
+                    <li><a href="/games/">Games</a></li>
                     <li class="active"><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
-                    <li><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profil</a></li>
+                    <li><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a></li>
                 </ul>
                 <div sec:authorize="isAuthenticated()">
                     <div th:replace="fragments/navbars :: auth"></div>
@@ -83,8 +85,42 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/home/">Home</a></li>
+                    <li><a href="/games/">Games</a></li>
                     <li><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
-                    <li class="active"><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profil</a>
+                    <li class="active"><a
+                            th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a>
+                    </li>
+                </ul>
+                <div sec:authorize="isAuthenticated()">
+                    <div th:replace="fragments/navbars :: auth"></div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <div th:replace="fragments/navbars :: noauth"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="gamesnavbar">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home/">RPG</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/home/">Home</a></li>
+                    <li class="active"><a href="/games/">Games</a></li>
+                    <li><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
+                    <li><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a>
                     </li>
                 </ul>
                 <div sec:authorize="isAuthenticated()">

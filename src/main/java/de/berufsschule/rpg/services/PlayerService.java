@@ -95,6 +95,7 @@ public class PlayerService {
       } else {
         player.setPosition(player.getCheckpoint());
       }
+      editPlayer(player);
       return true;
     }
     return false;

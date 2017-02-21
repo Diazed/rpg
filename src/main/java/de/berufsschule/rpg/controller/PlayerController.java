@@ -37,8 +37,8 @@ public class PlayerController {
 
   @RequestMapping(value = "/profile/{gamename}", method = RequestMethod.GET)
   public String openPlayerProfile(@PathVariable String gamename, Model model, Principal principal) {
-    UserDTO userDTO;
 
+    UserDTO userDTO;
     User user = userService.getRequestedUser(principal.getName());
     userDTO = userDTOConverter.toDto(user);
 
@@ -51,6 +51,10 @@ public class PlayerController {
         return "game/profile";
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String keinGameName() {
+        return "redirect;/games";
+    }
 
   @RequestMapping(value = "/profile/{gamename}/{itemName}", method = RequestMethod.POST)
   public String useItem(@PathVariable String itemName, @PathVariable String gamename, Principal principal) {

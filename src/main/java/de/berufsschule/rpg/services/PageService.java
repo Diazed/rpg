@@ -80,6 +80,7 @@ public class PageService {
             decision.setHasItem(true);
             break;
           }
+          decision.setHasItem(false);
         }
       }
     }
