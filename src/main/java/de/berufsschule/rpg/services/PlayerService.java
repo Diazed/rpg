@@ -129,10 +129,7 @@ public class PlayerService {
   private void roundExp(Player player) {
     Integer playerLvl = player.getPlayerLvl();
     Integer playerXp = player.getExp();
-    Integer neededXp = 0;
-    for (int i = 0; i < playerLvl; i++) {
-      neededXp += i * 50;
-    }
+    Integer neededXp = getNeededExperience(playerLvl);
     neededXp = neededXp - playerXp;
     if (neededXp - 10 < 0) {
       player.setPlayerLvl(playerLvl + 1);
@@ -140,6 +137,21 @@ public class PlayerService {
     } else {
       player.setExp(playerXp + 10);
     }
+  }
+
+  public Integer getNeededExperience(Integer playerLvl) {
+    Integer neededXp = 0;
+    for (int i = 0; i < playerLvl; i++) {
+      neededXp += i * 50;
+    }
+    return neededXp;
+  }
+
+  public Integer getProgressPercentage(double currentExp, double neededExp){
+    double onePercent = neededExp / 100;
+    double percentage = currentExp / onePercent;
+
+    return ((int)percentage);
   }
 
   public boolean doesPlayerMeetRequirements(Decision clickedDecision, Player player) {

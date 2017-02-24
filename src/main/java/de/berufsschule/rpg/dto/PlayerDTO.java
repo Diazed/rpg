@@ -12,13 +12,15 @@ public class PlayerDTO {
 
     private Integer id;
     private String checkpoint;
-  private String position;
+    private String position;
 
     private Integer playerLvl = 0;
     private Integer hitpoints = 100;
     private Integer hunger = 0;
     private Integer thirst = 0;
     private Integer exp = 0;
-  private List<String> items = new ArrayList<>();
+    private Integer neededExp = 0;
+    private Integer progressPercentage;
+    private List<String> items = new ArrayList<>();
 
 }

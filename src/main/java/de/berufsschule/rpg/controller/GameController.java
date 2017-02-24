@@ -57,6 +57,11 @@ public class GameController {
     return "game/ingame";
   }
 
+  @RequestMapping(value = "/play/", method = RequestMethod.GET)
+  public String keinGameName() {
+    return "redirect:/games";
+  }
+
   @RequestMapping(value = "/play/{gamename}/{jump}", method = RequestMethod.POST)
   public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
 

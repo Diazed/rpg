@@ -72,6 +72,7 @@ td, th {
     color: #d58512;
     padding-right: 10px;
     font-size: medium;
+    font-weight: bolder;
 }
 
 .error-text{
@@ -112,3 +113,4 @@ ul {
 .startcol{
     padding-left: 0px;
 }
+
