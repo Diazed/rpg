@@ -1,0 +1,48 @@
+Initialwerte für den Hunger, Durst und Gesundheitswert.
+
+Runden effekte auf Hunger,Durst und XP einstellbar machen.
+
+Hunger, Durst und Gesundheit im Jump manipulieren.
+
+Page ids erstellen und für Jumps nutzen
+
+Characktere(
+
+  -Wichtige Personen der Story.
+  -Haben eine Meinung von dir
+  -Kampfskills ?
+
+)
+
+User Profile(
+  -Alle gestarteten Spiele Anzeigen.
+  -Info zu jedem Spiel(
+    -Player Level.
+    -Skills.
+    -Skill Level.
+    -Story zusammenfassung.
+  )
+)
+
+Quests(
+  -Als Bestandteil der Story nutzbar.
+  -Erfolg bei(
+    -Erreichen einer Page ohne zu sterben.
+    -Erhalt einer vorgegebenen Anzahl von einem vorgegebenen Item.
+  )
+)
+
+Skills(
+  -In Decision SkillPunkt geben.
+  -Player Level Up gewährt einen Skill punkt.
+  -Skill mit bestimmten Level für Decision notwendig.
+  -hohes Skill Level hohe Erfolgsquote.
+)
+
+Gilden??
+Shop???
+Kämpfe (ähnlich den in Pokemon) ??
+Kampfskills ??
+Bug Report?
+Nachrichten?
+Freunde?

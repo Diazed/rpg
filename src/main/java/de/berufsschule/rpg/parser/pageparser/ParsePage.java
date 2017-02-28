@@ -3,10 +3,9 @@ package de.berufsschule.rpg.parser.pageparser;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.parser.BaseParser;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ParsePage extends BaseParser implements PageParser {
@@ -15,6 +14,8 @@ public class ParsePage extends BaseParser implements PageParser {
   public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#PAGE")){
       Page page = new Page();
+      line = getNextLine(fileIn);
+      page.setName(line);
       page.setDecisions(new ArrayList<>());
       page.setItems(new ArrayList<>());
       gamePlan.getPages().add(page);

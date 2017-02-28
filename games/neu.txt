@@ -26,8 +26,7 @@
 #PAGES
 
 #PAGE
-	#NAME
-	'start'
+'start'
 	#STORYTEXT
 		'Text'
 		'this is it'
@@ -47,8 +46,7 @@
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'test'
+'test'
 	#STORYTEXT
 	'The Text of the first Site'
 	#ENDTEXT
@@ -64,7 +62,7 @@
 			'A'
 			#TEXT
 			'Auswahlmöglichkeit A'
-			#USEITEM
+			#USE
 			'Toast'
 		#DECISION
 			#JUMP
@@ -82,8 +80,7 @@
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'A'
+'A'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
 	' Checkpoint'
@@ -101,13 +98,10 @@
 			'A'
 			#TEXT
 			'und so weiter'
-			#ITEMNEEDED
-			'Toast'
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'AA'
+'AA'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
 	'A'
@@ -125,8 +119,7 @@
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'H'
+'H'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
 	'BBB'
@@ -144,8 +137,7 @@
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'C'
+'C'
 	#STORYTEXT
 	'geht'
 	'BBB'
@@ -163,8 +155,7 @@
 	#ENDDECISIONS
 
 #PAGE
-	#NAME
-	'R.I.P.'
+'R.I.P.'
 	#STORYTEXT
 	'Du bist gestorben und hast alle deine Items verloren.'
 	#ENDTEXT

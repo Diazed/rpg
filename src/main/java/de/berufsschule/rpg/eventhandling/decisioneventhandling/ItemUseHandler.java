@@ -24,6 +24,7 @@ public class ItemUseHandler implements DecisionEventHandler {
       for (String item : player.getItems()) {
         if (item.equals(usedItem)) {
           itemService.useItem(usedItem, player);
+          page.setUsedItem(usedItem);
           return true;
         }
       }

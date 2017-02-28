@@ -4,12 +4,11 @@ import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.repositories.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PlayerService {
@@ -141,7 +140,7 @@ public class PlayerService {
 
   public Integer getNeededExperience(Integer playerLvl) {
     Integer neededXp = 0;
-    for (int i = 0; i < playerLvl; i++) {
+    for (int i = 0; i < (playerLvl + 1); i++) {
       neededXp += i * 50;
     }
     return neededXp;

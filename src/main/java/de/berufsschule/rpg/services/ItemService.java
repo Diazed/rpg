@@ -3,12 +3,11 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.eventhandling.Itemeventhandling.ItemHandler;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ItemService {
@@ -84,9 +83,7 @@ public class ItemService {
 
     Item item = getItem(usedItem, player);
     playerService.removeItemFromPlayer(player, item);
-    if (item.isConsumable()) {
-      itemEffects(item, player);
-    }
+    itemEffects(item, player);
     playerService.editPlayer(player);
   }
 }

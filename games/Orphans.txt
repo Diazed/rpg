@@ -1,0 +1,213 @@
+﻿#RPG
+#GAMENAME
+'Orphans'
+#STARTPAGE
+'Erwachen'
+#DEATHPAGE
+'Du bist gestorben'
+
+#ITEMS
+
+#FOOD
+'15'
+#NAME
+'Flickers'
+#DESCRIPTION
+'Ganz bestimmt nicht gesund.'
+#UNUSEABLE
+
+#SIMPLEITEM
+#NAME
+'Tabletten'
+#DESCRIPTION
+'Blaue kleine Pillen.'
+
+#ENDITEMS
+
+#PAGES
+
+#PAGE
+'Du bist gestorben'
+  #STORYTEXT
+	'Du bist leider gestorben und hast alle deine Items verloren'
+ 	#ENDTEXT
+  #DECISIONS
+    #DECISION
+		  #JUMP
+		  'check'
+		  #TEXT
+		  'Zum letzten Checkpoint'
+  #ENDDECISIONS
+
+#PAGE
+'Erwachen'
+  #CHECKPOINT
+	#STORYTEXT
+	'Langsam wachst du aus einem tiefen Schlaf auf. Du siehst dich um und findest dich in einen weißen Raum wieder. '
+	'Alles ist sehr modern eingerichtet aber du kennst diesen Ort nicht. Kopfschmerzen plagen dich und du fühlst'
+	'dich Kraftlos. Du blickst neben dein Bett und siehst Tabletten auf dem Nachttisch liegen. Langsam richtest du'
+	'dich auf und dir fällt auf das ein Plastikschlauch an deinem Unterarm hängt. Der dünne Schlauch kommt aus einer Art'
+	'Terminal an der Wand und endet an einem Schraubgewinde das in deinem Arm eingebracht wurde. Durch den Schlauch fließt'
+	'eine klare grüne Flüssigkeit in deinen Körper. Durch das Gewinde sollte sich der Schlauch leicht lösen lassen.'
+	#ENDTEXT
+	#DECISIONS
+    #DECISION
+  		#JUMP
+     'Uniform'
+  		#TEXT
+  		'Löse den Schlauch'
+	#ENDDECISIONS
+
+  #PAGE
+  'Uniform'
+    #CHECKPOINT
+    #STORYTEXT
+    'Der Schlauch lässt sich wie erwartet leicht von deinem Arm lösen. Du stehst auf und steckst die Tabletten ein.'
+    'Neben deinem Bett liegt ein Stapel frischer Kleidung. Da du momentan nichts weiter als ein Hemd am Leib trägst ziehst du diese an.'
+    'Schnell wird klar das es sich um eine Uniform handelt. Die Uniform ist weiß wie so ziehmlich alles hier.'
+    'Nur ein paar grüne Details zieren die Uniform. Der Raum in dem du stehst ist kaum möbeliert.'
+    'Außer einem Schreibtisch dem Bett mit Nachttisch und einem Schrank ist der Raum leer. Du wirfst einen Blick in den Schrank'
+    'aber enttäuscht musst du feststellen das dieser nur voll von Uniformen ist. Es gibt keine Fenster'
+    'nur eine Tür die aus dem Raum führt.'
+    #ENDTEXT
+    #GIVE
+    'Tabletten'
+    #DECISIONS
+    	#DECISION
+    		#JUMP
+    		'Fremder'
+    		#TEXT
+    		'Den Raum verlassen'
+	  #ENDDECISIONS
+
+    #PAGE
+    'Fremder'
+      #CHECKPOINT
+      #STORYTEXT
+      'Du gehst durch die Tür und stehst in einem Flur. Der Flur ist voll von Jugendlichen in Uniform. Dem ersten Eindruck nach sind'
+      'alle ungefähr in deinem Alter. "Noch mehr neue ?", "Wer ist denn das ?" und ähnliches hörst du sie sagen. Keiner der Jugendlichen scheint'
+      'sich für dich zu interessieren. Sie starren dich kurz an und gehen dann gleich weiter.'
+      #ENDTEXT
+		  #DECISIONS
+       	#DECISION
+       		#JUMP
+       		'Josie'
+       		#TEXT
+       		'Antworten suchen.'
+		  #ENDDECISIONS
+
+      #PAGE
+      'Josie'
+        #CHECKPOINT
+        #STORYTEXT
+        'Doch dann hörst du hinter dir ein freundliches "Hallo". Du drehst dich um und siehst ein Mädchen mit blauen Augen, blondem Haar und einem'
+        'süßen, leicht schüchternen Lächeln. "Oh, Hi", antwortest du. Sie scheint die einzige auf dem ganzen Flur zu sein die Zeit zum Reden hat.'
+        '"Ich bin Josie. Wie fühlst du dich? Ich meine, das ist sicher alles neu für dich, hm?" "Wie ich mich fühle? naja ich habe keine Ahnung '
+        'wo oder warum ich hier bin und dazu kommen diese verdammten Kopfschmerzen." "Das ist normal. Hast du die Tabletten gefunden die auf deinem'
+        'Nachttisch lagen?" "ehm ja... das hab ich?!" "Die lagen da nicht ohne Grund. Die Tabletten Helfen gegen die Schmerzen."'
+        #ENDTEXT
+        #DECISIONS
+          #DECISION
+            #JUMP
+            'Leerer Magen'
+            #TEXT
+            'Schluck die Tabletten'
+            #USE
+            'Tabletten'
+        #ENDDECISIONS
+
+        #PAGE
+        'Leerer Magen'
+          #CHECKPOINT
+          #STORYTEXT
+          '"Danke Josie". Du kennst Josie erst seit ein paar Minuten aber sie scheint nett zu sein. Außerdem gibt es keine Alternativen...'
+          'Du kennst keinen und wenigstens spricht sie mit dir. Du musst ihr vertrauen. "Seit ich wach bin fühle ich mich Kraftlos, irgendwie Schwach." "Da können dir'
+          'die Tabletten leider nicht helfen. Hier iss das." Josie drückt dir einen Riegel in die Hand auf dem groß "Flickers" steht. "Du hast'
+          'wahrscheinlich nur etwas Hunger."'
+          #ENDTEXT
+          #GIVE
+          'Flickers'
+          #DECISIONS
+            #DECISION
+              #JUMP
+              'Amnesie?'
+              #TEXT
+              'Iss den Flickers & Stell dich vor'
+              #USE
+              'Flickers'
+          #ENDDECISIONS
+
+          #PAGE
+          'Amnesie?'
+            #CHECKPOINT
+            #STORYTEXT
+            '"Oh wow ich habe mich ja noch garnicht vorgestellt", sagst du, was Josie nur mit einem Lächeln erwiedert. "Ich bin ...", das war alles '
+            'was du neben ein wenig undeutlichen stammeln heraus bekommst. Josie lacht, "Mach dir keine Sorgen", sagt sie und fängt sich langsam wieder,'
+            '"Die Erinnerungen werden Stück für Stück wiederkehren, vertrau mir. Das ging uns allen so. Jeder Einzelne hier hat genau das gleiche'
+            'durchmachen müssen!", erklärt sie dir. "Ich habe einfach so viele offene Fragen... Das macht alles keinen Sinn." "Dann lass mich dir helfen'
+            'ein paar von diesen Fragen zu klären. Schieß los!"'
+            #ENDTEXT
+            #DECISIONS
+              #DECISION
+                #JUMP
+                'Freundschaft'
+                #TEXT
+                '"Warum bist du so nett zu mir?"'
+              #DECISION
+                #JUMP
+                'Nur Jugendliche'
+                #TEXT
+                '"Gibt es hier keine Erwachsene?"'
+            #ENDDECISIONS
+
+            #PAGE
+            'Freundschaft'
+              #CHECKPOINT
+              #STORYTEXT
+              '"Du machst auf mich einen netten Eindruck und ich weiß wie wertvoll ein Freund hier ist. Besonders wenn man gerade erst aufgewacht ist."'
+              '"Also sind wir jetzt Freunde?!" "Ja. Also nur wenn du nichts dagegen hast", antwortet Josie und boxt dir freundschaftlich gegen die Schulter.'
+              '"Nein nein da gegen habe ich ganz sicher nicht! ohne dich wäre ich verloren..." "jap! Es gibt auch noch eine Menge an Sachen die ich dir zeigen'
+              'und erklären sollte aber kümmern wir uns erst einmal um deine Fragen."'
+              #ENDTEXT
+              #DECISIONS
+                #DECISION
+                  #JUMP
+                  'Prion B0'
+                  #TEXT
+                  '"Wo sind wir?"'
+              #ENDDECISIONS
+
+            #PAGE
+            'Nur Jugendliche'
+              #CHECKPOINT
+              #STORYTEXT
+              '"Nope. Keine Erwachsene. Habe schon seit Ewigkeiten keinen Erwachsenen mehr gesehen."'
+              #ENDTEXT
+              #DECISIONS
+                #DECISION
+                  #JUMP
+                  'Prion B0'
+                  #TEXT
+                  '"Wo sind wir?"'
+              #ENDDECISIONS
+
+
+//Sample Page
+//
+//      #PAGE
+//      #CHECKPOINT
+//      //
+//        #NAME
+//        ''
+//        #STORYTEXT
+//        #ENDTEXT
+//        #DECISIONS
+//          #DECISION
+//            #JUMP
+//            ''
+//            #TEXT
+//            ''
+//        #ENDDECISIONS
+
+#ENDPAGES
+

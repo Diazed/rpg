@@ -3,14 +3,17 @@ package de.berufsschule.rpg.parser;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.parser.gameplanparser.GamePlanParser;
 import de.berufsschule.rpg.services.FileService;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 
 @Component
 @Getter
@@ -38,7 +41,7 @@ public class ParserRunner {
 
   private boolean gameAlreadyParsed(String fileName) {
     for (GamePlan gamePlan : games.values()) {
-      if (gamePlan.getFilename() == fileName)
+      if (Objects.equals(gamePlan.getFilename(), fileName))
         return true;
     }
     return false;
