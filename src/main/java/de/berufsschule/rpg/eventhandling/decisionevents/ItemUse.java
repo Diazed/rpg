@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.eventhandling.decisioneventhandling;
+package de.berufsschule.rpg.eventhandling.decisionevents;
 
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ItemUseHandler implements DecisionEventHandler {
+public class ItemUse implements DecisionEvent {
 
   private ItemService itemService;
 
   @Autowired
-  public ItemUseHandler(ItemService itemService) {
+  public ItemUse(ItemService itemService) {
     this.itemService = itemService;
   }
 

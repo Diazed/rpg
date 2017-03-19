@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.eventhandling.decisioneventhandling;
+package de.berufsschule.rpg.eventhandling.decisionevents;
 
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
-public class AlternativeJumpHandler implements DecisionEventHandler {
+public class AlternativeJump implements DecisionEvent {
   @Override
   public boolean event(Decision decision, Player player, String jump, Page page) {
     if (decision.getAlternativeJump() != null && decision.getProbability() != 0) {

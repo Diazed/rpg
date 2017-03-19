@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.decisioneventhandling.DecisionEventHandler;
+import de.berufsschule.rpg.eventhandling.decisionevents.DecisionEvent;
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
@@ -12,17 +12,17 @@ import java.util.List;
 @Component
 public class DecisionService {
 
-  private List<DecisionEventHandler> decisionEventHandlers;
+  private List<DecisionEvent> decisionEvents;
 
   @Autowired
-  public DecisionService(List<DecisionEventHandler> decisionEventHandlers) {
-    this.decisionEventHandlers = decisionEventHandlers;
+  public DecisionService(List<DecisionEvent> decisionEvents) {
+    this.decisionEvents = decisionEvents;
   }
 
 
   public void runDecisionEvents(Decision decision, Player player, String jump, Page page) {
-    for (DecisionEventHandler decisionEventHandler : decisionEventHandlers) {
-      decisionEventHandler.event(decision, player, jump, page);
+    for (DecisionEvent decisionEvent : decisionEvents) {
+      decisionEvent.event(decision, player, jump, page);
     }
   }
 

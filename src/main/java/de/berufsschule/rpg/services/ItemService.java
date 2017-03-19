@@ -1,33 +1,34 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.Itemeventhandling.ItemHandler;
+import de.berufsschule.rpg.eventhandling.Itemevents.ItemEvent;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class ItemService {
 
-  private List<ItemHandler> itemHandlers;
+  private List<ItemEvent> itemEvents;
   private PlayerService playerService;
   private GamePlanService gamePlanService;
 
   @Autowired
-  ItemService(List<ItemHandler> itemHandlers, PlayerService playerService,
-      GamePlanService gamePlanService) {
-    this.itemHandlers = itemHandlers;
+  ItemService(List<ItemEvent> itemEvents, PlayerService playerService,
+              GamePlanService gamePlanService) {
+    this.itemEvents = itemEvents;
     this.playerService = playerService;
     this.gamePlanService = gamePlanService;
   }
 
   public void itemEffects(Item usedItem, Player player) {
 
-    for (ItemHandler itemHandler : itemHandlers) {
-      if (itemHandler.effect(usedItem, player)) {
+    for (ItemEvent itemEvent : itemEvents) {
+      if (itemEvent.event(usedItem, player)) {
         break;
       }
     }

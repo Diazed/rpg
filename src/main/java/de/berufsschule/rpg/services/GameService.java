@@ -70,6 +70,9 @@ public class GameService {
     game.setUserId(user.getId());
     game.setDeathPage(gamePlan.getDeathPage());
     game.setStartPage(gamePlan.getStartPage());
+    game.setRoundExp(gamePlan.getRoundExp());
+    game.setRoundHunger(gamePlan.getRoundHunger());
+    game.setRoundThirst(gamePlan.getRoundThirst());
 
     Player player = new Player();
     game.setPlayer(player);

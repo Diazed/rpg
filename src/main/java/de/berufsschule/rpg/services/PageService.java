@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.pageeventhandling.PageEventHandler;
+import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
 import de.berufsschule.rpg.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,22 +10,22 @@ import java.util.List;
 @Service
 public class PageService {
 
-  private List<PageEventHandler> pageEventHandlers;
+  private List<PageEvent> pageEvents;
   private GameService gameService;
   private PlayerService playerService;
   private DecisionService decisionService;
 
   @Autowired
-  public PageService(List<PageEventHandler> pageEventHandlers, PlayerService playerService, DecisionService decisionService, GameService gameService) {
-    this.pageEventHandlers = pageEventHandlers;
+  public PageService(List<PageEvent> pageEvents, PlayerService playerService, DecisionService decisionService, GameService gameService) {
+    this.pageEvents = pageEvents;
     this.playerService = playerService;
     this.decisionService = decisionService;
     this.gameService = gameService;
   }
 
   public void runPageEvents(Page page, Player player) {
-    for (PageEventHandler pageEventHandler : pageEventHandlers) {
-      pageEventHandler.event(page, player);
+    for (PageEvent pageEvent : pageEvents) {
+      pageEvent.event(page, player);
     }
   }
 
@@ -33,12 +33,8 @@ public class PageService {
     gameService.switchCurrentGame(gamename, user);
     Game game = gameService.loadOrCreateGame(gamename, user);
     Player player = game.getPlayer();
-
     playerService.firstStart(player, game.getStartPage());
-    if (!player.getAlive()) {
-      playerService.playerDeath(player, game.getDeathPage());
-    }
-
+    playerService.playerDeath(player, game.getDeathPage());
     Page page = game.getPages().get(player.getPosition());
     setHasItemFlagInPageDecisions(page, player);
     gameService.editGame(game, user.getId());
@@ -54,11 +50,12 @@ public class PageService {
     Decision clickedDecision = decisionService.getClickedDecision(originPage, jump);
     if (clickedDecision == null)
       return false;
-    playerService.roundEffects(player, 3, 5);
+
+    playerService.runAllPlayerEvents(game, player);
 
     if (!player.getAlive())
       return true;
-    if (playerService.revive(player))
+    if (playerService.revive(player, game.getStartPage()))
       return true;
     if (!playerService.doesPlayerMeetRequirements(clickedDecision, player))
       return false;

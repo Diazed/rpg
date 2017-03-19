@@ -1,24 +1,25 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.eventhandling.playerevents.PlayerEvent;
+import de.berufsschule.rpg.model.*;
 import de.berufsschule.rpg.repositories.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PlayerService {
 
   private PlayerRepository playerRepository;
-
+  private List<PlayerEvent> playerEvents;
 
   @Autowired
-  public PlayerService(PlayerRepository playerRepository) {
+  public PlayerService(PlayerRepository playerRepository, List<PlayerEvent> playerEvents) {
     this.playerRepository = playerRepository;
+    this.playerEvents = playerEvents;
   }
 
 
@@ -29,7 +30,6 @@ public class PlayerService {
   public void removeItemFromPlayer(Player player, Item item) {
 
     List<String> playerItems = player.getItems();
-
     for (int i = 0; i < playerItems.size(); i++) {
       String playerItem = playerItems.get(i);
       if (item.getName().equals(playerItem)) {
@@ -47,13 +47,9 @@ public class PlayerService {
     editPlayer(player);
   }
 
-  private boolean isFirstStart(Player player) {
-    return Objects.equals(player.getPosition(), null);
-  }
-
   public void firstStart(Player player, String startPage) {
 
-    if (isFirstStart(player)) {
+    if (player.getPosition() == null) {
       player.setPlayerLvl(1);
       player.setExp(0);
       player.setHitpoints(100);
@@ -71,26 +67,31 @@ public class PlayerService {
   }
 
   public void playerDeath(Player player, String deathPage) {
-
-    player.setItems(new ArrayList<>());
-    if (deathPage == null || Objects.equals(deathPage, "")) {
-      setPlayerPosition("R.I.P.", player);
-    } else {
-      setPlayerPosition(deathPage, player);
+    if (!player.getAlive()) {
+      player.setItems(new ArrayList<>());
+      if (deathPage == null || Objects.equals(deathPage, "")) {
+        setPlayerPosition("R.I.P.", player);
+      } else {
+        setPlayerPosition(deathPage, player);
+      }
+      player.setHunger(0);
+      player.setThirst(0);
+      player.setHitpoints(100);
+      player.setAlive(true);
+      player.setOnDeathPage(true);
+      editPlayer(player);
     }
-    player.setHunger(0);
-    player.setThirst(0);
-    player.setHitpoints(100);
-    player.setAlive(true);
-    player.setOnDeathPage(true);
-    editPlayer(player);
   }
 
-  public boolean revive(Player player) {
+  public boolean revive(Player player, String startPage) {
     if (player.getOnDeathPage()) {
       player.setOnDeathPage(false);
       if (player.getCheckpoint() == null) {
-        player.setPosition("start");
+        if (startPage != null) {
+          player.setPosition(startPage);
+        } else {
+          player.setPosition("start");
+        }
       } else {
         player.setPosition(player.getCheckpoint());
       }
@@ -100,57 +101,11 @@ public class PlayerService {
     return false;
   }
 
-
-  public void roundEffects(Player player, Integer hunger, Integer thirst) {
-    roundExp(player);
-    increaseHunger(player, hunger);
-    increaseThirst(player, thirst);
+  public void runAllPlayerEvents(Game game, Player player) {
+    for (PlayerEvent playerEvent : playerEvents) {
+      playerEvent.event(player, game);
+    }
     editPlayer(player);
-  }
-
-  private void increaseThirst(Player player, Integer thirst) {
-    if (player.getThirst() + thirst > 100) {
-      player.setAlive(false);
-    } else {
-      player.setThirst(player.getThirst() + thirst);
-    }
-  }
-
-  private void increaseHunger(Player player, Integer hunger) {
-    if (player.getHunger() + hunger > 100) {
-      player.setAlive(false);
-    } else {
-      player.setHunger(player.getHunger() + hunger);
-    }
-
-  }
-
-  private void roundExp(Player player) {
-    Integer playerLvl = player.getPlayerLvl();
-    Integer playerXp = player.getExp();
-    Integer neededXp = getNeededExperience(playerLvl);
-    neededXp = neededXp - playerXp;
-    if (neededXp - 10 < 0) {
-      player.setPlayerLvl(playerLvl + 1);
-      player.setExp(0);
-    } else {
-      player.setExp(playerXp + 10);
-    }
-  }
-
-  public Integer getNeededExperience(Integer playerLvl) {
-    Integer neededXp = 0;
-    for (int i = 0; i < (playerLvl + 1); i++) {
-      neededXp += i * 50;
-    }
-    return neededXp;
-  }
-
-  public Integer getProgressPercentage(double currentExp, double neededExp){
-    double onePercent = neededExp / 100;
-    double percentage = currentExp / onePercent;
-
-    return ((int)percentage);
   }
 
   public boolean doesPlayerMeetRequirements(Decision clickedDecision, Player player) {

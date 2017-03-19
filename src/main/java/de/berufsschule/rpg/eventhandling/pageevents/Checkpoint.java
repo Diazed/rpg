@@ -1,17 +1,15 @@
-package de.berufsschule.rpg.eventhandling.pageeventhandling;
+package de.berufsschule.rpg.eventhandling.pageevents;
 
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CheckpointHandler implements PageEventHandler {
+public class Checkpoint implements PageEvent {
   @Override
-  public boolean event(Page currentPage, Player player) {
+  public void event(Page currentPage, Player player) {
     if (currentPage.isCheckpoint()) {
       player.setCheckpoint(currentPage.getName());
-      return true;
     }
-    return false;
   }
 }

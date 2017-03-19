@@ -10,15 +10,14 @@ import de.berufsschule.rpg.services.GameService;
 import de.berufsschule.rpg.services.ItemService;
 import de.berufsschule.rpg.services.PlayerService;
 import de.berufsschule.rpg.services.UserService;
-
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.security.Principal;
 
 @Controller
 public class PlayerController {
@@ -51,10 +50,6 @@ public class PlayerController {
         model.addAttribute("userDTO", userDTO);
         Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
         PlayerDTO playerDTO = playerDTOConverter.toDTO(currentPlayer);
-        int neededExp = playerService.getNeededExperience(currentPlayer.getPlayerLvl());
-        int exp = currentPlayer.getExp();
-        playerDTO.setNeededExp(neededExp);
-        playerDTO.setProgressPercentage(playerService.getProgressPercentage(exp, neededExp));
         model.addAttribute("items", itemService.createInventory(currentPlayer));
         model.addAttribute("playerDTO", playerDTO);
         model.addAttribute("gamename", gamename);

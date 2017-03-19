@@ -12,6 +12,9 @@ public class GamePlan {
   private String name;
   private String startPage;
   private String deathPage;
+  private Integer roundHunger;
+  private Integer roundThirst;
+  private Integer roundExp;
   private List<Page> pages;
   private List<Item> items;
 }

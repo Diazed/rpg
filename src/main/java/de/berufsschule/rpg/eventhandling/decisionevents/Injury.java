@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.eventhandling.decisioneventhandling;
+package de.berufsschule.rpg.eventhandling.decisionevents;
 
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
@@ -6,7 +6,7 @@ import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;
 
 @Component
-public class InjuryHandler implements DecisionEventHandler {
+public class Injury implements DecisionEvent {
   @Override
   public boolean event(Decision decision, Player player, String jump, Page page) {
     if (decision.getInjury() > 0) {

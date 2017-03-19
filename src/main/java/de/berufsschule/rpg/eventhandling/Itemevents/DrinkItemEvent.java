@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.eventhandling.Itemeventhandling;
+package de.berufsschule.rpg.eventhandling.Itemevents;
 
 import de.berufsschule.rpg.model.DrinkItem;
 import de.berufsschule.rpg.model.Item;
@@ -6,15 +6,15 @@ import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DrinkItemHandler implements ItemHandler {
+public class DrinkItemEvent implements ItemEvent {
   @Override
-  public boolean effect(Item item, Player player) {
+  public boolean event(Item item, Player player) {
 
-    if (item.getClass() != DrinkItem.class)
+    if (item.getClass() != de.berufsschule.rpg.model.DrinkItem.class)
       return false;
 
     Integer playerThirst = player.getThirst();
-    Integer itemValue = ((DrinkItem)item).getValue();
+    Integer itemValue = ((de.berufsschule.rpg.model.DrinkItem) item).getValue();
     if (playerThirst - itemValue < 0) {
       player.setThirst(0);
     } else {

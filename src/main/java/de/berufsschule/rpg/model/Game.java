@@ -20,6 +20,9 @@ public class Game {
   private String name;
   private String startPage;
   private String deathPage;
+  private Integer roundHunger;
+  private Integer roundThirst;
+  private Integer roundExp;
   @Transient
   private HashMap<String, Page> pages = new HashMap<String, Page>();
   @Transient
