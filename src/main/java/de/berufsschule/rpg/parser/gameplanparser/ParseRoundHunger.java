@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class ParseRoundHunger extends BaseParser implements GamePlanParser {
   @Override
   public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#ROUNDHUNGER)")) {
+    if (line.contains("#ROUNDHUNGER")) {
       Integer roundHunger = parseInt(getNextLine(fileIn));
       gamePlan.setRoundHunger(roundHunger);
       return true;

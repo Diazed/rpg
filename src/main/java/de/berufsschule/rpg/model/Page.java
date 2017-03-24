@@ -9,10 +9,13 @@ import java.util.List;
 @Setter
 public class Page {
 
-    private String name;
-    private String storytext;
-    private List<Decision> decisions;
+  private String name;
+  private String storytext;
+  private List<Decision> decisions;
   private List<String> items;
-    private boolean checkpoint = false;
+  private boolean checkpoint = false;
   private String usedItem = "";
+  private Integer healthManipulation;
+  private Integer hungerManipulation;
+  private Integer thirstManipulation;
 }

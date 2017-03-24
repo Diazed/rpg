@@ -5,6 +5,12 @@
 'Erwachen'
 #DEATHPAGE
 'Du bist gestorben'
+#ROUNDHUNGER
+'1'
+#ROUNDTHIRST
+'2'
+#ROUNDEXP
+'5'
 
 #ITEMS
 
@@ -30,7 +36,7 @@
 'Du bist gestorben'
   #STORYTEXT
 	'Du bist leider gestorben und hast alle deine Items verloren'
- 	#ENDTEXT
+  #ENDTEXT
   #DECISIONS
     #DECISION
 		  #JUMP

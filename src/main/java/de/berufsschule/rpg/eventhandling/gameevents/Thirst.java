@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.eventhandling.playerevents;
+package de.berufsschule.rpg.eventhandling.gameevents;
 
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Player;
