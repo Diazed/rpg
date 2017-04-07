@@ -6,6 +6,14 @@
 #STARTPAGE
 'start'
 
+#SKILLS
+#SKILL
+#NAME
+'Test'
+#DESCRIPTION
+'TestDescription'
+#ENDSKILLS
+
 #ITEMS
 
 #FOOD
@@ -74,7 +82,7 @@
 		 	#JUMP
 			'C'
 			#TEXT
-			'Schaden'
+			'Schaden und Skill'
 			#INJURY
 			10
 	#ENDDECISIONS
@@ -142,6 +150,8 @@
 	'geht'
 	'BBB'
 	#ENDTEXT
+	#LEARNSKILL
+	'Test'
 	#DECISIONS
 		#DECISION
 			#JUMP

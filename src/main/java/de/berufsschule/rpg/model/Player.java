@@ -23,11 +23,14 @@ public class Player {
   private Integer thirst;
   private Integer exp;
   private Integer playerLvl;
-  private Integer neededExp;
+  private Integer neededExp = 0;
   private Integer levelProgress;
   @OneToOne
   @PrimaryKeyJoinColumn
   private Game game;
   @ElementCollection
   private List<String> items = new ArrayList<>();
+  @OneToMany
+  private List<Skill> skills = new ArrayList<>();
+
 }

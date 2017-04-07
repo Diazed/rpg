@@ -19,6 +19,7 @@ public class PlayerDTOConverter {
     dto.setCheckpoint(model.getCheckpoint());
     dto.setProgressPercentage(model.getLevelProgress());
     dto.setNeededExp(model.getNeededExp());
+    dto.setSkills(model.getSkills());
 
     return dto;
   }

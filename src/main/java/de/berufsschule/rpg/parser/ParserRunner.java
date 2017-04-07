@@ -63,6 +63,7 @@ public class ParserRunner {
       gamePlan.setFilename(filename);
       gamePlan.setPages(new ArrayList<>());
       gamePlan.setItems(new ArrayList<>());
+      gamePlan.setSkills(new ArrayList<>());
       runAllParser(gamePlan, fileIn);
       games.put(gamePlan.getName(), gamePlan);
     } catch (IOException e) {

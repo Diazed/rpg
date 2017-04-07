@@ -1,9 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +17,7 @@ public abstract class BaseParser {
     return "";
   }
 
-  public String getStringBetweenQuotationMarks(String line) {
+  private String getStringBetweenQuotationMarks(String line) {
     line = line.replace("\t", "");
     line = line.trim();
 
@@ -31,15 +28,19 @@ public abstract class BaseParser {
     return line;
   }
 
-  public Page getLastCreatedPage(GamePlan gamePlan) {
+  protected Page getLastCreatedPage(GamePlan gamePlan) {
     return gamePlan.getPages().get(gamePlan.getPages().size() - 1);
   }
 
-  public Item getLastCreatedItem(GamePlan gamePlan) {
+  protected Item getLastCreatedItem(GamePlan gamePlan) {
     return gamePlan.getItems().get(gamePlan.getItems().size() - 1);
   }
 
-  public Decision getLastCreatedDecision(GamePlan gamePlan) {
+  public Skill getLastCreatedSkill(GamePlan gamePlan){
+    return gamePlan.getSkills().get(gamePlan.getSkills().size() - 1);
+  }
+
+  protected Decision getLastCreatedDecision(GamePlan gamePlan) {
     List<Decision> decisions = getLastCreatedPage(gamePlan).getDecisions();
     return decisions.get(decisions.size() - 1);
   }

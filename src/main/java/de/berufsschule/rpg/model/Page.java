@@ -13,6 +13,7 @@ public class Page {
   private String storytext;
   private List<Decision> decisions;
   private List<String> items;
+  private List<String> skills;
   private boolean checkpoint = false;
   private String usedItem = "";
   private Integer healthManipulation;

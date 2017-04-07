@@ -29,7 +29,7 @@ public class PageService {
     for (PageEvent pageEvent : pageEvents) {
       pageEvent.event(page, player);
     }
-    playerService.editPlayer(player);
+    playerService.savePlayer(player);
   }
 
   public Page playPage(User user, String gamename) {

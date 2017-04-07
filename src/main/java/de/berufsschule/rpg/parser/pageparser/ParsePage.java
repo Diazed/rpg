@@ -18,6 +18,7 @@ public class ParsePage extends BaseParser implements PageParser {
       page.setName(line);
       page.setDecisions(new ArrayList<>());
       page.setItems(new ArrayList<>());
+      page.setSkills(new ArrayList<>());
       gamePlan.getPages().add(page);
       return true;
     }

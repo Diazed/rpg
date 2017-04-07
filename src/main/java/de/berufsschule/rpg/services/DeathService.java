@@ -30,7 +30,7 @@ public class DeathService {
       player.setHitpoints(100);
       player.setAlive(true);
       player.setOnDeathPage(true);
-      playerService.editPlayer(player);
+      playerService.savePlayer(player);
     }
   }
 
@@ -46,7 +46,7 @@ public class DeathService {
       } else {
         player.setPosition(player.getCheckpoint());
       }
-      playerService.editPlayer(player);
+      playerService.savePlayer(player);
       return true;
     }
     return false;

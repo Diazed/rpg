@@ -85,6 +85,6 @@ public class ItemService {
     Item item = getItem(usedItem, player);
     playerService.removeItemFromPlayer(player, item);
     itemEffects(item, player);
-    playerService.editPlayer(player);
+    playerService.savePlayer(player);
   }
 }

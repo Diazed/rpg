@@ -23,7 +23,7 @@ public class PlayerService {
     this.playerEvents = playerEvents;
   }
 
-  public void editPlayer(Player editedPlayer) {
+  public void savePlayer(Player editedPlayer) {
     playerRepository.save(editedPlayer);
   }
 
@@ -42,7 +42,7 @@ public class PlayerService {
 
   public void setPlayerPosition(String position, Player player) {
     player.setPosition(position);
-    editPlayer(player);
+    savePlayer(player);
   }
 
   public void firstStart(Player player, String startPage) {
@@ -66,7 +66,7 @@ public class PlayerService {
     for (PlayerEvent playerEvent : playerEvents) {
       playerEvent.event(player, game);
     }
-    editPlayer(player);
+    savePlayer(player);
   }
 
   public boolean doesPlayerMeetRequirements(Decision clickedDecision, Player player) {

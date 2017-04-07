@@ -3,6 +3,7 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.ParserRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,15 @@ public class GamePlanService {
     HashMap<String, Item> result = new HashMap<>();
     for (Item item : gamePlan.getItems()) {
       result.put(item.getName(), item);
+    }
+    return result;
+  }
+
+  public HashMap<String, Skill> getSkillHashMapOfGamePlan(String gamePlanName) {
+    GamePlan gamePlan = getGamePlan(gamePlanName);
+    HashMap<String, Skill> result = new HashMap<>();
+    for (Skill skill : gamePlan.getSkills()) {
+      result.put(skill.getName(), skill);
     }
     return result;
   }

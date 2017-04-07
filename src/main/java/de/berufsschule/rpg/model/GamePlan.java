@@ -17,4 +17,5 @@ public class GamePlan {
   private Integer roundExp;
   private List<Page> pages;
   private List<Item> items;
+  private List<Skill> skills;
 }

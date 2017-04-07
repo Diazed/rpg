@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.dto;
 
+import de.berufsschule.rpg.model.Skill;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +22,6 @@ public class PlayerDTO {
     private Integer neededExp = 0;
     private Integer progressPercentage;
     private List<String> items = new ArrayList<>();
+    private List<Skill> skills = new ArrayList<>();
 
 }
