@@ -12,11 +12,14 @@ import javax.persistence.Id;
 @Getter
 @Setter
 public class Skill {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer level;
-    private Integer progress;
-    private String describtion;
-    private String name;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
+  private Integer level;
+  private Integer neededSkillPoints = 0;
+  private Integer givenSkillPoints = 0;
+  private Integer progress = 0;
+  private String describtion;
+  private String name;
 }

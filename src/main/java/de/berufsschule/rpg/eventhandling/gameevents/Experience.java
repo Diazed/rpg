@@ -19,12 +19,14 @@ public class Experience implements PlayerEvent {
   }
 
   private void increaseExperience(Player player, Integer gainedExp) {
+    Integer skillPoints = player.getSkillPoints();
     Integer playerLvl = player.getPlayerLvl();
     Integer playerXp = player.getExp();
     Integer neededXpToLevelUp = getNeededExperience(playerLvl);
     Integer remainingXpToLevelUp = neededXpToLevelUp - playerXp;
     if (remainingXpToLevelUp - gainedExp < 0) {
       player.setPlayerLvl(playerLvl + 1);
+      player.setSkillPoints(skillPoints + 1);
       player.setExp(0);
     } else {
       player.setExp(playerXp + gainedExp);

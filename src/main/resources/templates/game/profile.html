@@ -1,131 +1,139 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:>
 <head>
-    <div th:replace="fragments/header :: htmlhead"></div>
-    <script src="/js/inventory.js"></script>
+  <div th:replace="fragments/header :: htmlhead"></div>
+  <script src="/js/inventory.js"></script>
 </head>
 <body th:object="${playerDTO}">
 <div th:replace="fragments/navbars :: profilenavbar"></div>
 <div class="container" role="main">
-    <div class="jumbotron">
-        <br>
-        <h2 align="center">Profil</h2>
-        <h4 th:text="${userDTO.username}" align="center"></h4>
-        <br>
+  <div class="jumbotron">
+    <br>
+    <h2 align="center">Profil</h2>
+    <h4 th:text="${userDTO.username}" align="center"></h4>
+    <br>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 custom-form">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1 custom-form">
-                <div class="row">
-                    <div class="col-md-2">
-                        <span>Level: </span><span th:text="*{playerLvl}"></span>
-                    </div>
-                    <div class="col-md-10">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0" th:style="'width:'+ *{progressPercentage}+'%;'" th:attr="aria-valuenow=*{progressPercentage}" aria-valuemax="100">
-                                <span th:text="*{exp}+'/'+*{neededExp}">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-
-                    <div class="col-md-3">
-                        <div class="col-md-9 startcol">
-                            <h5>Gesundheit:</h5>
-                        </div>
-                        <div class="col-md-3 custom-form-group">
-                            <h5 th:text="'&nbsp;&nbsp;'+*{hitpoints}"></h5>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-md-offset-1">
-                        <div class="col-md-9">
-                            <h5>Hunger:</h5>
-                        </div>
-                        <div class="col-md-3 custom-form-group">
-                            <h5 th:text="'&nbsp;&nbsp;'+*{hunger}"></h5>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3 col-md-offset-1">
-                        <div class="col-md-9">
-                            <h5>Durst:</h5>
-                        </div>
-                        <div class="col-md-3 custom-form-group">
-                            <h5 th:text="'&nbsp;&nbsp;'+*{thirst}"></h5>
-                        </div>
-                    </div>
-                </div>
+          <div class="col-md-2">
+            <span>Level: </span><span th:text="*{playerLvl}"></span>
+          </div>
+          <div class="col-md-10">
+            <div class="progress">
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0"
+                   th:style="'width:'+ *{progressPercentage}+'%;'"
+                   th:attr="aria-valuenow=*{progressPercentage}" aria-valuemax="100">
+                <span th:text="*{exp}+'/'+*{neededExp}"></span>
+              </div>
             </div>
+          </div>
         </div>
         <br>
         <div class="row">
-            <div class="col-md-10 col-md-offset-1 custom-form">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>Rucksack:</h4>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>Fähigkeiten:</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div th:each="item : ${items}">
-                            <div class="panel panel-default">
-                                <div class="inventory">
-                                    <div class="panel-body">
-                                        <span th:text="${item.name}">Item</span><span class="badge"
-                                                                                      th:text="${item.amount}">0</span>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="panel-footer secret">
-                                        <span th:text="${item.description}"></span>
-                                        <div th:if="${item.consumable == true}">
-                                            <form
-                                                th:action="@{/profile/{gamename}/{itemname}(itemname=${item.name}, gamename=${gamename})}"
-                                                method="post">
-                                                <div th:if="${item.drink == true}">
-                                                    <br>
-                                                    <button type="submit" class="btn btn-warning btn-xs btn-block">Trinken</button>
-                                                </div>
-                                                <div th:if="${item.drink == false}">
-                                                    <br>
-                                                    <button type="submit" class="btn btn-warning btn-xs btn-block">Essen</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 custom-form-group">
 
-                        <div th:each="skill : *{skills}">
-                            <div class="row">
-                                <div class="col-md-5 col-md-offset-1">
-                                    <span th:text="${skill.name}"></span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-10 col-md-offset-1">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="60"
-                                             aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                            60%
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+          <div class="col-md-3">
+            <div class="col-md-9 startcol">
+              <h5>Gesundheit:</h5>
             </div>
+            <div class="col-md-3 custom-form-group">
+              <h5 th:text="'&nbsp;&nbsp;'+*{hitpoints}"></h5>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-md-offset-1">
+            <div class="col-md-9">
+              <h5>Hunger:</h5>
+            </div>
+            <div class="col-md-3 custom-form-group">
+              <h5 th:text="'&nbsp;&nbsp;'+*{hunger}"></h5>
+            </div>
+          </div>
+
+          <div class="col-md-3 col-md-offset-1">
+            <div class="col-md-9">
+              <h5>Durst:</h5>
+            </div>
+            <div class="col-md-3 custom-form-group">
+              <h5 th:text="'&nbsp;&nbsp;'+*{thirst}"></h5>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+    <br>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 custom-form">
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Rucksack:</h4>
+          </div>
+          <div class="col-md-6">
+            <h4>Fähigkeiten:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div th:each="item : ${items}">
+              <div class="panel panel-default">
+                <div class="inventory">
+                  <div class="panel-body">
+                    <span th:text="${item.name}">Item</span><span class="badge"
+                                                                  th:text="${item.amount}">0</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="panel-footer secret">
+                    <span th:text="${item.description}"></span>
+                    <div th:if="${item.consumable == true}">
+                      <form
+                          th:action="@{/profile/{gamename}/{itemname}(itemname=${item.name}, gamename=${gamename})}"
+                          method="post">
+                        <div th:if="${item.drink == true}">
+                          <br>
+                          <button type="submit" class="btn btn-warning btn-xs btn-block">Trinken
+                          </button>
+                        </div>
+                        <div th:if="${item.drink == false}">
+                          <br>
+                          <button type="submit" class="btn btn-warning btn-xs btn-block">Essen
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    
+
+          <div class="col-md-6 custom-form-group">
+            <div th:each="skill : *{skills}">
+              <div class="row">
+                <div class="col-md-5 col-md-offset-1">
+                  <span th:text="${skill.name}"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-info" role="progressbar"
+                         th:attr="aria-valuenow=${skill.progress}"
+                         aria-valuemin="0" aria-valuemax="100" th:style="'width:'+ ${skill.progress}+'%;'">
+                      <span th:text="${skill.givenSkillPoints}+'/'+${neededSkillPoints}"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>

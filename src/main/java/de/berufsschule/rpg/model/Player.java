@@ -25,6 +25,7 @@ public class Player {
   private Integer playerLvl;
   private Integer neededExp = 0;
   private Integer levelProgress;
+  private Integer skillPoints = 0;
   @OneToOne
   @PrimaryKeyJoinColumn
   private Game game;
