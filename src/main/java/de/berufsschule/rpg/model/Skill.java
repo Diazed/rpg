@@ -16,8 +16,8 @@ public class Skill {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private Integer level;
-  private Integer neededSkillPoints = 0;
+  private Integer level = 0;
+  private Integer neededSkillPoints = 1;
   private Integer givenSkillPoints = 0;
   private Integer progress = 0;
   private String describtion;
