@@ -53,18 +53,21 @@
                     </div>
                     <div class="col-md-8">
                         <div class="row" th:each="dec : *{decisions}">
-                            <div th:if="${dec.usedItem}">
+                            <div th:if="${dec.usedItem} OR ${dec.requiredSkill}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">
-                                        <div th:if="${dec.hasItem}" class="preitem">
+                                        <div th:if="${dec.hasItem} AND ${dec.hasSkill}"
+                                             class="preitem">
                                             <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
                                         </div>
-                                        <div th:if="${dec.hasItem == false}" class="preitem">
+                                        <div
+                                            th:if="${dec.hasItem == false} OR ${dec.hasSkill == false}"
+                                            class="preitem">
                                             <input type="button" th:value="${dec.text}" class="btn btn-block btn-danger"/>
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-md-6" th:if="${dec.hasItem}">
+                                <div class="col-md-6" th:if="${dec.hasItem} AND ${dec.usedItem}">
                                     <h4><span class="label label-warning iteminfo"
                                               th:text="'-'+${dec.usedItem}+' Item'">Warning</span></h4>
                                 </div>
@@ -72,8 +75,20 @@
                                     <h4><span class="label label-danger iteminfo"
                                               th:text="${dec.usedItem}+' Item fehlt'">Warning</span></h4>
                                 </div>
+                                <div class="col-md-6"
+                                     th:if="${dec.hasSkill} AND ${dec.requiredSkill}">
+                                    <h4><span class="label label-warning iteminfo"
+                                              th:text="'Benötigt den '+${dec.requiredSkill}+' Skill'">Warning</span>
+                                    </h4>
+                                </div>
+                                <div class="col-md-6" th:if="${dec.hasSkill == false}">
+                                    <h4><span class="label label-danger iteminfo"
+                                              th:text="'Skill '+${dec.requiredSkill}+' nicht erlernt oder Level zu niedrig'">Warning</span>
+                                    </h4>
+                                </div>
                             </div>
-                            <div th:if="${dec.usedItem == null}">
+
+                            <div th:if="${dec.usedItem == null} AND ${dec.requiredSkill == null}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">
                                         <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
@@ -81,6 +96,7 @@
                                 </div>
                                 <div class="col-md-6"></div>
                             </div>
+
                             </form>
                         </div>
                     </div>

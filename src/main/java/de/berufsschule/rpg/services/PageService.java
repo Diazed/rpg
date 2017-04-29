@@ -62,7 +62,7 @@ public class PageService {
     player.setPosition(null);
     runPageEvents(jumpPage, player);
     decisionService.runDecisionEvents(clickedDecision, player, jump, jumpPage);
-    if (player.getPosition().equals(null)) {
+    if (player.getPosition() == null) {
       player.setPosition(jump);
     }
     gameService.editGame(game, user.getId());
@@ -83,13 +83,14 @@ public class PageService {
     if (skillname != null) {
       for (Skill skill : player.getSkills()) {
         if (skill.getName().equals(skillname)) {
-          if (decision.getSkillMinLvl() < skill.getLevel()) {
+          if (decision.getSkillMinLvl() <= skill.getLevel()) {
             return true;
           }
         }
       }
+      return false;
     }
-    return false;
+    return true;
   }
 
   private boolean playerOwnsItem(Decision decision, Player player) {
@@ -100,7 +101,8 @@ public class PageService {
           return true;
         }
       }
+      return false;
     }
-    return false;
+    return true;
   }
 }

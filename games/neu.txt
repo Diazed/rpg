@@ -51,36 +51,9 @@
 			'AA'
 			#TEXT
 			'und so weiter'
-			#REQUIREDSKILL
-			'Test'
-			#SKILLMINLVL
-			3
-			#SKILLSUCCESSLVL
-			8
+
 
 	#ENDDECISIONS
-
-
-
-8   100%
-
-7   80
-
-6   64
-
-5   48
-
-4   32
-
-3   16
-
-2   0%
-
-1
-
-0
-
-
 
 #PAGE
 'test'
@@ -93,6 +66,8 @@
   'Test'
   #GIVE
   'Toast'
+  #ADDSKILLPOINTS
+  10
 	#DECISIONS
 		#DECISION
 			#JUMP
@@ -141,34 +116,24 @@
 'AA'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-	'A'
+	'A No Fail'
 	#ENDTEXT
 	#DECISIONS
 		#DECISION
 			#JUMP
-			'AA'
-			#ALTERNATIVEJUMP
-			'H'
-			#CHANCE
-			50
-			#TEXT
-			'und so weiter'
+			'C'
 	#ENDDECISIONS
 
 #PAGE
 'H'
 	#STORYTEXT
 	'Der Text der ersten Auswahlmöglichkeit'
-	'BBB'
+	'BBB Fail'
 	#ENDTEXT
 	#DECISIONS
 		#DECISION
 			#JUMP
-			'AA'
-			#ALTERNATIVEJUMP
-			'H'
-			#CHANCE
-			50
+			'C'
 			#TEXT
 			'und so weiter'
 	#ENDDECISIONS
@@ -187,8 +152,12 @@
 			'AA'
 			#ALTERNATIVEJUMP
 			'H'
-			#CHANCE
-			50
+			#REQUIREDSKILL
+			'Test'
+			#SKILLMINLVL
+			2
+			#SKILLSUCCESSLVL
+			20
 			#TEXT
 			'und so weiter'
 	#ENDDECISIONS

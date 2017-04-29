@@ -28,6 +28,11 @@ public class SkillRequired implements DecisionEvent {
 
       Integer successLvl = decision.getSkillSuccessLvl();
 
+      if (successLvl == null) {
+        player.setPosition(jump);
+        return true;
+      }
+
       if (skill.getLevel() >= successLvl) {
         player.setPosition(jump);
         return true;
@@ -36,7 +41,7 @@ public class SkillRequired implements DecisionEvent {
       Integer minLvl = decision.getSkillMinLvl() - 1;
       Integer steps = successLvl - minLvl;
       Integer percentIncrease = 100 / steps;
-      Integer chance = skill.getLevel() * percentIncrease;
+      Integer chance = (skill.getLevel() - minLvl) * percentIncrease;
       int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
 
       if (random > chance) {

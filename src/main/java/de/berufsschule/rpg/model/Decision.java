@@ -16,6 +16,6 @@ public class Decision {
   private Integer skillMinLvl;
   private Integer skillSuccessLvl;
   private Item item = new Item();
-  private boolean hasItem = false;
-  private boolean hasSkill = false;
+  private boolean hasItem = true;
+  private boolean hasSkill = true;
 }

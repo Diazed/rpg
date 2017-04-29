@@ -19,4 +19,5 @@ public class Page {
   private Integer healthManipulation;
   private Integer hungerManipulation;
   private Integer thirstManipulation;
+  private Integer skillPointManipulation;
 }
