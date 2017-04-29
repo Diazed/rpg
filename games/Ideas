@@ -1,5 +1,3 @@
-Hunger, Durst und Gesundheit im Jump manipulieren.
-
 Page ids erstellen und für Jumps nutzen
 
 Characktere(
@@ -29,7 +27,7 @@ Quests(
 )
 
 Skills(
-  -In Decision SkillPunkt geben.
+  -In Page SkillPunkt geben.
   -Player Level Up gewährt einen Skill punkt.
   -Skill mit bestimmten Level für Decision notwendig.
   -hohes Skill Level hohe Erfolgsquote.

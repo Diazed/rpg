@@ -12,6 +12,10 @@ public class Decision {
   private int probability;
   private String text;
   private String usedItem;
+  private String requiredSkill;
+  private Integer skillMinLvl;
+  private Integer skillSuccessLvl;
   private Item item = new Item();
   private boolean hasItem = false;
+  private boolean hasSkill = false;
 }

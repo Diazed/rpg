@@ -29,7 +29,6 @@ public class AlternativeJump implements DecisionEvent {
 
       return true;
     }
-    player.setPosition(jump);
     return false;
   }
 }

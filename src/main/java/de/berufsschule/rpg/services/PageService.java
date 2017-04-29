@@ -59,8 +59,12 @@ public class PageService {
       return true;
     if (!playerService.doesPlayerMeetRequirements(clickedDecision, player))
       return false;
+    player.setPosition(null);
     runPageEvents(jumpPage, player);
     decisionService.runDecisionEvents(clickedDecision, player, jump, jumpPage);
+    if (player.getPosition().equals(null)) {
+      player.setPosition(jump);
+    }
     gameService.editGame(game, user.getId());
     return true;
   }
@@ -68,17 +72,35 @@ public class PageService {
   private Page setHasItemFlagInPageDecisions(Page page, Player player) {
 
     for (Decision decision : page.getDecisions()) {
-      String neededItem = decision.getUsedItem();
-      if (neededItem != null) {
-        for (String item : player.getItems()) {
-          if (item.equals(neededItem)) {
-            decision.setHasItem(true);
-            break;
+      decision.setHasItem(playerOwnsItem(decision, player));
+      decision.setHasSkill(playerOwnsSkill(decision, player));
+    }
+    return page;
+  }
+
+  private boolean playerOwnsSkill(Decision decision, Player player) {
+    String skillname = decision.getRequiredSkill();
+    if (skillname != null) {
+      for (Skill skill : player.getSkills()) {
+        if (skill.getName().equals(skillname)) {
+          if (decision.getSkillMinLvl() < skill.getLevel()) {
+            return true;
           }
-          decision.setHasItem(false);
         }
       }
     }
-    return page;
+    return false;
+  }
+
+  private boolean playerOwnsItem(Decision decision, Player player) {
+    String itemname = decision.getUsedItem();
+    if (itemname != null) {
+      for (String item : player.getItems()) {
+        if (item.equals(itemname)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

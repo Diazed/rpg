@@ -51,7 +51,36 @@
 			'AA'
 			#TEXT
 			'und so weiter'
+			#REQUIREDSKILL
+			'Test'
+			#SKILLMINLVL
+			3
+			#SKILLSUCCESSLVL
+			8
+
 	#ENDDECISIONS
+
+
+
+8   100%
+
+7   80
+
+6   64
+
+5   48
+
+4   32
+
+3   16
+
+2   0%
+
+1
+
+0
+
+
 
 #PAGE
 'test'
