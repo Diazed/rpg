@@ -25,8 +25,17 @@
                         <div class="col-md-2">Benutzername:</div>
                         <div class="col-md-4"><input type="text" name="username" th:field="*{username}" class="form-control"/></div>
 
-                        <div class="col-md-2">Passwort:</div>
+                      <div class="col-md-2">E-Mail:</div>
+                      <div class="col-md-4"><input type="email" name="email" th:field="*{email}"
+                                                   class="form-control"/></div>
+
+                      <div class="col-md-2">Passwort:</div>
                         <div class="col-md-4"><input type="password" name="password" th:field="*{password}" class="form-control"/></div>
+
+                      <div class="col-md-2">Matching Passwort:</div>
+                      <div class="col-md-4"><input type="password" name="matchingPassword"
+                                                   th:field="*{matchingPassword}"
+                                                   class="form-control"/></div>
 
                     </div>
                 </div>

@@ -12,10 +12,12 @@ public class UserDTOConverter {
     dto.setEnabled(model.isEnabled());
     dto.setId(model.getId());
     dto.setPassword(model.getPassword());
-    dto.setRole(model.getRole());
+    dto.setRoles(model.getRoles());
     dto.setUsername(model.getUsername());
     dto.setCurrentGame(model.getCurrentGame());
     dto.setSavedGames(model.getSavedGames());
+    dto.setMatchingPassword(model.getMatchingPassword());
+    dto.setEmail(model.getEmail());
 
     return dto;
   }
@@ -26,8 +28,10 @@ public class UserDTOConverter {
     model.setEnabled(dto.isEnabled());
     model.setId(dto.getId());
     model.setPassword(dto.getPassword());
-    model.setRole(dto.getRole());
+    model.setMatchingPassword(dto.getMatchingPassword());
+    model.setRoles(dto.getRoles());
     model.setUsername(dto.getUsername());
+    model.setEmail(dto.getEmail());
     model.setCurrentGame(dto.getCurrentGame());
     model.setSavedGames(dto.getSavedGames());
 

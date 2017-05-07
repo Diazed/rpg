@@ -1,19 +1,26 @@
 package de.berufsschule.rpg.services;
 
+import de.berufsschule.rpg.dto.UserDTO;
+import de.berufsschule.rpg.dto.UserDTOConverter;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.repositories.UserRepository;
-import de.berufsschule.rpg.validation.UserValidation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 @Service
 public class UserService {
 
-  private UserValidation userValidation;
+
+  private UserDTOConverter converter;
   private UserRepository userRepository;
 
-  public UserService(UserValidation userValidation, UserRepository userRepository) {
-    this.userValidation = userValidation;
+  @Autowired
+  public UserService(UserDTOConverter converter,
+      UserRepository userRepository) {
+    this.converter = converter;
     this.userRepository = userRepository;
   }
 
@@ -21,12 +28,38 @@ public class UserService {
     userRepository.save(user);
   }
 
-  public void registerUser(User newUser, BindingResult bindingResult) {
-    userValidation.validate(newUser, bindingResult);
-    if (bindingResult.hasErrors())
-      return;
-    userRepository.save(newUser);
+
+  public User registerNewUserAccount(UserDTO userDTO, BindingResult result) {
+
+    if (emailExist(userDTO.getEmail())) {
+      result.reject("There is an account with that email adress: " + userDTO.getEmail());
+    }
+    if (usernameExist(userDTO.getUsername())) {
+      result.reject("There is an account with that username: " + userDTO.getUsername());
+    }
+    if (result.hasErrors()) {
+      return null;
+    }
+
+    User user = converter.toModel(userDTO);
+    userRepository.save(user);
+    return user;
   }
+
+  private boolean emailExist(String email) {
+    User user = userRepository.findByEmail(email);
+    return user != null;
+  }
+
+  private boolean usernameExist(String username) {
+    User user = userRepository.findByUsername(username);
+    return user != null;
+  }
+
+  public User findByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
+
 
   public User getRequestedUser(String username) {
     return userRepository.findByUsername(username);
