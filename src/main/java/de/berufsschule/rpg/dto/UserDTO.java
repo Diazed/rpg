@@ -40,6 +40,6 @@ public class UserDTO {
   private List<String> savedGames;
 
   private List<String> roles = new ArrayList<>();
-  private boolean enabled = true;
+  private boolean enabled;
 
 }

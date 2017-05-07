@@ -42,8 +42,7 @@ public class GameController {
   @RequestMapping(value = "/play/{gamename}", method = RequestMethod.GET)
   public String invokeGame(@PathVariable String gamename,Model model, Principal principal) {
 
-
-    User currentUser = userService.getRequestedUser(principal.getName());
+    User currentUser = userService.findByEmail(principal.getName());
     Page page = pageService.playPage(currentUser, gamename);
     if (page == null){
       return "redirect:/play";
@@ -65,7 +64,7 @@ public class GameController {
   @RequestMapping(value = "/play/{gamename}/{jump}", method = RequestMethod.POST)
   public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
 
-    User currentUser = userService.getRequestedUser(principal.getName());
+    User currentUser = userService.findByEmail(principal.getName());
     if (pageService.jumpToNextPage(currentUser, gamename, jump)) {
       return "redirect:/play/"+gamename;
     }
@@ -84,7 +83,7 @@ public class GameController {
   private void addUserDtoToModel(Principal principal, Model model) {
     UserDTO userDTO = new UserDTO();
     if (principal != null) {
-      User user = userService.getRequestedUser(principal.getName());
+      User user = userService.findByEmail(principal.getName());
       userDTO = userDTOConverter.toDto(user);
     }
     model.addAttribute("userDTO", userDTO);

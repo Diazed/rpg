@@ -3,7 +3,9 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.dto.UserDTO;
 import de.berufsschule.rpg.dto.UserDTOConverter;
 import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.model.VerificationToken;
 import de.berufsschule.rpg.repositories.UserRepository;
+import de.berufsschule.rpg.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -15,12 +17,16 @@ public class UserService {
 
 
   private UserDTOConverter converter;
-  @Autowired
+  private VerificationTokenRepository tokenRepository;
   private UserRepository userRepository;
 
   @Autowired
-  public UserService(UserDTOConverter converter) {
+  public UserService(UserDTOConverter converter,
+      VerificationTokenRepository tokenRepository,
+      UserRepository userRepository) {
     this.converter = converter;
+    this.tokenRepository = tokenRepository;
+    this.userRepository = userRepository;
   }
 
   public void editUser(User user) {
@@ -59,8 +65,15 @@ public class UserService {
     return userRepository.findByEmail(email);
   }
 
+  public VerificationToken getVerificationToken(String VerificationToken) {
+    return tokenRepository.findByToken(VerificationToken);
+  }
 
-  public User getRequestedUser(String username) {
-    return userRepository.findByUsername(username);
+  public void createVerificationToken(User user, String token) {
+    VerificationToken myToken = new VerificationToken();
+    myToken.setToken(token);
+    myToken.setUser(user);
+    myToken.setExpiryDate(myToken.calculateExpiryDate(1440));
+    tokenRepository.save(myToken);
   }
 }

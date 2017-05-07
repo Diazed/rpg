@@ -49,7 +49,7 @@ public class ProfileController {
   public String openPlayerProfile(@PathVariable String gamename, Model model, Principal principal) {
 
     UserDTO userDTO;
-    User user = userService.getRequestedUser(principal.getName());
+    User user = userService.findByEmail(principal.getName());
     userDTO = userDTOConverter.toDto(user);
 
     model.addAttribute("userDTO", userDTO);
@@ -71,7 +71,7 @@ public class ProfileController {
   public String useItem(@PathVariable String itemName, @PathVariable String gamename,
       Principal principal) {
 
-    User user = userService.getRequestedUser(principal.getName());
+    User user = userService.findByEmail(principal.getName());
     Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
 
     itemService.useItem(itemName, currentPlayer);
@@ -82,7 +82,7 @@ public class ProfileController {
   public String useSkillPoint(@PathVariable String skillname, @PathVariable String gamename,
       Principal principal) {
 
-    User user = userService.getRequestedUser(principal.getName());
+    User user = userService.findByEmail(principal.getName());
     Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
 
     skillService.useSkillPoint(skillname, currentPlayer);
