@@ -13,12 +13,12 @@ import java.util.List;
 @Service
 public class SkillService {
 
+  @Autowired
   SkillRepository skillRepository;
   PlayerService playerService;
 
   @Autowired
-  public SkillService(SkillRepository skillRepository, PlayerService playerService) {
-    this.skillRepository = skillRepository;
+  public SkillService(PlayerService playerService) {
     this.playerService = playerService;
   }
 

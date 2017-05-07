@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class GameService {
 
+  @Autowired
   private GameRepository gameRepository;
   private ParserRunner parserRunner;
   private UserService userService;
   private GamePlanService gamePlanService;
 
   @Autowired
-  public GameService(ParserRunner parserRunner, GameRepository gameRepository, UserService userService, GamePlanService gamePlanService) {
+  public GameService(ParserRunner parserRunner, UserService userService,
+      GamePlanService gamePlanService) {
     this.parserRunner = parserRunner;
-    this.gameRepository = gameRepository;
     this.userService = userService;
     this.gamePlanService = gamePlanService;
   }

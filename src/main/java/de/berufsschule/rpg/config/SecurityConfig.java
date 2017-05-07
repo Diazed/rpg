@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.config;
 
+import de.berufsschule.rpg.registration.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Autowired
+  private MyUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,22 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    @Bean
-    public EmbeddedDatabase dataSource(){
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.HSQL)
-                .build();
-
-        return db;
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth)
+      throws Exception {
+    auth.userDetailsService(userDetailsService);
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.
-                jdbcAuthentication().
-                dataSource(dataSource()).
-                usersByUsernameQuery("select u.username, u.password, true from User u where u.username = ?").
-                authoritiesByUsernameQuery("select u.username, u.role from User u where u.username = ?");
-    }
+
 }
 

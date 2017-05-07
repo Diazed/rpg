@@ -28,7 +28,7 @@ public class HomepageController {
   public String toHomepage(Principal principal, Model model) {
     UserDTO userDTO = new UserDTO();
     if (principal != null) {
-      User user = userService.getRequestedUser(principal.getName());
+      User user = userService.findByEmail(principal.getName());
       userDTO = userDTOConverter.toDto(user);
     }
     model.addAttribute("userDTO", userDTO);

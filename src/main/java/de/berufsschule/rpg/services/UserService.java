@@ -15,13 +15,12 @@ public class UserService {
 
 
   private UserDTOConverter converter;
+  @Autowired
   private UserRepository userRepository;
 
   @Autowired
-  public UserService(UserDTOConverter converter,
-      UserRepository userRepository) {
+  public UserService(UserDTOConverter converter) {
     this.converter = converter;
-    this.userRepository = userRepository;
   }
 
   public void editUser(User user) {

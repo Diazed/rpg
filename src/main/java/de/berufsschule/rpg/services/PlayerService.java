@@ -14,12 +14,12 @@ import java.util.List;
 @Service
 public class PlayerService {
 
+  @Autowired
   private PlayerRepository playerRepository;
   private List<PlayerEvent> playerEvents;
 
   @Autowired
-  public PlayerService(PlayerRepository playerRepository, List<PlayerEvent> playerEvents) {
-    this.playerRepository = playerRepository;
+  public PlayerService(List<PlayerEvent> playerEvents) {
     this.playerEvents = playerEvents;
   }
 
