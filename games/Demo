@@ -1,0 +1,129 @@
+#RPG
+#GAMENAME
+'Demonstration'
+#STARTPAGE
+'Anfang'
+#DEATHPAGE
+'Gestorben
+#ROUNDHUNGER
+'4'
+#ROUNDTHIRST
+'7'
+#ROUNDEXP
+'5'
+
+#ITEMS
+#FOOD
+'5'
+#NAME
+'Toast'
+#DESCRIPTION
+'Hast du Hunger ?!'
+
+#DRINK
+'10'
+#NAME
+'mineau'
+#DESCRIPTION
+'Die BESTE'
+
+#MEDICINE
+'20'
+#NAME
+'Erste Hilfe Kasten'
+#DESCRIPTION
+'Hilft eigentlich immer!'
+
+#SIMPLEITEM
+#NAME
+'Schlüssel'
+#DESCRIPTION
+'Sieht alt aus'
+
+#ENDITEMS
+
+#SKILLS
+#SKILL
+#NAME
+'Demo Skill'
+#DESCRIPTION
+'Das noch Beta'
+#ENDSKILLS
+
+#PAGES
+
+#PAGE
+'Anfang'
+  #STORYTEXT
+  'Demonstration'
+  #ENDTEXT
+  #DECISIONS
+    #DECISION
+      #JUMP
+      'Items'
+      #TEXT
+      'Ich will Items'
+    #DECISION
+      #JUMP
+      'Skills'
+      #TEXT
+      'Ich will Skills'
+  #ENDDECISIONS
+
+#PAGE
+'Skills'
+  #CHECKPOINT
+  #STORYTEXT
+  'Das mit den Skills ist aber noch Beta'
+  #ENDTEXT
+  #LEARNSKILL
+  'Demo Skill'
+  #DECISIONS
+    #DECISION
+      #JUMP
+      'Anfang'
+      #TEXT
+      'Kann ich wieder zurück ?!'
+  #ENDDECISIONS
+
+#PAGE
+'Items'
+  #CHECKPOINT
+  #STORYTEXT
+  'Du hast jetzt Schmerzen Hunger und Durst. Immer wieder gerne!'
+  #ENDTEXT
+  #GIVE
+  'Erste Hilfe Kasten'
+  #GIVE
+  'mineau'
+  #GIVE
+  'Toast'
+  #HEALTH
+  '-30'
+  #HUNGER
+  '7'
+  #THIRST
+  '12'
+  #DECISIONS
+    #DECISION
+      #JUMP
+      'Anfang'
+      #TEXT
+      'Zurück ?'
+  #ENDDECISIONS
+
+#PAGE
+'Gestorben'
+  #STORYTEXT
+  'Alle Items verloren... Aber jetzt wo du gestorben bist geht es'
+  'dir wieder richtig gut'
+  #ENDTEXT
+  #DECISIONS
+    #DECISION
+      #JUMP
+      'Anfang'
+      #TEXT
+      'Zum letzten Checkpoint'
+  #ENDDECISIONS
+
+#ENDPAGES

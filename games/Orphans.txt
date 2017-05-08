@@ -201,10 +201,8 @@
 //Sample Page
 //
 //      #PAGE
-//      #CHECKPOINT
-//      //
-//        #NAME
-//        ''
+//      ''
+//        #CHECKPOINT
 //        #STORYTEXT
 //        #ENDTEXT
 //        #DECISIONS
