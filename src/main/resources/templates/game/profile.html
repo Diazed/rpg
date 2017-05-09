@@ -88,14 +88,19 @@
                       <form
                           th:action="@{/profile/{gamename}/item/{itemname}(itemname=${item.name}, gamename=${gamename})}"
                           method="post">
-                        <div th:if="${item.drink == true}">
+                        <div th:if="${item.type == 'drink'}">
                           <br>
                           <button type="submit" class="btn btn-warning btn-xs btn-block">Trinken
                           </button>
                         </div>
-                        <div th:if="${item.drink == false}">
+                        <div th:if="${item.type == 'food'}">
                           <br>
                           <button type="submit" class="btn btn-warning btn-xs btn-block">Essen
+                          </button>
+                        </div>
+                        <div th:if="${item.type == 'medicine'}">
+                          <br>
+                          <button type="submit" class="btn btn-warning btn-xs btn-block">Benutzen
                           </button>
                         </div>
                       </form>

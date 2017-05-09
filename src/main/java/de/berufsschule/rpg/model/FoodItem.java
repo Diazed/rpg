@@ -7,4 +7,5 @@ import lombok.Setter;
 @Setter
 public class FoodItem extends Item {
   private int value;
+  private String type = "food";
 }

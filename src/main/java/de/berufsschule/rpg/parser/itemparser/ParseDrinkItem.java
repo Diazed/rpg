@@ -17,7 +17,6 @@ public class ParseDrinkItem extends BaseParser implements ItemParser {
       line = getNextLine(fileIn);
       drinkItem.setValue(parseInt(line));
       drinkItem.setConsumable(true);
-      drinkItem.setDrink(true);
       gamePlan.getItems().add(drinkItem);
       return true;
     }

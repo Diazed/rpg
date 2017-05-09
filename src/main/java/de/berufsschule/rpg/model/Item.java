@@ -9,7 +9,6 @@ import lombok.Setter;
 public class Item {
 
   private boolean consumable;
-  private boolean drink;
   private int amount;
   private String name;
   private String description;
