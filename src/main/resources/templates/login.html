@@ -47,9 +47,12 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             </form>
             <form th:action="@{/register}" method="get">
-                <button class="btn btn-block btn-warning" type="submit">Regestrieren</button>
+                <button class="btn btn-block btn-default spacing" type="submit">Regestrieren
+                </button>
             </form>
-                <button class="btn btn-warning btn-block" type="submit" form="loginform">Anmelden</button>
+            <button class="btn btn-default btn-block spacing" type="submit" form="loginform">
+                Anmelden
+            </button>
 
 
 

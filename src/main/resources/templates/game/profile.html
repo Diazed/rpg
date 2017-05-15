@@ -9,7 +9,7 @@
 <div class="container" role="main">
   <div class="jumbotron">
     <br>
-    <h2 align="center">Profil</h2>
+    <h3>Profil</h3>
     <h4 th:text="${userDTO.username}" align="center"></h4>
     <br>
     <div class="row">
@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-10">
             <div class="progress">
-              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuemin="0"
+              <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0"
                    th:style="'width:'+ *{progressPercentage}+'%;'"
                    th:attr="aria-valuenow=*{progressPercentage}" aria-valuemax="100">
                 <span th:text="*{exp}+'/'+*{neededExp}"></span>
@@ -90,17 +90,17 @@
                           method="post">
                         <div th:if="${item.type == 'drink'}">
                           <br>
-                          <button type="submit" class="btn btn-warning btn-xs btn-block">Trinken
+                          <button type="submit" class="btn btn-primary btn-xs btn-block">Trinken
                           </button>
                         </div>
                         <div th:if="${item.type == 'food'}">
                           <br>
-                          <button type="submit" class="btn btn-warning btn-xs btn-block">Essen
+                          <button type="submit" class="btn btn-primary btn-xs btn-block">Essen
                           </button>
                         </div>
                         <div th:if="${item.type == 'medicine'}">
                           <br>
-                          <button type="submit" class="btn btn-warning btn-xs btn-block">Benutzen
+                          <button type="submit" class="btn btn-primary btn-xs btn-block">Benutzen
                           </button>
                         </div>
                       </form>
@@ -111,7 +111,6 @@
             </div>
           </div>
 
-    
 
           <div class="col-md-6 custom-form-group">
 
@@ -134,7 +133,7 @@
                   <form
                       th:action="@{/profile/{gamename}/skill/{skillname}(skillname=${skill.name}, gamename=${gamename})}"
                       method="post">
-                    <button type="submit" class="btn btn-warning btn-xs btn-block">+
+                    <button type="submit" class="btn btn-primary btn-xs btn-block">+
                     </button>
                   </form>
                 </div>
@@ -144,7 +143,8 @@
                   <div class="progress">
                     <div class="progress-bar progress-bar-info" role="progressbar"
                          th:attr="aria-valuenow=${skill.progress}"
-                         aria-valuemin="0" aria-valuemax="100" th:style="'width:'+ ${skill.progress}+'%;'">
+                         aria-valuemin="0" aria-valuemax="100"
+                         th:style="'width:'+ ${skill.progress}+'%;'">
                       <span
                           th:text="${skill.givenSkillPoints}+'/'+${skill.neededSkillPoints}"></span>
                     </div>

@@ -9,7 +9,7 @@
 <div class="container" role="main">
     <div class="jumbotron">
         <br>
-        <h2 th:text="*{name}" align="center"></h2>
+        <h3 th:text="*{name}"></h3>
         <br>
         <div class="row">
             <div class="col-md-10 col-md-offset-1 custom-form">
@@ -91,7 +91,8 @@
                             <div th:if="${dec.usedItem == null} AND ${dec.requiredSkill == null}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">
-                                        <input type="submit" th:value="${dec.text}" class="btn btn-block btn-warning"/>
+                                        <input type="submit" th:value="${dec.text}"
+                                               class="btn btn-block btn-default"/>
                                     </form>
                                 </div>
                                 <div class="col-md-6"></div>
