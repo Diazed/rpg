@@ -1,0 +1,6 @@
+---
+applications:
+- name: test-rpg-app
+  memory: 768M
+  instances: 1
+  path: target/rpg-0.0.1-SNAPSHOT.jar

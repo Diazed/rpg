@@ -4,8 +4,8 @@ import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.UserService;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -14,11 +14,18 @@ import org.springframework.stereotype.Component;
 public class RegistrationListener implements
     ApplicationListener<OnRegistrationCompleteEvent> {
 
-  @Autowired
   private UserService service;
+  private JavaMailSender mailSender;
+
+  @Value("${app-location}")
+  private String location;
 
   @Autowired
-  private JavaMailSender mailSender;
+  public RegistrationListener(UserService service,
+      JavaMailSender mailSender) {
+    this.service = service;
+    this.mailSender = mailSender;
+  }
 
   @Override
   public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -34,12 +41,12 @@ public class RegistrationListener implements
     String subject = "Registration Confirmation";
     String confirmationUrl
         = event.getAppUrl() + "/registration/confirm?token=" + token;
-    String message = "yeah";
+    String message = "Click the link below to confirm your e-mail address.";
 
     SimpleMailMessage email = new SimpleMailMessage();
     email.setTo(recipientAddress);
     email.setSubject(subject);
-    email.setText(message + "\n" + "http://localhost:8080" + confirmationUrl);
+    email.setText(message + "\n" + location + confirmationUrl);
     mailSender.send(email);
   }
 }

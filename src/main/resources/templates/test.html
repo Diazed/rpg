@@ -5,6 +5,12 @@
     <title>Test</title>
 </head>
 <body>
-Test
+
+<form action="/upload/file" method="post" enctype="multipart/form-data">
+  <input type="file" name="file">
+  <button type="submit">Senden</button>
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
+
 </body>
 </html>
