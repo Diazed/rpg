@@ -29,13 +29,12 @@ public class UserDTO {
   private String email;
   @NotNull
   @NotEmpty
-  @Size(min = 1, max = 50)
   private String password;
   @NotNull
   @NotEmpty
   @Size(min = 1, max = 50)
   private String matchingPassword;
-  
+  private boolean firstVisit;
   private String currentGame;
   private List<String> savedGames;
 

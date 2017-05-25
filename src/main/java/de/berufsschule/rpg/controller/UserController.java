@@ -66,7 +66,7 @@ public class UserController {
       return "emailError";
     }
 
-    return "homepage/index";
+    return "redirect:/home";
   }
 
   @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)

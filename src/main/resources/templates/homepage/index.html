@@ -1,36 +1,57 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org/">
 <head>
     <div th:replace="fragments/header :: htmlhead"></div>
 </head>
 <body>
 <div th:replace="fragments/navbars :: homenavbar"></div>
-<div class="container" role="main">
+<div class="container" role="main" th:onject="${userDTO}">
     <div class="jumbotron">
-        <br>
-        <div sec:authorize="isAuthenticated()">
-            <h1 align="center">Willkommen zurück</h1>
+        <div class="row">
             <br>
-            <p align="center" sec:authentication="name"></p>
-            <p align="center">Wir wünschen dir viel Freude.</p>
+            <div class="col-xs-2 col-xs-offset-11" style="float: right;">
+                <a class="btn btn-primary btn-xs" href="?lang=de"
+                   th:text="#{general.general_language_german}"></a>
+                <a class="btn btn-primary btn-xs" href="?lang=en"
+                   th:text="#{general.general_language_english}"></a>
+
+            </div>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+
+            <div th:if="*{firstFisit}">
+                <h1 th:text="#{homepage.homepage_welcome_first_visit}">Willkommen zurück</h1>
+            </div>
+            <div th:if="!*{firstFisit}">
+                <h1 th:text="#{homepage.homepage_welcome_back}">Willkommen zurück</h1>
+            </div>
+            <br>
+            <p sec:authentication="name"></p>
+            <p th:text="#{homepage.homepage_have_fun}"></p>
             <form action="#" th:action="@{/games}" method="get">
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <input type="submit" value="Ins Spiel" class="btn btn-block btn-default"/>
+                    <div
+                        class="col-md-4 col-md-offset-8 col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+                        <button type="submit" class="btn btn-block btn-default"
+                                th:text="#{homepage.homepage_cta_ingame}"></button>
                     </div>
                 </div>
             </form>
 
         </div>
         <div sec:authorize="isAnonymous()">
-            <h1 align="center">Willkommen</h1>
+            <h1 th:text="#{homepage.homepage_welcome}"></h1>
             <br>
-            <p align="center">Um dein Abenteuer zu starten musst du dich nur kurz registrieren. Drücke nur kurz auf 'Registrieren' und nach nur zwei Klicks gehts los.</p>
+            <div class="col-md-6">
+                <p th:text="#{homepage.homepage_introduction}"></p>
+            </div>
+
             <form action="#" th:action="@{/register}" method="get">
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <input type="submit" value="Registrieren"
-                               class="btn btn-block btn-default"/>
+                    <div
+                        class="col-md-4 col-md-offset-8 col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+                        <button type="submit" class="btn btn-block btn-default"
+                                th:text="#{homepage.homepage_cta_register}"></button>
                     </div>
                 </div>
             </form>
@@ -38,42 +59,27 @@
 
     </div>
 
-    <div class="container">
-        <br>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 homepage-container">
-                        <h2>Du entscheidest</h2>
-                        <p>Durch die Entscheidungen die du wärend deines Abenteuers triffst beeinflust du den Spielverlauf!
-                            Übelege gut welche Entscheidungen du triffst denn du wirst mit den Konsequenzen leben müssen egal ob
-                            poitiv oder negativ.</p>
-                    </div>
-                    <div class="col-md-1"></div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-md-8 col-sm-7">
+                <h3 th:text="#{homepage.homepage_subheader_1}"></h3>
+            </div>
+            <div class="col-md-4 col-sm-5 homepage-container">
+                <p th:text="#{homepage.homepage_infobox_1}">
+                </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 homepage-container">
-                        <h2>Deine Geschichte</h2>
-                        <p>Schreibe deine eigene Geschichte und lass andere sie Spielen. Mit der Hilfe einer schnell gelernten Sprache kannst du beliebig komplexe Text-Adventures bis ins kleinste Detail erschaffen! Coming Soon.</p>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-
-
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-md-8 col-sm-7">
+                <h3 th:text="#{homepage.homepage_subheader_2}"></h3>
             </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-10 homepage-container">
-                        <h2>Coming Soon</h2>
-                        <p>Skills</p>
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
+            <div class="col-md-4 col-sm-5 homepage-container">
+                <p th:text="#{homepage.homepage_infobox_2}">
+                </p>
             </div>
         </div>
     </div>

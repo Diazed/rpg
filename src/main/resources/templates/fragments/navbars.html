@@ -16,11 +16,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/home/">RPG</a>
+                <a class="navbar-brand" href="/home/" th:text="#{general.general_name}"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/home/">Home</a></li>
                     <li sec:authorize="isAuthenticated()"><a href="/games">Games</a></li>
 
                     <li sec:authorize="isAuthenticated()"><a
@@ -50,11 +49,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/home/">RPG</a>
+                <a class="navbar-brand" href="/home/" th:text="#{general.general_name}"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home/">Home</a></li>
                     <li><a href="/games/">Games</a></li>
                     <li class="active"><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
                     <li><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a></li>
@@ -80,11 +78,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/home/">RPG</a>
+                <a class="navbar-brand" href="/home/" th:text="#{general.general_name}"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home/">Home</a></li>
                     <li><a href="/games/">Games</a></li>
                     <li><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
                     <li class="active"><a
@@ -113,11 +110,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/home/">RPG</a>
+                <a class="navbar-brand" href="/home/" th:text="#{general.general_name}"></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/home/">Home</a></li>
                     <li class="active"><a href="/games/">Games</a></li>
                     <li><a th:href="@{/play/{gamename}(gamename = ${userDTO.currentGame})}">Play</a></li>
                     <li><a th:href="@{/profile/{gamename}(gamename = ${userDTO.currentGame})}">Profile</a>

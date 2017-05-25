@@ -15,8 +15,8 @@ import java.security.Principal;
 @Controller
 public class HomepageController {
 
-  UserService userService;
-  UserDTOConverter userDTOConverter;
+  private UserService userService;
+  private UserDTOConverter userDTOConverter;
 
   @Autowired
   public HomepageController(UserService userService, UserDTOConverter userDTOConverter) {
@@ -30,6 +30,10 @@ public class HomepageController {
     if (principal != null) {
       User user = userService.findByEmail(principal.getName());
       userDTO = userDTOConverter.toDto(user);
+      if (user.isFirstVisit()) {
+        user.setFirstVisit(false);
+        userService.editUser(user);
+      }
     }
     model.addAttribute("userDTO", userDTO);
     return "homepage/index";

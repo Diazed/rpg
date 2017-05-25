@@ -47,6 +47,7 @@ public class UserService {
     }
 
     User user = converter.toModel(userDTO);
+    user.setFirstVisit(true);
     userRepository.save(user);
     return user;
   }

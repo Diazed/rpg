@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.model;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,12 +28,15 @@ public class User {
   private String email;
   @NotNull
   @NotEmpty
-  @Size(min = 1, max = 50)
   private String password;
   @NotNull
   @NotEmpty
   @Size(min = 1, max = 50)
   private String matchingPassword;
+
+  private boolean firstVisit = false;
+
+  private Locale prefLocale = Locale.ENGLISH;
 
   private String currentGame;
   @ElementCollection
