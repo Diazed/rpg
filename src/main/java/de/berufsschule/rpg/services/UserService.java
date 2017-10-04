@@ -7,9 +7,7 @@ import de.berufsschule.rpg.model.VerificationToken;
 import de.berufsschule.rpg.repositories.UserRepository;
 import de.berufsschule.rpg.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 @Service
@@ -33,6 +31,9 @@ public class UserService {
     userRepository.save(user);
   }
 
+  public void deleteUser(User user) {
+    userRepository.delete(user);
+  }
 
   public User registerNewUserAccount(UserDTO userDTO, BindingResult result) {
 

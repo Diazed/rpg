@@ -1,7 +1,6 @@
 package de.berufsschule.rpg.controller;
 
 import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.UserDTOConverter;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.model.VerificationToken;
 import de.berufsschule.rpg.registration.OnRegistrationCompleteEvent;
@@ -9,6 +8,7 @@ import de.berufsschule.rpg.services.UserService;
 import java.util.Calendar;
 import java.util.Locale;
 import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@Slf4j
 public class UserController {
 
 
@@ -62,10 +62,10 @@ public class UserController {
       eventPublisher.publishEvent(new OnRegistrationCompleteEvent
           (registered, request.getLocale(), appUrl));
     } catch (Exception me) {
-
+      log.error("E-Mail error: " + me.getMessage());
       return "emailError";
     }
-
+    log.info("Registration started for new user \"" + userDTO.getUsername() + "\"!");
     return "redirect:/home";
   }
 
@@ -88,6 +88,7 @@ public class UserController {
 
     user.setEnabled(true);
     userService.editUser(user);
+    log.info("Registration finished for new user \"" + user.getUsername() + "\"!");
     return "redirect:/";
   }
 

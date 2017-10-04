@@ -5,10 +5,9 @@ import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.parser.BaseParser;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
-import sun.misc.Contended;
 
 @Component
-public class NeededSkillParser extends BaseParser implements DecisionParser {
+public class NeededSkill extends BaseParser implements DecisionParser {
 
   @Override
   public boolean parseDecision(GamePlan gamePlan, String line, Scanner fileIn) {

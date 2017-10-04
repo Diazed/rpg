@@ -1,9 +1,8 @@
 package de.berufsschule.rpg.model;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -19,5 +18,6 @@ public class Page {
   private Integer healthManipulation;
   private Integer hungerManipulation;
   private Integer thirstManipulation;
+  private Integer xpManipulation;
   private Integer skillPointManipulation;
 }

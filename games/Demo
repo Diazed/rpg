@@ -4,13 +4,13 @@
 #STARTPAGE
 'Anfang'
 #DEATHPAGE
-'Gestorben
+'Gestorben'
 #ROUNDHUNGER
 '4'
 #ROUNDTHIRST
 '7'
 #ROUNDEXP
-'5'
+'25'
 
 #ITEMS
 #FOOD
@@ -76,6 +76,8 @@
   #STORYTEXT
   'Das mit den Skills ist aber noch Beta'
   #ENDTEXT
+  #XP
+  500000
   #LEARNSKILL
   'Demo Skill'
   #DECISIONS

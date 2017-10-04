@@ -1,7 +1,6 @@
 package de.berufsschule.rpg.registration;
 
 import de.berufsschule.rpg.model.User;
-import de.berufsschule.rpg.repositories.UserRepository;
 import de.berufsschule.rpg.services.UserService;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
-  @Autowired
+
   private UserService userService;
+
+  @Autowired
+  public MyUserDetailsService(UserService userService) {
+    this.userService = userService;
+  }
 
   private static List<GrantedAuthority> getAuthorities(List<String> roles) {
     List<GrantedAuthority> authorities = new ArrayList<>();

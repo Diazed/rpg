@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <div th:replace="fragments/header :: htmlhead"></div>
+</head>
+<body>
+<div th:replace="fragments/navbars :: homenavbar"></div>
+<div class="container" role="main">
+  <div class="jumbotron">
+    <h1>Oops..</h1>
+    <br>
+    <div class="col-md-6">
+      <p>Looks like we can not send the confirmation E-Mail. Please try it again in a few minutes.
+        Please excuse the inconvenience</p>
+    </div>
+    <form action="#" th:action="@{/}" method="get">
+      <div class="row">
+        <div
+            class="col-md-4 col-md-offset-8 col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+          <button type="submit" class="btn btn-block btn-default">Home</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,14 +1,19 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.*;
-import org.springframework.stereotype.Component;
-
+import de.berufsschule.rpg.model.Decision;
+import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.Item;
+import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.Skill;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public abstract class BaseParser {
 
   public String getNextLine(Scanner fileIn) {
@@ -47,7 +52,13 @@ public abstract class BaseParser {
 
   public Integer parseInt(String line) {
     line = line.trim();
-    return Integer.parseInt(line);
+    Integer content = 1;
+    try {
+      content = Integer.parseInt(line);
+    } catch (Exception e) {
+      log.error("Could not parse \"" + line + "\" into a Integer. Error: " + e.getMessage());
+    }
+    return content;
   }
 
 }

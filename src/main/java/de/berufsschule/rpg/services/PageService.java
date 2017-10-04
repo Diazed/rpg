@@ -1,11 +1,15 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
-import de.berufsschule.rpg.model.*;
+import de.berufsschule.rpg.model.Decision;
+import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.model.Skill;
+import de.berufsschule.rpg.model.User;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PageService {
@@ -52,15 +56,18 @@ public class PageService {
     Decision clickedDecision = decisionService.getClickedDecision(originPage, jump);
     if (clickedDecision == null)
       return false;
-    playerService.runAllPlayerEvents(game, player);
-    if (!player.getAlive())
-      return true;
-    if (deathService.revive(player, game.getStartPage()))
-      return true;
-    if (!playerService.doesPlayerMeetRequirements(clickedDecision, player))
-      return false;
-    player.setPosition(null);
     runPageEvents(jumpPage, player);
+    playerService.runAllPlayerEvents(game, player);
+    if (!player.getAlive()) {
+      return true;
+    }
+    if (deathService.revive(player, game.getStartPage())) {
+      return true;
+    }
+    if (!playerService.doesPlayerMeetRequirements(clickedDecision, player)) {
+      return false;
+    }
+    player.setPosition(null);
     decisionService.runDecisionEvents(clickedDecision, player, jump, jumpPage);
     if (player.getPosition() == null) {
       player.setPosition(jump);

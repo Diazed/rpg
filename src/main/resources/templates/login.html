@@ -16,46 +16,46 @@
 <div class="container" role="main">
     <div class="form-signin">
 
-        <div class="login-color">
-            <form th:action="@{/login}" method="post" id="loginform">
-                <h2 align="center" class="form-signin-heading">RPG</h2>
-                <br/>
-                <label for="inputUsername" class="sr-only">E-Mail</label>
-                <input type="text" id="inputUsername" class="form-control" placeholder="E-Mail"
-                       name="username" required
-                       autofocus/>
-                <label for="inputPassword" class="sr-only">Passwort</label>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Passwort" name="password" required/>
-                <div th:if="${param.error}">
-                    <label>
-                        Ungültiger Benutzername oder Passwort
-                    </label>
-                </div>
-                <div th:if="${param.logout}">
-                    <label>
-                        Sie wurden Abgemeldet
-                    </label>
-                </div>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            </form>
-            <form th:action="@{/register}" method="get">
-                <button class="btn btn-block btn-default spacing" type="submit">Regestrieren
-                </button>
-            </form>
-            <button class="btn btn-default btn-block spacing" type="submit" form="loginform">
-                Anmelden
+      <div class="login-color row">
+        <div class="col-md-6 col-md-offset-3">
+          <form th:action="@{/login}" method="post" id="loginform">
+            <h2 align="center" class="form-signin-heading">RPG</h2>
+            <br/>
+            <label for="inputUsername" class="sr-only">E-Mail</label>
+            <input type="text" id="inputUsername" class="form-control" placeholder="E-Mail"
+                   name="username" required
+                   autofocus/>
+            <label for="inputPassword" class="sr-only">Passwort</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Passwort"
+                   name="password" required/>
+            <div th:if="${param.error}">
+              <label>
+                Ungültiger Benutzername oder Passwort
+              </label>
+            </div>
+            <div th:if="${param.logout}">
+              <label>
+                Sie wurden Abgemeldet
+              </label>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          </form>
+          <form th:action="@{/register}" method="get">
+            <button class="btn btn-block btn-default spacing" type="submit">Regestrieren
             </button>
-
-
-
+          </form>
+          <button class="btn btn-default btn-block spacing" type="submit" form="loginform">
+            Anmelden
+          </button>
+        </div>
         </div>
 
     </div>

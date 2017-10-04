@@ -8,14 +8,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class SkillService {
 
-  @Autowired
-  SkillRepository skillRepository;
-  PlayerService playerService;
+  private SkillRepository skillRepository;
+  private PlayerService playerService;
 
   @Autowired
   public SkillService(PlayerService playerService) {
@@ -31,9 +28,7 @@ public class SkillService {
   }
 
   public void persistSkillsFromGamePlan(GamePlan gamePlan) {
-    for (Skill skill : gamePlan.getSkills()) {
-      skillRepository.save(skill);
-    }
+    skillRepository.save(gamePlan.getSkills());
   }
 
   public void useSkillPoint(String skillname, Player player) {
@@ -47,35 +42,43 @@ public class SkillService {
         Integer neededPoints = skill.getNeededSkillPoints();
         Integer playerSkillPoints = player.getSkillPoints();
 
-        if (neededPoints.equals(1)) {
+        if (givenPoints + 1 >= neededPoints) {
           Integer skillLevel = skill.getLevel();
           skill.setLevel(skillLevel + 1);
           skill.setGivenSkillPoints(0);
-          skill.setNeededSkillPoints(getNeededSkillPoints(skillLevel));
+          skill.setNeededSkillPoints(getNeededSkillPoints(skillLevel + 1));
         } else {
-          skill.setNeededSkillPoints(neededPoints - 1);
           skill.setGivenSkillPoints(givenPoints + 1);
         }
 
         player.setSkillPoints(playerSkillPoints - 1);
-
+        calculateSkillProgress(skill);
         saveSkill(skill);
         playerService.savePlayer(player);
-
-
       }
     }
   }
 
+  private void calculateSkillProgress(Skill skill) {
 
-  private Integer getNeededSkillPoints(Integer skillLvl) {
-    Integer neededSkillPoints = 2;
-
-    for (int i = 0; i < (skillLvl + 1); i++) {
-      neededSkillPoints += i * 1;
-    }
-    return neededSkillPoints;
+    Double hundret = skill.getNeededSkillPoints().doubleValue();
+    Double one = hundret / 100d;
+    Double currentPoints = skill.getGivenSkillPoints().doubleValue();
+    Double percent = currentPoints / one;
+    skill.setProgress(percent.intValue());
   }
 
+  private Integer getNeededSkillPoints(Integer skillLvl) {
+    Double neededSkillPoints = 0d;
 
+    if (skillLvl <= 1) {
+      neededSkillPoints = 1d;
+    }
+
+    for (int i = 0; i < skillLvl; i++) {
+      neededSkillPoints += i * 2d;
+    }
+    neededSkillPoints = Math.floor(neededSkillPoints);
+    return neededSkillPoints.intValue();
+  }
 }

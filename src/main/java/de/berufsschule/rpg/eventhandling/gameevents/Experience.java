@@ -2,9 +2,8 @@ package de.berufsschule.rpg.eventhandling.gameevents;
 
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Player;
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Experience implements PlayerEvent {
@@ -14,33 +13,41 @@ public class Experience implements PlayerEvent {
     if (optionalExp.isPresent()) {
       increaseExperience(player, game.getRoundExp());
     } else {
-      increaseExperience(player, 10);
+      increaseExperience(player, 20);
     }
   }
 
   private void increaseExperience(Player player, Integer gainedExp) {
-    Integer skillPoints = player.getSkillPoints();
-    Integer playerLvl = player.getPlayerLvl();
-    Integer playerXp = player.getExp();
-    Integer neededXpToLevelUp = getNeededExperience(playerLvl);
-    Integer remainingXpToLevelUp = neededXpToLevelUp - playerXp;
-    if (remainingXpToLevelUp - gainedExp < 0) {
-      player.setPlayerLvl(playerLvl + 1);
-      player.setSkillPoints(skillPoints + 1);
-      player.setExp(0);
-    } else {
-      player.setExp(playerXp + gainedExp);
+
+    Integer neededXpToLevelUp;
+    Integer playerXp = player.getExp() + gainedExp;
+
+    while (true) {
+      Integer skillPoints = player.getSkillPoints();
+      Integer playerLvl = player.getPlayerLvl();
+
+      neededXpToLevelUp = getNeededExperience(playerLvl);
+      Integer remainingXpToLevelUp = neededXpToLevelUp - playerXp;
+      if (remainingXpToLevelUp <= 0) {
+        player.setPlayerLvl(playerLvl + 1);
+        player.setSkillPoints(skillPoints + 10);
+        playerXp = playerXp - neededXpToLevelUp;
+      } else {
+        player.setExp(playerXp);
+        break;
+      }
     }
+
     player.setNeededExp(neededXpToLevelUp);
     player.setLevelProgress(getProgressPercentage(player.getExp(), neededXpToLevelUp));
   }
 
   private Integer getNeededExperience(Integer playerLvl) {
-    Integer neededXp = 0;
+    Double neededXp = 0d;
     for (int i = 0; i < (playerLvl + 1); i++) {
-      neededXp += i * 50;
+      neededXp += i * 10d;
     }
-    return neededXp;
+    return neededXp.intValue();
   }
 
   private Integer getProgressPercentage(double currentExp, double neededExp) {
