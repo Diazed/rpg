@@ -4,3 +4,4 @@ applications:
   memory: 768M
   instances: 1
   path: target/rpg-0.0.1-SNAPSHOT.jar
+  buildpack: java_buildpack

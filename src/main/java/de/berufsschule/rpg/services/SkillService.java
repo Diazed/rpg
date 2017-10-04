@@ -4,6 +4,7 @@ import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.repositories.SkillRepository;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,9 @@ public class SkillService {
   private PlayerService playerService;
 
   @Autowired
-  public SkillService(PlayerService playerService) {
+  public SkillService(SkillRepository skillRepository,
+      PlayerService playerService) {
+    this.skillRepository = skillRepository;
     this.playerService = playerService;
   }
 
@@ -28,7 +31,13 @@ public class SkillService {
   }
 
   public void persistSkillsFromGamePlan(GamePlan gamePlan) {
-    skillRepository.save(gamePlan.getSkills());
+    Optional<List<Skill>> skills = Optional.ofNullable(gamePlan.getSkills());
+    if (skills.isPresent()) {
+      List<Skill> skillList = skills.get();
+      if (!skillList.isEmpty()) {
+        skillRepository.save(skillList);
+      }
+    }
   }
 
   public void useSkillPoint(String skillname, Player player) {
