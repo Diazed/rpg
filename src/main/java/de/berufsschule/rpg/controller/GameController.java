@@ -10,6 +10,8 @@ import de.berufsschule.rpg.services.GamePlanService;
 import de.berufsschule.rpg.services.GameService;
 import de.berufsschule.rpg.services.PageService;
 import de.berufsschule.rpg.services.UserService;
+import java.security.Principal;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.security.Principal;
-
 @Controller
+@Slf4j
 public class GameController {
 
   private GameService gameService;
@@ -56,7 +57,7 @@ public class GameController {
     return "game/ingame";
   }
 
-  @RequestMapping(value = "/play/", method = RequestMethod.GET)
+  @RequestMapping(value = "/play", method = RequestMethod.GET)
   public String keinGameName() {
     return "redirect:/games";
   }

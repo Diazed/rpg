@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <div th:replace="fragments/header :: htmlhead"></div>
+</head>
+<body>
+<div th:replace="fragments/navbars :: homenavbar"></div>
+<div class="container" role="main">
+  <div class="jumbotron">
+    <h1 th:text="${status}"></h1>
+    <br>
+    <div class="col-md-6">
+      <p th:text="${error}"></p>
+      <p th:if="${status} == '404 '">We couldn't find the requested page.</p>
+      <p th:if="${status} == '403 '">You do not have access to that page.</p>
+    </div>
+    <form action="#" th:action="@{/}" method="get">
+      <div class="row">
+        <div class="col-md-4 col-md-offset-8 col-sm-5 col-sm-offset-7 col-xs-7 col-xs-offset-5">
+          <button type="submit" class="btn btn-block btn-default">Home</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +21,10 @@ public class Page {
   private Integer thirstManipulation;
   private Integer xpManipulation;
   private Integer skillPointManipulation;
+
+  public Page() {
+    this.decisions = new ArrayList<>();
+    this.items = new ArrayList<>();
+    this.skills = new ArrayList<>();
+  }
 }

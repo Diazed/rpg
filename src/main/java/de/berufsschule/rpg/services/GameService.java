@@ -75,6 +75,10 @@ public class GameService {
   private Game createNewGame(String gameName, User user) {
     Game game = new Game();
     GamePlan gamePlan = gamePlanService.getGamePlan(gameName);
+    if (gamePlan == null) {
+      log.info("User (" + user.getUsername() + ") request a non existent game!");
+      return null;
+    }
     game.setName(gameName);
     game.setUserId(user.getId());
     game.setDeathPage(gamePlan.getDeathPage());

@@ -39,6 +39,9 @@ public class PageService {
   public Page playPage(User user, String gamename) {
     gameService.switchCurrentGame(gamename, user);
     Game game = gameService.loadOrCreateGame(gamename, user);
+    if (game == null) {
+      return null;
+    }
     Player player = game.getPlayer();
     playerService.firstStart(player, game.getStartPage());
     deathService.playerDeath(player, game.getDeathPage());

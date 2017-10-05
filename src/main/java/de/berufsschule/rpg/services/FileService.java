@@ -1,13 +1,14 @@
 package de.berufsschule.rpg.services;
 
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class FileService {
 
   public File getGameDirectory() {
@@ -39,11 +40,16 @@ public class FileService {
   public File getGameByFileName(String fileName){
     File directory = getGameDirectory();
     if (directory != null){
-      for(File game : directory.listFiles())
-        if (game.getName().equals(fileName))
-          return game;
+      try {
+        for (File game : directory.listFiles()) {
+          if (game.getName().equals(fileName)) {
+            return game;
+          }
+        }
+      } catch (Exception e) {
+        log.error("Failed to loop directory files. Error: " + e.getMessage());
+      }
     }
     return null;
   }
-
 }
