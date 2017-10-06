@@ -5,10 +5,13 @@ import de.berufsschule.rpg.model.Player;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class Experience implements PlayerEvent {
+
   @Override
-  public void event(Player player, Game game) {
+  public void event(Player player) {
+    Game game = player.getGame();
     Optional<Integer> optionalExp = Optional.ofNullable(game.getRoundExp());
     if (optionalExp.isPresent()) {
       increaseExperience(player, game.getRoundExp());
@@ -44,16 +47,16 @@ public class Experience implements PlayerEvent {
 
   private Integer getNeededExperience(Integer playerLvl) {
     Double neededXp = 0d;
-    for (int i = 0; i < (playerLvl + 1); i++) {
+    for (int i = 0; i <= (playerLvl + 1); i++) {
       neededXp += i * 10d;
     }
     return neededXp.intValue();
   }
 
   private Integer getProgressPercentage(double currentExp, double neededExp) {
-    double onePercent = neededExp / 100;
-    double percentage = currentExp / onePercent;
+    Double onePercent = neededExp / 100;
+    Double percentage = currentExp / onePercent;
 
-    return ((int) percentage);
+    return (percentage.intValue());
   }
 }

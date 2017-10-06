@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class ParserRunner {
 
-  private HashMap<String, GamePlan> games = new HashMap<String, GamePlan>();
+  private HashMap<String, GamePlan> games = new HashMap<>();
   private List<GamePlanParser> gamePlanParsers;
   private GameFileValidation gameFileValidation;
   private FileService fileService;

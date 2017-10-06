@@ -67,8 +67,8 @@ public class UserService {
     return userRepository.findByEmail(email);
   }
 
-  public VerificationToken getVerificationToken(String VerificationToken) {
-    return tokenRepository.findByToken(VerificationToken);
+  public VerificationToken getVerificationToken(String verificationToken) {
+    return tokenRepository.findByToken(verificationToken);
   }
 
   public void createVerificationToken(User user, String token) {

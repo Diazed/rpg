@@ -2,12 +2,11 @@ package de.berufsschule.rpg.parser.gameplanparser;
 
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ParsePages implements GamePlanParser {
@@ -26,11 +25,11 @@ public class ParsePages implements GamePlanParser {
       while (!line.contains("#ENDPAGES")) {
 
         if (fileIn.hasNextLine()) {
-          line = fileIn.nextLine();
-          if (!line.startsWith("//") && !Objects.equals(line, "")) {
+          String nextLine = fileIn.nextLine();
+          if (!nextLine.startsWith("//") && !Objects.equals(nextLine, "")) {
             for (PageParser parser : pageParsers) {
 
-              if (parser.parsePage(gamePlan, line, fileIn))
+              if (parser.parsePage(gamePlan, nextLine, fileIn))
                 break;
             }
           }

@@ -3,9 +3,8 @@ package de.berufsschule.rpg.parser.pageparser;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.parser.BaseParser;
-import org.springframework.stereotype.Component;
-
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ParseStorytext extends BaseParser implements PageParser {
@@ -13,18 +12,19 @@ public class ParseStorytext extends BaseParser implements PageParser {
   @Override
   public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#STORYTEXT")) {
-      String storytext = "";
-      while (!line.contains("#ENDTEXT")) {
+      line = "";
+      StringBuilder storyTextBuilder = new StringBuilder();
+      while (!line.contains("#")) {
         line = getNextLine(fileIn);
-        if (!line.contains("#ENDTEXT")) {
+        if (!line.contains("#")) {
           if (!line.endsWith(" "))
             line += " ";
           line = splitLongWords(line);
-          storytext += line;
+          storyTextBuilder.append(line);
         }
       }
       Page page = getLastCreatedPage(gamePlan);
-      page.setStorytext(storytext);
+      page.setStorytext(storyTextBuilder.toString());
       return true;
     }
     return false;
@@ -35,29 +35,31 @@ public class ParseStorytext extends BaseParser implements PageParser {
     String[] words = line.split(" ");
 
     for (int i=0; i<words.length; i++){
+      StringBuilder newWordBuilder = new StringBuilder();
       String word = words[i];
-      String newWord = "";
       boolean start = true;
       while (word.length() > 25){
         if (start){
-          newWord += word.substring(0, 25);
+          newWordBuilder.append(word.substring(0, 25));
         }else {
-          newWord += "- "+word.substring(0, 25);
+          newWordBuilder.append("- ");
+          newWordBuilder.append(word.substring(0, 25));
         }
         start = false;
         word = word.substring(25, word.length());
         if (word.length() < 25){
-          newWord += "- "+word;
+          newWordBuilder.append("- ");
+          newWordBuilder.append(word);
         }
-
       }
-      words[i] += newWord;
+      words[i] += newWordBuilder.toString();
     }
-    String result = "";
-    for (int i=0; i<words.length; i++){
-      result += words[i]+" ";
+    StringBuilder resultBuilder = new StringBuilder();
+    for (String word : words) {
+      resultBuilder.append(word);
+      resultBuilder.append(" ");
     }
 
-    return result;
+    return resultBuilder.toString();
   }
 }

@@ -38,21 +38,18 @@
 	#STORYTEXT
 		'Text'
 		'this is it'
-	#ENDTEXT
+	#
 	#DECISIONS
 		#DECISION
 			#JUMP
 			'test'
 			#TEXT
 			'hier gehts weiter'
-
 		#DECISION
 			#JUMP
 			'AA'
 			#TEXT
 			'und so weiter'
-
-
 	#ENDDECISIONS
 
 #PAGE

@@ -11,11 +11,13 @@ public class ParseGiveItem extends BaseParser implements PageParser {
   @Override
   public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#GIVE")) {
-      line = getNextLine(fileIn);
-      while (!line.contains("#")) {
-        line = getNextLine(fileIn);
-        Page page = getLastCreatedPage(gamePlan);
-        page.getItems().add(line);
+      Page page = getLastCreatedPage(gamePlan);
+      String nextLine = "";
+      while (!nextLine.contains("#") && fileIn.hasNextLine()) {
+        nextLine = getNextLine(fileIn);
+        if (!nextLine.contains("#")) {
+          page.getItems().add(nextLine);
+        }
       }
       return true;
     }

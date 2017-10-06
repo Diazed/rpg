@@ -5,7 +5,6 @@ import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.model.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,13 @@ public class PageService {
     playerService.firstStart(player, game.getStartPage());
     deathService.playerDeath(player, game.getDeathPage());
     Page page = game.getPages().get(player.getPosition());
-    setHasItemFlagInPageDecisions(page, player);
+    if (page == null) {
+      page = new Page();
+      page.setName("Fortsetzung folgt");
+      page.setStorytext("Der von dir eingeschlagene Weg endet (vorerst) hier. Der Autor hat das "
+          + "Ergebnis deiner letzten Entscheidung noch nicht verfasst. \n\n:c");
+    }
+    setFlagsForPageDecisions(page, player);
     gameService.editGame(game, user.getId());
     return page;
   }
@@ -55,12 +60,15 @@ public class PageService {
     Game game = gameService.loadOrCreateGame(gamename, user);
     Player player = game.getPlayer();
     Page originPage = game.getPages().get(player.getPosition());
-    Page jumpPage = game.getPages().get(jump);
     Decision clickedDecision = decisionService.getClickedDecision(originPage, jump);
+    Page jumpPage = game.getPages().get(jump);
+    if (jumpPage == null) {
+      jumpPage = new Page();
+    }
     if (clickedDecision == null)
       return false;
     runPageEvents(jumpPage, player);
-    playerService.runAllPlayerEvents(game, player);
+    playerService.runAllPlayerEvents(player);
     if (!player.getAlive()) {
       return true;
     }
@@ -71,7 +79,7 @@ public class PageService {
       return false;
     }
     player.setPosition(null);
-    decisionService.runDecisionEvents(clickedDecision, player, jump, jumpPage);
+    decisionService.runDecisionEvents(clickedDecision, player, jumpPage);
     if (player.getPosition() == null) {
       player.setPosition(jump);
     }
@@ -79,40 +87,9 @@ public class PageService {
     return true;
   }
 
-  private Page setHasItemFlagInPageDecisions(Page page, Player player) {
-
+  private void setFlagsForPageDecisions(Page page, Player player) {
     for (Decision decision : page.getDecisions()) {
-      decision.setHasItem(playerOwnsItem(decision, player));
-      decision.setHasSkill(playerOwnsSkill(decision, player));
+      decisionService.setFlags(decision, player);
     }
-    return page;
-  }
-
-  private boolean playerOwnsSkill(Decision decision, Player player) {
-    String skillname = decision.getRequiredSkill();
-    if (skillname != null) {
-      for (Skill skill : player.getSkills()) {
-        if (skill.getName().equals(skillname)) {
-          if (decision.getSkillMinLvl() <= skill.getLevel()) {
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-    return true;
-  }
-
-  private boolean playerOwnsItem(Decision decision, Player player) {
-    String itemname = decision.getUsedItem();
-    if (itemname != null) {
-      for (String item : player.getItems()) {
-        if (item.equals(itemname)) {
-          return true;
-        }
-      }
-      return false;
-    }
-    return true;
   }
 }

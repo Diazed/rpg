@@ -18,7 +18,7 @@ public class ItemUse implements DecisionEvent {
   }
 
   @Override
-  public boolean event(Decision decision, Player player, String jump, Page page) {
+  public boolean event(Decision decision, Player player, Page page) {
     if (decision.getUsedItem() != null) {
       String usedItem = decision.getUsedItem();
       for (String item : player.getItems()) {

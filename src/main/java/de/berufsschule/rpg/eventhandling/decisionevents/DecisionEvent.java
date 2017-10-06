@@ -6,6 +6,6 @@ import de.berufsschule.rpg.model.Player;
 
 public interface DecisionEvent {
 
-  boolean event(Decision decision, Player player, String jump, Page page);
+  boolean event(Decision decision, Player player, Page page);
 
 }

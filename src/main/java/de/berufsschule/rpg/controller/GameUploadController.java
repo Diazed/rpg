@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
+@Slf4j
 public class GameUploadController {
 
   private FileService fileService;
@@ -30,9 +30,11 @@ public class GameUploadController {
     File destFile = fileService.getGameDirectory();
     if (!destFile.exists()) {
       try {
-        destFile.createNewFile();
+        if (destFile.createNewFile()) {
+          log.info("New File created");
+        }
       } catch (IOException e) {
-        e.printStackTrace();
+        log.error("Could not upload File.");
       }
     }
 
@@ -41,7 +43,7 @@ public class GameUploadController {
     try {
       Files.copy(file.getInputStream(), somePath.resolve(file.getOriginalFilename()));
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Failed to Copy File");
     }
 
     return "redirect:/";

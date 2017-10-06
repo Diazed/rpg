@@ -6,7 +6,6 @@ import de.berufsschule.rpg.model.VerificationToken;
 import de.berufsschule.rpg.registration.OnRegistrationCompleteEvent;
 import de.berufsschule.rpg.services.UserService;
 import java.util.Calendar;
-import java.util.Locale;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +71,6 @@ public class UserController {
   @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
   public String confirmRegistration
       (WebRequest request, Model model, @RequestParam("token") String token) {
-
-    Locale locale = request.getLocale();
 
     VerificationToken verificationToken = userService.getVerificationToken(token);
     if (verificationToken == null) {

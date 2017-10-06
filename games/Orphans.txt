@@ -59,10 +59,10 @@
 	#DECISIONS
     #DECISION
   		#JUMP
-     'Uniform'
+      'Uniform'
   		#TEXT
   		'Löse den Schlauch'
-	#ENDDECISIONS
+  #ENDDECISIONS
 
   #PAGE
   'Uniform'
@@ -78,13 +78,14 @@
     #ENDTEXT
     #GIVE
     'Tabletten'
+    #
     #DECISIONS
     	#DECISION
     		#JUMP
     		'Fremder'
     		#TEXT
     		'Den Raum verlassen'
-	  #ENDDECISIONS
+    #ENDDECISIONS
 
     #PAGE
     'Fremder'
@@ -133,6 +134,7 @@
           #ENDTEXT
           #GIVE
           'Flickers'
+          #
           #DECISIONS
             #DECISION
               #JUMP
@@ -174,7 +176,7 @@
               '"Also sind wir jetzt Freunde?!" "Ja. Also nur wenn du nichts dagegen hast", antwortet Josie und boxt dir freundschaftlich gegen die Schulter.'
               '"Nein nein da gegen habe ich ganz sicher nicht! ohne dich wäre ich verloren..." "jap! Es gibt auch noch eine Menge an Sachen die ich dir zeigen'
               'und erklären sollte aber kümmern wir uns erst einmal um deine Fragen."'
-              #ENDTEXT
+              #
               #DECISIONS
                 #DECISION
                   #JUMP

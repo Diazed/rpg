@@ -20,34 +20,31 @@ public class SkillRequired implements DecisionEvent {
   }
 
   @Override
-  public boolean event(Decision decision, Player player, String jump, Page page) {
+  public boolean event(Decision decision, Player player, Page page) {
 
-    if (decision.getRequiredSkill() != null && decision.getAlternativeJump() != null) {
+    if (decision.getRequiredSkill() != null && decision.getAlternativeJump() != null
+        && decision.getSkillSuccessLvl() != null && decision.getProbability() == null) {
 
       Skill skill = skillService.getSkillByName(decision.getRequiredSkill());
-
       Integer successLvl = decision.getSkillSuccessLvl();
+      String jump = decision.getJump();
 
-      if (successLvl == null) {
-        player.setPosition(jump);
-        return true;
-      }
-
-      if (skill.getLevel() >= successLvl) {
-        player.setPosition(jump);
-        return true;
-      }
-
-      Integer minLvl = decision.getSkillMinLvl() - 1;
-      Integer steps = successLvl - minLvl;
-      Integer percentIncrease = 100 / steps;
-      Integer chance = (skill.getLevel() - minLvl) * percentIncrease;
-      int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
-
-      if (random > chance) {
+      if (skill.getLevel() < successLvl && (decision.getSkillMinLvl() == null
+          || skill.getLevel() < decision.getSkillMinLvl())) {
         player.setPosition(decision.getAlternativeJump());
-      } else {
-        player.setPosition(jump);
+      } else if (decision.getSkillMinLvl() != null) {
+
+        Integer minLvl = decision.getSkillMinLvl();
+        Double steps = successLvl.doubleValue() - minLvl.doubleValue();
+        Double percentIncrease = 100 / steps;
+        Double chance = (skill.getLevel() - minLvl) * percentIncrease;
+        int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
+
+        if (random > chance.intValue()) {
+          player.setPosition(decision.getAlternativeJump());
+        } else {
+          player.setPosition(jump);
+        }
       }
       return true;
     }

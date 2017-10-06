@@ -19,9 +19,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class BaseParserTest {
 
-  Scanner scanner;
-  BaseParser systemUnderTest;
-  GamePlan gamePlan;
+  private Scanner scanner;
+  private BaseParser systemUnderTest;
+  private GamePlan gamePlan;
 
   @Before
   public void setUp() throws Exception {
@@ -66,9 +66,6 @@ public class BaseParserTest {
   @After
   public void tearDown() throws Exception {
     scanner.close();
-    scanner = null;
-    systemUnderTest = null;
-    gamePlan = null;
   }
 
   @Test
@@ -105,14 +102,16 @@ public class BaseParserTest {
   }
 
   @Test
-  public void parseInt() throws Exception {
+  public void parseIntDefaultsToOne() throws Exception {
+    Integer expected = 1;
+    Integer actual = systemUnderTest.parseInt(" 5t ");
+    Assert.assertEquals(expected, actual);
+  }
 
+  @Test
+  public void parseIntCutsOffWhitespaces() {
     Integer expected = 5;
     Integer actual = systemUnderTest.parseInt("   5    ");
-    Assert.assertEquals(expected, actual);
-
-    expected = 1;
-    actual = systemUnderTest.parseInt(" 5t ");
     Assert.assertEquals(expected, actual);
   }
 

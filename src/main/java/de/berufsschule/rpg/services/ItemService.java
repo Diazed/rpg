@@ -1,14 +1,13 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.Itemevents.ItemEvent;
+import de.berufsschule.rpg.eventhandling.itemevents.ItemEvent;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ItemService {

@@ -1,6 +1,5 @@
-package de.berufsschule.rpg.eventhandling.Itemevents;
+package de.berufsschule.rpg.eventhandling.itemevents;
 
-import de.berufsschule.rpg.model.HealItem;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;

@@ -1,17 +1,15 @@
 package de.berufsschule.rpg.eventhandling.gameevents;
 
-import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Player;
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Hunger implements PlayerEvent {
 
   @Override
-  public void event(Player player, Game game) {
-    Optional<Integer> optionalHunger = Optional.ofNullable(game.getRoundHunger());
+  public void event(Player player) {
+    Optional<Integer> optionalHunger = Optional.ofNullable(player.getGame().getRoundHunger());
     if (optionalHunger.isPresent()) {
       increasePlayerHunger(player, optionalHunger.get());
     } else {

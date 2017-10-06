@@ -7,7 +7,7 @@ import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class parseSkillSuccessLevel extends BaseParser implements DecisionParser {
+public class ParseSkillSuccessLevel extends BaseParser implements DecisionParser {
 
   @Override
   public boolean parseDecision(GamePlan gamePlan, String line, Scanner fileIn) {

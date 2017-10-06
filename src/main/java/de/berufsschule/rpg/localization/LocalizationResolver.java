@@ -2,13 +2,10 @@ package de.berufsschule.rpg.localization;
 
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.UserService;
-import java.security.Principal;
 import java.util.Locale;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

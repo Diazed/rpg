@@ -8,17 +8,15 @@ import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.GameService;
 import de.berufsschule.rpg.services.ItemService;
-import de.berufsschule.rpg.services.PlayerService;
 import de.berufsschule.rpg.services.SkillService;
 import de.berufsschule.rpg.services.UserService;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.security.Principal;
 
 @Controller
 public class ProfileController {
@@ -27,21 +25,19 @@ public class ProfileController {
   private UserService userService;
   private ItemService itemService;
   private SkillService skillService;
-  private PlayerService playerService;
   private PlayerDTOConverter playerDTOConverter;
   private UserDTOConverter userDTOConverter;
 
   @Autowired
   public ProfileController(GameService gameService, PlayerDTOConverter playerDTOConverter,
       UserService userService, SkillService skillService, ItemService itemService,
-      UserDTOConverter userDTOConverter, PlayerService playerService) {
+      UserDTOConverter userDTOConverter) {
     this.gameService = gameService;
     this.skillService = skillService;
     this.playerDTOConverter = playerDTOConverter;
     this.userService = userService;
     this.itemService = itemService;
     this.userDTOConverter = userDTOConverter;
-    this.playerService = playerService;
   }
 
 

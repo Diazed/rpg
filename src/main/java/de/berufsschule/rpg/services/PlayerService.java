@@ -2,14 +2,12 @@ package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.gameevents.PlayerEvent;
 import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.repositories.PlayerRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PlayerService {
@@ -62,9 +60,9 @@ public class PlayerService {
     }
   }
 
-  public void runAllPlayerEvents(Game game, Player player) {
+  public void runAllPlayerEvents(Player player) {
     for (PlayerEvent playerEvent : playerEvents) {
-      playerEvent.event(player, game);
+      playerEvent.event(player);
     }
     savePlayer(player);
   }
@@ -78,7 +76,7 @@ public class PlayerService {
   }
 
   private boolean doesDecisionRequireItem(Decision decision) {
-    return decision.getItem().getName() != null;
+    return decision.getUsedItem() != null;
   }
 
   private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {

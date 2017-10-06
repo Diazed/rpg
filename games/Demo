@@ -93,13 +93,12 @@
   #CHECKPOINT
   #STORYTEXT
   'Du hast jetzt Schmerzen Hunger und Durst. Immer wieder gerne!'
-  #ENDTEXT
+  #
   #GIVE
   'Erste Hilfe Kasten'
-  #GIVE
   'mineau'
-  #GIVE
   'Toast'
+  #
   #HEALTH
   '-30'
   #HUNGER
