@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.gameplanparser.ParseStartPage;
 import java.io.ByteArrayInputStream;
@@ -46,13 +46,13 @@ public class BaseParserTest {
     Skill secondSkill = new Skill();
     secondSkill.setName("secondSkill");
 
-    Decision firstDecision = new Decision();
-    firstDecision.setText("firstDecision");
-    Decision secondDecision = new Decision();
-    secondDecision.setText("secondDecision");
+    Possibility firstPossibility = new Possibility();
+    firstPossibility.setText("firstPossibility");
+    Possibility secondPossibility = new Possibility();
+    secondPossibility.setText("secondPossibility");
 
-    secondPage.getDecisions().add(firstDecision);
-    secondPage.getDecisions().add(secondDecision);
+    secondPage.getPossibilities().add(firstPossibility);
+    secondPage.getPossibilities().add(secondPossibility);
 
     gamePlan.getPages().add(firstPage);
     gamePlan.getPages().add(secondPage);
@@ -96,9 +96,9 @@ public class BaseParserTest {
   }
 
   @Test
-  public void getLastCreatedDecision() throws Exception {
-    Decision actual = systemUnderTest.getLastCreatedDecision(gamePlan);
-    Assert.assertEquals("secondDecision", actual.getText());
+  public void getLastCreatedPossibility() throws Exception {
+    Possibility actual = systemUnderTest.getLastCreatedPossibility(gamePlan);
+    Assert.assertEquals("secondPossibility", actual.getText());
   }
 
   @Test

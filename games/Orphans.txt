@@ -36,14 +36,14 @@
 'Du bist gestorben'
   #STORYTEXT
 	'Du bist leider gestorben und hast alle deine Items verloren'
-  #ENDTEXT
-  #DECISIONS
+  #
+  #POSSIBILITIES
     #DECISION
 		  #JUMP
 		  'check'
 		  #TEXT
 		  'Zum letzten Checkpoint'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
 #PAGE
 'Erwachen'
@@ -55,14 +55,14 @@
 	'dich auf und dir fällt auf das ein Plastikschlauch an deinem Unterarm hängt. Der dünne Schlauch kommt aus einer Art'
 	'Terminal an der Wand und endet an einem Schraubgewinde das in deinem Arm eingebracht wurde. Durch den Schlauch fließt'
 	'eine klare grüne Flüssigkeit in deinen Körper. Durch das Gewinde sollte sich der Schlauch leicht lösen lassen.'
-	#ENDTEXT
-	#DECISIONS
+	#
+	#POSSIBILITIES
     #DECISION
   		#JUMP
       'Uniform'
   		#TEXT
   		'Löse den Schlauch'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
   #PAGE
   'Uniform'
@@ -75,17 +75,17 @@
     'Außer einem Schreibtisch dem Bett mit Nachttisch und einem Schrank ist der Raum leer. Du wirfst einen Blick in den Schrank'
     'aber enttäuscht musst du feststellen das dieser nur voll von Uniformen ist. Es gibt keine Fenster'
     'nur eine Tür die aus dem Raum führt.'
-    #ENDTEXT
+    #
     #GIVE
     'Tabletten'
     #
-    #DECISIONS
+    #POSSIBILITIES
     	#DECISION
     		#JUMP
     		'Fremder'
     		#TEXT
     		'Den Raum verlassen'
-    #ENDDECISIONS
+    #ENDPOSSIBILITIES
 
     #PAGE
     'Fremder'
@@ -95,13 +95,13 @@
       'alle ungefähr in deinem Alter. "Noch mehr neue ?", "Wer ist denn das ?" und ähnliches hörst du sie sagen. Keiner der Jugendlichen scheint'
       'sich für dich zu interessieren. Sie starren dich kurz an und gehen dann gleich weiter.'
       #ENDTEXT
-		  #DECISIONS
+		  #POSSIBILITIES
        	#DECISION
        		#JUMP
        		'Josie'
        		#TEXT
        		'Antworten suchen.'
-		  #ENDDECISIONS
+		  #ENDPOSSIBILITIES
 
       #PAGE
       'Josie'
@@ -113,7 +113,7 @@
         'wo oder warum ich hier bin und dazu kommen diese verdammten Kopfschmerzen." "Das ist normal. Hast du die Tabletten gefunden die auf deinem'
         'Nachttisch lagen?" "ehm ja... das hab ich?!" "Die lagen da nicht ohne Grund. Die Tabletten Helfen gegen die Schmerzen."'
         #ENDTEXT
-        #DECISIONS
+        #POSSIBILITIES
           #DECISION
             #JUMP
             'Leerer Magen'
@@ -121,7 +121,7 @@
             'Schluck die Tabletten'
             #USE
             'Tabletten'
-        #ENDDECISIONS
+        #ENDPOSSIBILITIES
 
         #PAGE
         'Leerer Magen'
@@ -135,7 +135,7 @@
           #GIVE
           'Flickers'
           #
-          #DECISIONS
+          #POSSIBILITIES
             #DECISION
               #JUMP
               'Amnesie?'
@@ -143,7 +143,7 @@
               'Iss den Flickers & Stell dich vor'
               #USE
               'Flickers'
-          #ENDDECISIONS
+          #ENDPOSSIBILITIES
 
           #PAGE
           'Amnesie?'
@@ -155,7 +155,7 @@
             'durchmachen müssen!", erklärt sie dir. "Ich habe einfach so viele offene Fragen... Das macht alles keinen Sinn." "Dann lass mich dir helfen'
             'ein paar von diesen Fragen zu klären. Schieß los!"'
             #ENDTEXT
-            #DECISIONS
+            #POSSIBILITIES
               #DECISION
                 #JUMP
                 'Freundschaft'
@@ -166,7 +166,7 @@
                 'Nur Jugendliche'
                 #TEXT
                 '"Gibt es hier keine Erwachsene?"'
-            #ENDDECISIONS
+            #ENDPOSSIBILITIES
 
             #PAGE
             'Freundschaft'
@@ -177,13 +177,13 @@
               '"Nein nein da gegen habe ich ganz sicher nicht! ohne dich wäre ich verloren..." "jap! Es gibt auch noch eine Menge an Sachen die ich dir zeigen'
               'und erklären sollte aber kümmern wir uns erst einmal um deine Fragen."'
               #
-              #DECISIONS
+              #POSSIBILITIES
                 #DECISION
                   #JUMP
                   'Prion B0'
                   #TEXT
                   '"Wo sind wir?"'
-              #ENDDECISIONS
+              #ENDPOSSIBILITIES
 
             #PAGE
             'Nur Jugendliche'
@@ -191,13 +191,13 @@
               #STORYTEXT
               '"Nope. Keine Erwachsene. Habe schon seit Ewigkeiten keinen Erwachsenen mehr gesehen."'
               #ENDTEXT
-              #DECISIONS
+              #POSSIBILITIES
                 #DECISION
                   #JUMP
                   'Prion B0'
                   #TEXT
                   '"Wo sind wir?"'
-              #ENDDECISIONS
+              #ENDPOSSIBILITIES
 
 
 //Sample Page
@@ -207,13 +207,13 @@
 //        #CHECKPOINT
 //        #STORYTEXT
 //        #ENDTEXT
-//        #DECISIONS
+//        #POSSIBILITIES
 //          #DECISION
 //            #JUMP
 //            ''
 //            #TEXT
 //            ''
-//        #ENDDECISIONS
+//        #ENDPOSSIBILITIES
 
 #ENDPAGES
 

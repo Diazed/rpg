@@ -133,7 +133,7 @@ This command belongs between the #GIVEITEM and the #IEND command.
 
 with this command you add decision to you page. there's at least one needed so the player can proceed but you can add
 a lot more if needed, there's also no limitation. every decision leads to a new page. you can imagine a decision like
-a link to the next page. you are allowed to have multiple pages with decisions that all lead to the same page, otherwise
+a link to the next page. you are allowed to have multiple pages with possibilities that all lead to the same page, otherwise
 the story would have a ton of endings (if you want a ton of endings you can ofc). You may have noticed that you build a
 tree like story. when a player dies (on the page with name "R.I.P.") the decision will always send the player back to
 the last checkpoint
@@ -160,7 +160,7 @@ the player is doing when he chooses that decision. the #TEXT command belongs bet
 #ITEMNEEDED
 'itemname'
 
-you can create decisions the player cant choose when he doesn't own a specific item. this command specifies what item the
+you can create possibilities the player cant choose when he doesn't own a specific item. this command specifies what item the
 player needs to choose this decision. use the #ITEMNAME of the item here. this command belongs between the #DECISION and
 the #DEND command.
 

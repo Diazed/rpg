@@ -11,7 +11,7 @@ public class Page {
 
   private String name;
   private String storytext;
-  private List<Decision> decisions;
+  private List<Possibility> possibilities;
   private List<String> items;
   private List<String> skills;
   private boolean checkpoint = false;
@@ -23,7 +23,7 @@ public class Page {
   private Integer skillPointManipulation;
 
   public Page() {
-    this.decisions = new ArrayList<>();
+    this.possibilities = new ArrayList<>();
     this.items = new ArrayList<>();
     this.skills = new ArrayList<>();
   }

@@ -5,11 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Decision {
+public class Possibility {
 
   private String jump;
-
   private String alternativeJump;
+
   private Integer probability;
 
   private String usedItem;

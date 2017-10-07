@@ -16,7 +16,7 @@ public class PageServiceTest {
   @Mock
   private PlayerService playerService;
   @Mock
-  private DecisionService decisionService;
+  private PossibilityService possibilityService;
   @Mock
   private DeathService deathService;
   private List<PageEvent> pageEvents = Arrays.asList(new Checkpoint());
@@ -27,7 +27,7 @@ public class PageServiceTest {
   public void setUp() throws Exception {
 
     MockitoAnnotations.initMocks(this);
-    systemUnderTest = new PageService(pageEvents, playerService, decisionService, gameService,
+    systemUnderTest = new PageService(pageEvents, playerService, possibilityService, gameService,
         deathService);
 
 

@@ -57,7 +57,7 @@
   #STORYTEXT
   'Demonstration'
   #ENDTEXT
-  #DECISIONS
+  #POSSIBILITIES
     #DECISION
       #JUMP
       'Items'
@@ -68,7 +68,7 @@
       'Skills'
       #TEXT
       'Ich will Skills'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
 #PAGE
 'Skills'
@@ -80,13 +80,13 @@
   500000
   #LEARNSKILL
   'Demo Skill'
-  #DECISIONS
+  #POSSIBILITIES
     #DECISION
       #JUMP
       'Anfang'
       #TEXT
       'Kann ich wieder zurück ?!'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
 #PAGE
 'Items'
@@ -105,13 +105,13 @@
   '7'
   #THIRST
   '12'
-  #DECISIONS
+  #POSSIBILITIES
     #DECISION
       #JUMP
       'Anfang'
       #TEXT
       'Zurück ?'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
 #PAGE
 'Gestorben'
@@ -119,12 +119,12 @@
   'Alle Items verloren... Aber jetzt wo du gestorben bist geht es'
   'dir wieder richtig gut'
   #ENDTEXT
-  #DECISIONS
+  #POSSIBILITIES
     #DECISION
       #JUMP
       'Anfang'
       #TEXT
       'Zum letzten Checkpoint'
-  #ENDDECISIONS
+  #ENDPOSSIBILITIES
 
 #ENDPAGES

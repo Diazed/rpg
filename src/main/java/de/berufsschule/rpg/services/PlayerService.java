@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.gameevents.PlayerEvent;
-import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.repositories.PlayerRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,20 +67,20 @@ public class PlayerService {
     savePlayer(player);
   }
 
-  public boolean doesPlayerMeetRequirements(Decision clickedDecision, Player player) {
-    if (doesDecisionRequireItem(clickedDecision)) {
-      return doesPlayerOwnRequiredItem(clickedDecision, player);
+  public boolean doesPlayerMeetRequirements(Possibility clickedPossibility, Player player) {
+    if (doesDecisionRequireItem(clickedPossibility)) {
+      return doesPlayerOwnRequiredItem(clickedPossibility, player);
     } else {
       return true;
     }
   }
 
-  private boolean doesDecisionRequireItem(Decision decision) {
-    return decision.getUsedItem() != null;
+  private boolean doesDecisionRequireItem(Possibility possibility) {
+    return possibility.getUsedItem() != null;
   }
 
-  private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
-    String neededItem = decision.getUsedItem();
+  private boolean doesPlayerOwnRequiredItem(Possibility possibility, Player player) {
+    String neededItem = possibility.getUsedItem();
     for (String item : player.getItems()) {
       if (item.equals(neededItem))
         return true;

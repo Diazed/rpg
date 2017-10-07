@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <div class="row" th:each="dec : *{decisions}">
+                      <div class="row" th:each="dec : *{possibilities}">
                             <div th:if="${dec.usedItem} OR ${dec.requiredSkill}">
                                 <div class="col-md-6 decision">
                                     <form th:action="@{/play/{gamename}/{jump}(jump=${dec.jump}, gamename = ${gamename})}" method="post">

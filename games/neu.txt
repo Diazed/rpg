@@ -39,8 +39,9 @@
 		'Text'
 		'this is it'
 	#
-	#DECISIONS
-		#DECISION
+	#POSSIBILITIES
+	{
+  	#DECISION
 			#JUMP
 			'test'
 			#TEXT
@@ -50,7 +51,12 @@
 			'AA'
 			#TEXT
 			'und so weiter'
-	#ENDDECISIONS
+		#QUESTION
+		  #ANSWER
+		  'no'
+		  #TEXT
+		  'Can i hug you?'
+	#
 
 #PAGE
 'test'
@@ -65,7 +71,7 @@
   'Toast'
   #ADDSKILLPOINTS
   10
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'A'
@@ -86,7 +92,7 @@
 			'Schaden und Skill'
 			#INJURY
 			10
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #PAGE
 'A'
@@ -95,7 +101,7 @@
 	' Checkpoint'
 	#ENDTEXT
 	#CHECKPOINT
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'AA'
@@ -107,7 +113,7 @@
 			'A'
 			#TEXT
 			'und so weiter'
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #PAGE
 'AA'
@@ -115,11 +121,11 @@
 	'Der Text der ersten Auswahlmöglichkeit'
 	'A No Fail'
 	#ENDTEXT
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'C'
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #PAGE
 'H'
@@ -127,13 +133,13 @@
 	'Der Text der ersten Auswahlmöglichkeit'
 	'BBB Fail'
 	#ENDTEXT
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'C'
 			#TEXT
 			'und so weiter'
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #PAGE
 'C'
@@ -143,7 +149,7 @@
 	#ENDTEXT
 	#LEARNSKILL
 	'Test'
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'AA'
@@ -157,20 +163,20 @@
 			20
 			#TEXT
 			'und so weiter'
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #PAGE
 'R.I.P.'
 	#STORYTEXT
 	'Du bist gestorben und hast alle deine Items verloren.'
 	#ENDTEXT
-	#DECISIONS
+	#POSSIBILITIES
 		#DECISION
 			#JUMP
 			'AA'
 			#TEXT
 			'Zum letzten Checkpoint'
-	#ENDDECISIONS
+	#ENDPOSSIBILITIES
 
 #ENDPAGES
 

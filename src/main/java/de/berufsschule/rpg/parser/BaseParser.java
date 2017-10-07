@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
 import java.util.List;
 import java.util.Scanner;
@@ -45,9 +45,9 @@ public abstract class BaseParser {
     return gamePlan.getSkills().get(gamePlan.getSkills().size() - 1);
   }
 
-  protected Decision getLastCreatedDecision(GamePlan gamePlan) {
-    List<Decision> decisions = getLastCreatedPage(gamePlan).getDecisions();
-    return decisions.get(decisions.size() - 1);
+  protected Possibility getLastCreatedPossibility(GamePlan gamePlan) {
+    List<Possibility> possibilities = getLastCreatedPage(gamePlan).getPossibilities();
+    return possibilities.get(possibilities.size() - 1);
   }
 
   public Integer parseInt(String line) {

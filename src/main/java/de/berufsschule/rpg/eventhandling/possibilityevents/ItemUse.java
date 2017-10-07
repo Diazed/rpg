@@ -1,6 +1,5 @@
-package de.berufsschule.rpg.eventhandling.decisionevents;
+package de.berufsschule.rpg.eventhandling.possibilityevents;
 
-import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.services.ItemService;
@@ -8,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ItemUse implements DecisionEvent {
+public class ItemUse implements PossibilityEvent {
 
   private ItemService itemService;
 
@@ -18,9 +17,10 @@ public class ItemUse implements DecisionEvent {
   }
 
   @Override
-  public boolean event(Decision decision, Player player, Page page) {
-    if (decision.getUsedItem() != null) {
-      String usedItem = decision.getUsedItem();
+  public boolean event(de.berufsschule.rpg.model.Possibility possibility, Player player,
+      Page page) {
+    if (possibility.getUsedItem() != null) {
+      String usedItem = possibility.getUsedItem();
       for (String item : player.getItems()) {
         if (item.equals(usedItem)) {
           itemService.useItem(usedItem, player);
