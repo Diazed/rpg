@@ -1,10 +1,12 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
+import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
+import de.berufsschule.rpg.model.Question;
 import de.berufsschule.rpg.model.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,35 +59,70 @@ public class PageService {
     return page;
   }
 
-  public boolean jumpToNextPage(User user, String gamename, String jump) {
+  public boolean jumpToNextPage(User user, String gamename, Integer clickedPossibilityId) {
+
     Game game = gameService.loadOrCreateGame(gamename, user);
     Player player = game.getPlayer();
-    Page originPage = game.getPages().get(player.getPosition());
-    Possibility clickedPossibility = possibilityService.getClickedDecision(originPage, jump);
-    Page jumpPage = game.getPages().get(jump);
-    if (jumpPage == null) {
-      jumpPage = new Page();
-    }
+    Possibility clickedPossibility = possibilityService
+        .getClickedDecision(game.getPages().get(player.getPosition()), clickedPossibilityId);
     if (clickedPossibility == null)
       return false;
-    runPageEvents(jumpPage, player);
+
+    if (clickedPossibility.getClass() == Decision.class) {
+      Decision decision = (Decision) clickedPossibility;
+      return handleDecision(decision, game, user);
+    } else {
+      Question question = (Question) clickedPossibility;
+      return handleQuestion(question, game, user);
+    }
+  }
+
+  private boolean handleDecision(Decision decision, Game game, User user) {
+    Page jumpPage = game.getPages().get(decision.getMainJump());
+    Player player = game.getPlayer();
+    if (jumpPage == null) {
+      jumpPage = new Page();
+    } else {
+      runPageEvents(jumpPage, player);
+    }
     playerService.runAllPlayerEvents(player);
-    if (!player.getAlive()) {
+
+    if (deathService.revive(player, game.getStartPage()))
+      return true;
+
+    player.setPosition(null);
+    possibilityService.runPossibilityEvents(decision, player, jumpPage);
+    if (player.getPosition() == null) {
+      player.setPosition(decision.getMainJump());
+    }
+
+    return isPlayerAllowedToJump(decision, user, game);
+  }
+
+  private boolean handleQuestion(Question question, Game game, User user) {
+
+    Player player = game.getPlayer();
+    Page jumpPage = game.getPages().get(player.getPosition());
+    question.setAsked(true);
+    possibilityService.runPossibilityEvents(question, player, jumpPage);
+    if (question.isTakeAlt()) {
+      game.getPages().get(jumpPage.getID()).setStorytext(question.getAltAnswer());
+    } else {
+      game.getPages().get(jumpPage.getID()).setStorytext(question.getMainAnswer());
+    }
+    return isPlayerAllowedToJump(question, user, game);
+  }
+
+  private boolean isPlayerAllowedToJump(Possibility possibility, User user, Game game) {
+    if (deathService.revive(game.getPlayer(), game.getStartPage())) {
       return true;
     }
-    if (deathService.revive(player, game.getStartPage())) {
+    if (playerService.doesPlayerMeetRequirements(possibility, game.getPlayer())) {
+      gameService.editGame(game, user.getId());
       return true;
-    }
-    if (!playerService.doesPlayerMeetRequirements(clickedPossibility, player)) {
+    } else {
       return false;
     }
-    player.setPosition(null);
-    possibilityService.runDecisionEvents(clickedPossibility, player, jumpPage);
-    if (player.getPosition() == null) {
-      player.setPosition(jump);
-    }
-    gameService.editGame(game, user.getId());
-    return true;
   }
 
   private void setFlagsForPagePossibilities(Page page, Player player) {

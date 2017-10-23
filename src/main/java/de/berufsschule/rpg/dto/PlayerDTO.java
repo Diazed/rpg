@@ -12,8 +12,8 @@ import java.util.List;
 public class PlayerDTO {
 
   private Integer id;
-  private String checkpoint;
-  private String position;
+  private Integer checkpoint;
+  private Integer position;
   private Integer playerLvl = 0;
   private Integer hitpoints = 100;
   private Integer hunger = 0;

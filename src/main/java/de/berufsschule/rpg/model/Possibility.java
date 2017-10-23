@@ -7,14 +7,10 @@ import lombok.Setter;
 @Setter
 public class Possibility {
 
-  private String jump;
-  private String alternativeJump;
-
+  private Integer ID;
   private Integer probability;
-
   private String usedItem;
   private boolean hasItem = true;
-
   private String requiredSkill;
   private Integer skillMinLvl;
   private Integer skillSuccessLvl;

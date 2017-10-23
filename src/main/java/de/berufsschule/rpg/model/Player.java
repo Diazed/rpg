@@ -14,8 +14,8 @@ public class Player {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private String checkpoint;
-  private String position;
+  private Integer checkpoint;
+  private Integer position;
   private Boolean alive;
   private Boolean onDeathPage;
   private Integer hitpoints;

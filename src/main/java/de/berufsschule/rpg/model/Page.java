@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class Page {
 
+  private Integer ID;
   private String name;
   private String storytext;
   private List<Possibility> possibilities;

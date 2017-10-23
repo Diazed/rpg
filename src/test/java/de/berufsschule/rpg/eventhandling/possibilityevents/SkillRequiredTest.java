@@ -3,6 +3,7 @@ package de.berufsschule.rpg.eventhandling.possibilityevents;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
@@ -20,7 +21,7 @@ public class SkillRequiredTest {
   private SkillService skillService;
 
   private SkillRequired systemUnderTest;
-  private Possibility testPossibility;
+  private Decision testDecision;
   private Player testPlayer;
   private Skill testSkill;
   private Page testPage;
@@ -29,7 +30,7 @@ public class SkillRequiredTest {
   public void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
     systemUnderTest = new SkillRequired((skillService));
-    testPossibility = new Possibility();
+    testDecision = new Decision();
     testPlayer = new Player();
     testSkill = new Skill();
     testPage = new Page();
@@ -38,86 +39,86 @@ public class SkillRequiredTest {
 
   @Test
   public void returnFalseWhenPossibilityDoesNotRequireSkill() {
-    testPossibility.setAlternativeJump("altjump");
-    testPossibility.setSkillSuccessLvl(5);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    testDecision.setAltJump(5);
+    testDecision.setSkillSuccessLvl(5);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void returnFalseWhenAlternativeJumpIsMissing() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setSkillSuccessLvl(5);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setSkillSuccessLvl(5);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void returnFalseWhenSuccessLevelIsMissing() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setAlternativeJump("altjump");
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setAltJump(5);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void returnFalseWhenProbabilityIsSet() {
-    testPossibility.setProbability(1);
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setAlternativeJump("altjump");
-    testPossibility.setSkillSuccessLvl(5);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    testDecision.setProbability(1);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setAltJump(5);
+    testDecision.setSkillSuccessLvl(5);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void setAltJumpWhenSkillLvlToLowAndNoMinLvl() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setSkillSuccessLvl(5);
-    testPossibility.setJump("jump");
-    testPossibility.setAlternativeJump("altjump");
+    testDecision.setRequiredSkill("skill");
+    testDecision.setSkillSuccessLvl(5);
+    testDecision.setMainJump(5);
+    testDecision.setAltJump(5);
     testSkill.setLevel(3);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
-    Assert.assertEquals("altjump", testPlayer.getPosition());
+    Assert.assertEquals((Integer) 5, testPlayer.getPosition());
   }
 
   @Test
   public void setAltJumpWhenSkillLvlToLowAndBelowMinLvl() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setSkillSuccessLvl(5);
-    testPossibility.setJump("jump");
-    testPossibility.setAlternativeJump("altjump");
-    testPossibility.setSkillMinLvl(4);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setSkillSuccessLvl(5);
+    testDecision.setMainJump(3);
+    testDecision.setAltJump(5);
+    testDecision.setSkillMinLvl(4);
     testSkill.setLevel(3);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
-    Assert.assertEquals("altjump", testPlayer.getPosition());
+    Assert.assertEquals((Integer) 5, testPlayer.getPosition());
   }
 
   @Test
   public void setNormalJumpWhenSkillLvlEqualToSuccessLvl() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setSkillSuccessLvl(23);
-    testPossibility.setJump("jump");
-    testPossibility.setAlternativeJump("altjump");
-    testPossibility.setSkillMinLvl(14);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setSkillSuccessLvl(23);
+    testDecision.setMainJump(3);
+    testDecision.setAltJump(5);
+    testDecision.setSkillMinLvl(14);
     testSkill.setLevel(23);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
-    Assert.assertEquals("jump", testPlayer.getPosition());
+    Assert.assertEquals((Integer) 3, testPlayer.getPosition());
   }
 
   @Test
   public void setAlternativeJumpWhenSkillLvlEqualToMinLvl() {
-    testPossibility.setRequiredSkill("skill");
-    testPossibility.setSkillSuccessLvl(23);
-    testPossibility.setJump("jump");
-    testPossibility.setAlternativeJump("altjump");
-    testPossibility.setSkillMinLvl(14);
+    testDecision.setRequiredSkill("skill");
+    testDecision.setSkillSuccessLvl(23);
+    testDecision.setMainJump(4);
+    testDecision.setAltJump(3);
+    testDecision.setSkillMinLvl(14);
     testSkill.setLevel(14);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
-    Assert.assertEquals("altjump", testPlayer.getPosition());
+    Assert.assertEquals((Integer) 3, testPlayer.getPosition());
   }
 }

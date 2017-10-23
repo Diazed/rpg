@@ -39,7 +39,7 @@
   #
   #POSSIBILITIES
     #DECISION
-		  #JUMP
+		  #MAIN
 		  'check'
 		  #TEXT
 		  'Zum letzten Checkpoint'
@@ -58,7 +58,7 @@
 	#
 	#POSSIBILITIES
     #DECISION
-  		#JUMP
+  		#MAIN
       'Uniform'
   		#TEXT
   		'Löse den Schlauch'
@@ -81,7 +81,7 @@
     #
     #POSSIBILITIES
     	#DECISION
-    		#JUMP
+    		#MAIN
     		'Fremder'
     		#TEXT
     		'Den Raum verlassen'
@@ -97,7 +97,7 @@
       #ENDTEXT
 		  #POSSIBILITIES
        	#DECISION
-       		#JUMP
+       		#MAIN
        		'Josie'
        		#TEXT
        		'Antworten suchen.'
@@ -115,7 +115,7 @@
         #ENDTEXT
         #POSSIBILITIES
           #DECISION
-            #JUMP
+            #MAIN
             'Leerer Magen'
             #TEXT
             'Schluck die Tabletten'
@@ -137,7 +137,7 @@
           #
           #POSSIBILITIES
             #DECISION
-              #JUMP
+              #MAIN
               'Amnesie?'
               #TEXT
               'Iss den Flickers & Stell dich vor'
@@ -157,12 +157,12 @@
             #ENDTEXT
             #POSSIBILITIES
               #DECISION
-                #JUMP
+                #MAIN
                 'Freundschaft'
                 #TEXT
                 '"Warum bist du so nett zu mir?"'
               #DECISION
-                #JUMP
+                #MAIN
                 'Nur Jugendliche'
                 #TEXT
                 '"Gibt es hier keine Erwachsene?"'
@@ -179,7 +179,7 @@
               #
               #POSSIBILITIES
                 #DECISION
-                  #JUMP
+                  #MAIN
                   'Prion B0'
                   #TEXT
                   '"Wo sind wir?"'
@@ -193,7 +193,7 @@
               #ENDTEXT
               #POSSIBILITIES
                 #DECISION
-                  #JUMP
+                  #MAIN
                   'Prion B0'
                   #TEXT
                   '"Wo sind wir?"'
@@ -209,7 +209,7 @@
 //        #ENDTEXT
 //        #POSSIBILITIES
 //          #DECISION
-//            #JUMP
+//            #MAIN
 //            ''
 //            #TEXT
 //            ''

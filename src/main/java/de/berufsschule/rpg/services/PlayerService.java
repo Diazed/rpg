@@ -38,12 +38,12 @@ public class PlayerService {
     }
   }
 
-  public void setPlayerPosition(String position, Player player) {
+  public void setPlayerPosition(Integer position, Player player) {
     player.setPosition(position);
     savePlayer(player);
   }
 
-  public void firstStart(Player player, String startPage) {
+  public void firstStart(Player player, Integer startPage) {
     if (player.getPosition() == null) {
       player.setPlayerLvl(1);
       player.setExp(0);
@@ -53,7 +53,7 @@ public class PlayerService {
       player.setAlive(true);
       player.setOnDeathPage(false);
       if (startPage == null) {
-        setPlayerPosition("start", player);
+        setPlayerPosition(0, player);
       } else {
         setPlayerPosition(startPage, player);
       }

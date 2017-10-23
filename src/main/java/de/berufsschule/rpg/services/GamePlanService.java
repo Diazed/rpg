@@ -53,11 +53,11 @@ public class GamePlanService {
     return result;
   }
 
-  public HashMap<String, Page> getPageHashMapOfGamePlan(String gamePlanName) {
+  public HashMap<Integer, Page> getPageHashMapOfGamePlan(String gamePlanName) {
     GamePlan gamePlan = getGamePlan(gamePlanName);
-    HashMap<String, Page> result = new HashMap<>();
+    HashMap<Integer, Page> result = new HashMap<>();
     for (Page page : gamePlan.getPages()) {
-      result.put(page.getName(), page);
+      result.put(page.getID(), page);
     }
     return result;
   }

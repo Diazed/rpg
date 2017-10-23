@@ -1,8 +1,10 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
+import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
+import de.berufsschule.rpg.model.Question;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.services.SkillService;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,28 +24,36 @@ public class SkillRequired implements PossibilityEvent {
   @Override
   public boolean event(Possibility possibility, Player player, Page page) {
 
-    if (possibility.getRequiredSkill() != null && possibility.getAlternativeJump() != null
-        && possibility.getSkillSuccessLvl() != null && possibility.getProbability() == null) {
+    if (possibility.getRequiredSkill() != null && possibility.getSkillSuccessLvl() != null
+        && possibility.getProbability() == null) {
 
       Skill skill = skillService.getSkillByName(possibility.getRequiredSkill());
       Integer successLvl = possibility.getSkillSuccessLvl();
-      String jump = possibility.getJump();
+      boolean takeAlt = false;
 
-      if (skill.getLevel() < successLvl && (possibility.getSkillMinLvl() == null
-          || skill.getLevel() < possibility.getSkillMinLvl())) {
-        player.setPosition(possibility.getAlternativeJump());
-      } else if (possibility.getSkillMinLvl() != null) {
+      Integer minLvl = possibility.getSkillMinLvl();
+      Double steps = successLvl.doubleValue() - minLvl.doubleValue();
+      Double percentIncrease = 100 / steps;
+      Double chance = (skill.getLevel() - minLvl) * percentIncrease;
+      int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
 
-        Integer minLvl = possibility.getSkillMinLvl();
-        Double steps = successLvl.doubleValue() - minLvl.doubleValue();
-        Double percentIncrease = 100 / steps;
-        Double chance = (skill.getLevel() - minLvl) * percentIncrease;
-        int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
+      takeAlt = random > chance.intValue();
 
-        if (random > chance.intValue()) {
-          player.setPosition(possibility.getAlternativeJump());
+      if (possibility.getClass() == Question.class) {
+        Question question = (Question) possibility;
+        if (question.getAltAnswer() == null) {
+          return false;
+        }
+        question.setTakeAlt(takeAlt);
+      } else {
+        Decision decision = (Decision) possibility;
+        if (decision.getAltJump() == null) {
+          return false;
+        }
+        if (takeAlt) {
+          player.setPosition(decision.getAltJump());
         } else {
-          player.setPosition(jump);
+          player.setPosition(decision.getMainJump());
         }
       }
       return true;

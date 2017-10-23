@@ -62,11 +62,12 @@ public class GameController {
     return "redirect:/games";
   }
 
-  @RequestMapping(value = "/play/{gamename}/{jump}", method = RequestMethod.POST)
-  public String goToNextPage(@PathVariable String jump,@PathVariable String gamename, Principal principal) {
+  @RequestMapping(value = "/play/{gamename}/{clickedPossibilityId}", method = RequestMethod.POST)
+  public String goToNextPage(@PathVariable Integer clickedPossibilityId,
+      @PathVariable String gamename, Principal principal) {
 
     User currentUser = userService.findByEmail(principal.getName());
-    if (pageService.jumpToNextPage(currentUser, gamename, jump)) {
+    if (pageService.jumpToNextPage(currentUser, gamename, clickedPossibilityId)) {
       return "redirect:/play/"+gamename;
     }
     return "redirect:/play";

@@ -13,7 +13,7 @@ public class ParseStartPage extends BaseParser implements GamePlanParser {
   public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#STARTPAGE")){
       line = getNextLine(fileIn);
-      gamePlan.setStartPage(line);
+      gamePlan.setStartPage(pageIdHandling(line));
       return true;
     }
     return false;

@@ -20,17 +20,17 @@ public class PossibilityService {
   }
 
 
-  public void runDecisionEvents(Possibility possibility, Player player, Page page) {
+  public void runPossibilityEvents(Possibility possibility, Player player, Page page) {
     for (PossibilityEvent possibilityEvent : possibilityEvents) {
       possibilityEvent.event(possibility, player, page);
     }
   }
 
 
-  public Possibility getClickedDecision(Page currentPlayerPage, String jump) {
+  public Possibility getClickedDecision(Page originPage, Integer clickedPossibilityId) {
 
-    for (Possibility possibility : currentPlayerPage.getPossibilities()) {
-      if (possibility.getJump().equals(jump)) {
+    for (Possibility possibility : originPage.getPossibilities()) {
+      if (possibility.getID().equals(clickedPossibilityId)) {
         return possibility;
       }
     }

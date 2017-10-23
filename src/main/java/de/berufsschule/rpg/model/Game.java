@@ -22,13 +22,13 @@ public class Game {
   private Integer id;
   private Integer userId;
   private String name;
-  private String startPage;
-  private String deathPage;
+  private Integer startPage;
+  private Integer deathPage;
   private Integer roundHunger;
   private Integer roundThirst;
   private Integer roundExp;
   @Transient
-  private HashMap<String, Page> pages = new HashMap<>();
+  private HashMap<Integer, Page> pages = new HashMap<>();
   @Transient
   private HashMap<String, Item> items = new HashMap<>();
   @OneToOne(mappedBy = "game")

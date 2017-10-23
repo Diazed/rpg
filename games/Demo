@@ -59,15 +59,20 @@
   #ENDTEXT
   #POSSIBILITIES
     #DECISION
-      #JUMP
+      #MAIN
       'Items'
       #TEXT
       'Ich will Items'
     #DECISION
-      #JUMP
+      #MAIN
       'Skills'
       #TEXT
       'Ich will Skills'
+    #QUESTION
+      #MAIN
+      'Nein'
+      #TEXT
+      'Liebst du mich ?'
   #ENDPOSSIBILITIES
 
 #PAGE
@@ -82,7 +87,7 @@
   'Demo Skill'
   #POSSIBILITIES
     #DECISION
-      #JUMP
+      #MAIN
       'Anfang'
       #TEXT
       'Kann ich wieder zurück ?!'
@@ -107,7 +112,7 @@
   '12'
   #POSSIBILITIES
     #DECISION
-      #JUMP
+      #MAIN
       'Anfang'
       #TEXT
       'Zurück ?'
@@ -121,7 +126,7 @@
   #ENDTEXT
   #POSSIBILITIES
     #DECISION
-      #JUMP
+      #MAIN
       'Anfang'
       #TEXT
       'Zum letzten Checkpoint'

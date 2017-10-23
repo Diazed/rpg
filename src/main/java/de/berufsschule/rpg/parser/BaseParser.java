@@ -5,6 +5,7 @@ import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -15,6 +16,28 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public abstract class BaseParser {
+
+  private static HashMap<String, Integer> idNameMap = new HashMap<String, Integer>();
+  private static Integer nextId;
+  private static Integer possibilityIdCounter;
+
+  protected Integer pageIdHandling(String pageName) {
+    if (idNameMap.containsKey(pageName)) {
+      return idNameMap.get(pageName);
+    } else {
+      nextId = idNameMap.size() + 1;
+      idNameMap.put(pageName, nextId);
+      return nextId;
+    }
+  }
+
+  protected Integer possibilityIdHandling() {
+    if (possibilityIdCounter == null) {
+      possibilityIdCounter = 0;
+    }
+    possibilityIdCounter = possibilityIdCounter + 1;
+    return possibilityIdCounter;
+  }
 
   public String getNextLine(Scanner fileIn) {
     if (fileIn.hasNextLine())

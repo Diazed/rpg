@@ -42,12 +42,12 @@
 	#POSSIBILITIES
 	{
   	#DECISION
-			#JUMP
+			#MAIN
 			'test'
 			#TEXT
 			'hier gehts weiter'
 		#DECISION
-			#JUMP
+			#MAIN
 			'AA'
 			#TEXT
 			'und so weiter'
@@ -73,20 +73,20 @@
   10
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'A'
 			#TEXT
 			'Auswahlmöglichkeit A'
 			#USE
 			'Toast'
 		#DECISION
-			#JUMP
+			#MAIN
 			'B'
 			#TEXT
 			'Auswahlmöglichkeit B'
 
 		#DECISION
-		 	#JUMP
+		 	#MAIN
 			'C'
 			#TEXT
 			'Schaden und Skill'
@@ -103,13 +103,13 @@
 	#CHECKPOINT
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'AA'
 			#TEXT
 			'weg hier'
 
 		#DECISION
-			#JUMP
+			#MAIN
 			'A'
 			#TEXT
 			'und so weiter'
@@ -123,7 +123,7 @@
 	#ENDTEXT
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'C'
 	#ENDPOSSIBILITIES
 
@@ -135,7 +135,7 @@
 	#ENDTEXT
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'C'
 			#TEXT
 			'und so weiter'
@@ -151,9 +151,9 @@
 	'Test'
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'AA'
-			#ALTERNATIVEJUMP
+			#ALTERNATIVE
 			'H'
 			#REQUIREDSKILL
 			'Test'
@@ -172,7 +172,7 @@
 	#ENDTEXT
 	#POSSIBILITIES
 		#DECISION
-			#JUMP
+			#MAIN
 			'AA'
 			#TEXT
 			'Zum letzten Checkpoint'

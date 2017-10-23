@@ -15,6 +15,7 @@ public class ParsePage extends BaseParser implements PageParser {
       Page page = new Page();
       String name = getNextLine(fileIn);
       page.setName(name);
+      page.setID(pageIdHandling(name));
       gamePlan.getPages().add(page);
       return true;
     }

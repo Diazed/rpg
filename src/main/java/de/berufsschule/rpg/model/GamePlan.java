@@ -10,8 +10,8 @@ import lombok.Setter;
 public class GamePlan {
   private String filename;
   private String name;
-  private String startPage;
-  private String deathPage;
+  private Integer startPage;
+  private Integer deathPage;
   private Integer roundHunger;
   private Integer roundThirst;
   private Integer roundExp;

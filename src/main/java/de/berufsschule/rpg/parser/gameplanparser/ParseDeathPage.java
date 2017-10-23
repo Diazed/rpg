@@ -13,7 +13,7 @@ public class ParseDeathPage extends BaseParser implements GamePlanParser {
   public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#DEATHPAGE")){
       line = getNextLine(fileIn);
-      gamePlan.setDeathPage(line);
+      gamePlan.setDeathPage(pageIdHandling(line));
       return true;
     }
     return false;

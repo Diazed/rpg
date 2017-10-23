@@ -17,14 +17,12 @@ public class DeathService {
     this.playerService = playerService;
   }
 
-  public void playerDeath(Player player, String deathPage) {
+  public void playerDeath(Player player, Integer deathPage) {
     if (!player.getAlive()) {
       player.setItems(new ArrayList<>());
-      if (deathPage == null || Objects.equals(deathPage, "")) {
-        playerService.setPlayerPosition("R.I.P.", player);
-      } else {
-        playerService.setPlayerPosition(deathPage, player);
-      }
+
+      playerService.setPlayerPosition(deathPage, player);
+
       player.setHunger(0);
       player.setThirst(0);
       player.setHitpoints(100);
@@ -34,14 +32,17 @@ public class DeathService {
     }
   }
 
-  public boolean revive(Player player, String startPage) {
+  public boolean revive(Player player, Integer startPage) {
+    if (!player.getAlive()) {
+      return true;
+    }
     if (player.getOnDeathPage()) {
       player.setOnDeathPage(false);
       if (player.getCheckpoint() == null) {
         if (startPage != null) {
           player.setPosition(startPage);
         } else {
-          player.setPosition("start");
+          player.setPosition(1);
         }
       } else {
         player.setPosition(player.getCheckpoint());
