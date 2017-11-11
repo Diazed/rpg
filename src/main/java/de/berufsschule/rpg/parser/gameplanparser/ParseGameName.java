@@ -12,6 +12,7 @@ public class ParseGameName extends BaseParser implements GamePlanParser {
   @Override
   public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
     if (line.contains("#GAMENAME")){
+      resetIdMaps();
       line = getNextLine(fileIn);
       gamePlan.setName(line);
       return true;

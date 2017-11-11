@@ -87,16 +87,17 @@ public class PageService {
     }
     playerService.runAllPlayerEvents(player);
 
-    if (deathService.revive(player, game.getStartPage()))
+    if (isPlayerAllowedToJump(decision, user, game)) {
+      player.setPosition(null);
+      possibilityService.runPossibilityEvents(decision, player, jumpPage);
+      if (player.getPosition() == null) {
+        player.setPosition(decision.getMainJump());
+      }
+      playerService.savePlayer(player);
       return true;
-
-    player.setPosition(null);
-    possibilityService.runPossibilityEvents(decision, player, jumpPage);
-    if (player.getPosition() == null) {
-      player.setPosition(decision.getMainJump());
+    } else {
+      return false;
     }
-
-    return isPlayerAllowedToJump(decision, user, game);
   }
 
   private boolean handleQuestion(Question question, Game game, User user) {

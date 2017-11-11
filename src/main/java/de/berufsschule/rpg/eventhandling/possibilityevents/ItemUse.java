@@ -2,6 +2,7 @@ package de.berufsschule.rpg.eventhandling.possibilityevents;
 
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class ItemUse implements PossibilityEvent {
   }
 
   @Override
-  public boolean event(de.berufsschule.rpg.model.Possibility possibility, Player player,
+  public boolean event(Possibility possibility, Player player,
       Page page) {
     if (possibility.getUsedItem() != null) {
       String usedItem = possibility.getUsedItem();

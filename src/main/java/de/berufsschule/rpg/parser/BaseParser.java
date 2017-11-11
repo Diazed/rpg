@@ -31,6 +31,12 @@ public abstract class BaseParser {
     }
   }
 
+  protected void resetIdMaps() {
+    nextId = 0;
+    idNameMap = new HashMap<>();
+    possibilityIdCounter = 0;
+  }
+
   protected Integer possibilityIdHandling() {
     if (possibilityIdCounter == null) {
       possibilityIdCounter = 0;

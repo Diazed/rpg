@@ -39,11 +39,7 @@ public class DeathService {
     if (player.getOnDeathPage()) {
       player.setOnDeathPage(false);
       if (player.getCheckpoint() == null) {
-        if (startPage != null) {
           player.setPosition(startPage);
-        } else {
-          player.setPosition(1);
-        }
       } else {
         player.setPosition(player.getCheckpoint());
       }
