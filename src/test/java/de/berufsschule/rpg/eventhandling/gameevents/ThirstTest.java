@@ -13,7 +13,7 @@ public class ThirstTest {
   private Game testGame;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     testGame = new Game();
     testPlayer = new Player();
     testPlayer.setAlive(true);
@@ -33,7 +33,7 @@ public class ThirstTest {
   @Test
   public void preferIncrementDefinedInGame() {
     testPlayer.setThirst(0);
-    testGame.setRoundThirst(1);
+    testGame.getGamePlan().setRoundThirst(1);
     Integer expected = 1;
     systemUnderTest.event(testPlayer);
     Assert.assertEquals(expected, testPlayer.getThirst());
@@ -43,7 +43,7 @@ public class ThirstTest {
   @Test
   public void playerDehydratesWhenThirstExceedsHundret() {
     testPlayer.setThirst(95);
-    testGame.setRoundThirst(10);
+    testGame.getGamePlan().setRoundThirst(10);
     systemUnderTest.event(testPlayer);
     Assert.assertEquals(false, testPlayer.getAlive());
   }

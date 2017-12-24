@@ -17,9 +17,6 @@ import org.mockito.MockitoAnnotations;
 
 public class SkillRequiredTest {
 
-  @Mock
-  private SkillService skillService;
-
   private SkillRequired systemUnderTest;
   private Decision testDecision;
   private Player testPlayer;
@@ -27,14 +24,12 @@ public class SkillRequiredTest {
   private Page testPage;
 
   @Before
-  public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
-    systemUnderTest = new SkillRequired((skillService));
+  public void setUp() {
+    systemUnderTest = new SkillRequired();
     testDecision = new Decision();
     testPlayer = new Player();
     testSkill = new Skill();
     testPage = new Page();
-    when(skillService.getSkillByName(any(String.class))).thenReturn(testSkill);
   }
 
   @Test

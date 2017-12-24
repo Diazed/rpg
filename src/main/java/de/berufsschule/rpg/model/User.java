@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -44,8 +46,8 @@ public class User {
   private Locale prefLocale = Locale.ENGLISH;
 
   private String currentGame;
-  @ElementCollection
-  private List<String> savedGames;
+  @ManyToMany
+  private List<Game> savedGames;
   @ElementCollection
   private List<String> roles = new ArrayList<>();
   private boolean enabled;

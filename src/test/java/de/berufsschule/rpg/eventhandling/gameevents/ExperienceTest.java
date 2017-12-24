@@ -13,7 +13,7 @@ public class ExperienceTest {
   private Game testGame;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     testGame = new Game();
     testPlayer = new Player();
     testPlayer.setGame(testGame);
@@ -33,7 +33,7 @@ public class ExperienceTest {
   @Test
   public void preferIncrementDefinedInGame() {
 
-    testGame.setRoundExp(5);
+    testGame.getGamePlan().setRoundExp(5);
     testPlayer.setPlayerLvl(10);
     testPlayer.setExp(5);
     Integer expected = 10;
@@ -44,7 +44,7 @@ public class ExperienceTest {
   @Test
   public void increasePlayerLevelWhenNeededXpReached() {
 
-    testGame.setRoundExp(15);
+    testGame.getGamePlan().setRoundExp(15);
     testPlayer.setPlayerLvl(0);
     testPlayer.setExp(0);
     Integer expected = 1;
@@ -55,7 +55,7 @@ public class ExperienceTest {
   @Test
   public void increasePlayerSkilPointsWhenNeededXpReached() {
 
-    testGame.setRoundExp(15);
+    testGame.getGamePlan().setRoundExp(15);
     testPlayer.setPlayerLvl(0);
     testPlayer.setExp(0);
     Integer expected = 10;
@@ -66,7 +66,7 @@ public class ExperienceTest {
   @Test
   public void levelProgressIsSetCorrectly() {
 
-    testGame.setRoundExp(10);
+    testGame.getGamePlan().setRoundExp(10);
     testPlayer.setPlayerLvl(2);
     testPlayer.setExp(20);
     Integer expected = 50;
@@ -77,7 +77,7 @@ public class ExperienceTest {
   @Test
   public void neededXpIsSetCorrectly() {
 
-    testGame.setRoundExp(10);
+    testGame.getGamePlan().setRoundExp(10);
     testPlayer.setPlayerLvl(3);
     testPlayer.setExp(20);
     Integer expected = 100;

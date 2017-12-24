@@ -49,7 +49,7 @@ public class ProfileController {
     userDTO = userDTOConverter.toDto(user);
 
     model.addAttribute("userDTO", userDTO);
-    Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
+    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
     PlayerDTO playerDTO = playerDTOConverter.toDTO(currentPlayer);
     model.addAttribute("items", itemService.createInventory(currentPlayer));
     model.addAttribute("playerDTO", playerDTO);
@@ -64,24 +64,23 @@ public class ProfileController {
   }
 
   @RequestMapping(value = "/profile/{gamename}/item/{itemName}", method = RequestMethod.POST)
-  public String useItem(@PathVariable String itemName, @PathVariable String gamename,
+  public String useItem(@PathVariable Integer itemId, @PathVariable String gamename,
       Principal principal) {
 
     User user = userService.findByEmail(principal.getName());
-    Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
-
-    itemService.useItem(itemName, currentPlayer);
+    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
+    itemService.useItem(itemService.getItem(itemId), currentPlayer);
     return "redirect:/profile/" + gamename;
   }
 
-  @RequestMapping(value = "/profile/{gamename}/skill/{skillname}", method = RequestMethod.POST)
-  public String useSkillPoint(@PathVariable String skillname, @PathVariable String gamename,
+  @RequestMapping(value = "/profile/{gamename}/skill/{id}", method = RequestMethod.POST)
+  public String useSkillPoint(@PathVariable Integer skillid, @PathVariable String gamename,
       Principal principal) {
 
     User user = userService.findByEmail(principal.getName());
-    Player currentPlayer = gameService.getGame(gamename, user.getId()).getPlayer();
+    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
 
-    skillService.useSkillPoint(skillname, currentPlayer);
+    skillService.useSkillPoint(skillid, currentPlayer);
     return "redirect:/profile/" + gamename;
   }
 

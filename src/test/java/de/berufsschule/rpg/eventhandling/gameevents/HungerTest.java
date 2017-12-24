@@ -13,7 +13,7 @@ public class HungerTest {
   private Game testGame;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     testGame = new Game();
     testPlayer = new Player();
     testPlayer.setAlive(true);
@@ -33,7 +33,7 @@ public class HungerTest {
   @Test
   public void preferIncrementDefinedInGame() {
     testPlayer.setHunger(0);
-    testGame.setRoundHunger(1);
+    testGame.getGamePlan().setRoundHunger(1);
     Integer expected = 1;
     systemUnderTest.event(testPlayer);
     Assert.assertEquals(expected, testPlayer.getHunger());
@@ -43,7 +43,7 @@ public class HungerTest {
   @Test
   public void playerStarvesWhenHungerExceedsHundret() {
     testPlayer.setHunger(95);
-    testGame.setRoundHunger(10);
+    testGame.getGamePlan().setRoundHunger(10);
     systemUnderTest.event(testPlayer);
     Assert.assertEquals(false, testPlayer.getAlive());
   }

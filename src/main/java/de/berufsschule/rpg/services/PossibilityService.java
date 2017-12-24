@@ -1,10 +1,12 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.possibilityevents.PossibilityEvent;
+import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
+import de.berufsschule.rpg.repositories.PossibilityRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,12 +15,18 @@ import org.springframework.stereotype.Component;
 public class PossibilityService {
 
   private List<PossibilityEvent> possibilityEvents;
+  private PossibilityRepository possibilityRepository;
 
   @Autowired
-  public PossibilityService(List<PossibilityEvent> possibilityEvents) {
+  public PossibilityService(List<PossibilityEvent> possibilityEvents,
+      PossibilityRepository possibilityRepository) {
     this.possibilityEvents = possibilityEvents;
+    this.possibilityRepository = possibilityRepository;
   }
 
+  public void savePossibility(Possibility possibility) {
+    possibilityRepository.save(possibility);
+  }
 
   public void runPossibilityEvents(Possibility possibility, Player player, Page page) {
     for (PossibilityEvent possibilityEvent : possibilityEvents) {
@@ -26,15 +34,9 @@ public class PossibilityService {
     }
   }
 
+  public Possibility getPossibility(Integer clickedPossibilityId) {
 
-  public Possibility getClickedDecision(Page originPage, Integer clickedPossibilityId) {
-
-    for (Possibility possibility : originPage.getPossibilities()) {
-      if (possibility.getID().equals(clickedPossibilityId)) {
-        return possibility;
-      }
-    }
-    return null;
+    return possibilityRepository.findOne(clickedPossibilityId);
   }
 
   public Possibility setFlags(Possibility possibility, Player player) {
@@ -60,8 +62,8 @@ public class PossibilityService {
   private boolean playerOwnsItem(Possibility possibility, Player player) {
     String itemname = possibility.getUsedItem();
     if (itemname != null) {
-      for (String item : player.getItems()) {
-        if (item.equals(itemname)) {
+      for (Item item : player.getItems()) {
+        if (item.getName().equals(itemname)) {
           return true;
         }
       }

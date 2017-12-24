@@ -10,25 +10,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class LearnSkills implements PageEvent {
 
-    private SkillService skillService;
 
-    @Autowired
-    public LearnSkills(SkillService skillService) {
-        this.skillService = skillService;
-    }
 
     @Override
     public void event(Page page, Player player) {
         if (!page.getSkills().isEmpty()){
-            for (String skill : page.getSkills()){
+            for (Skill skill : page.getSkills()) {
                 boolean learnedSkill = false;
                 for (Skill playerSkill : player.getSkills()) {
-                    if (playerSkill.getName().equals(skill)) {
+                    if (playerSkill.getName().equals(skill.getName())) {
                         learnedSkill = true;
                     }
                 }
                 if (!learnedSkill) {
-                    player.getSkills().add(skillService.getSkillByName(skill));
+                    player.getSkills().add(skill);
                 }
             }
         }

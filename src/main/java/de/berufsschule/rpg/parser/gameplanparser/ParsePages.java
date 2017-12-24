@@ -1,7 +1,9 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
+import de.berufsschule.rpg.services.PageService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -9,13 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ParsePages implements GamePlanParser {
+public class ParsePages extends BaseParser implements GamePlanParser {
 
   private List<PageParser> pageParsers;
+  private PageService pageService;
 
   @Autowired
-  public ParsePages(List<PageParser> pageParsers) {
+  public ParsePages(List<PageParser> pageParsers,
+      PageService pageService) {
     this.pageParsers = pageParsers;
+    this.pageService = pageService;
   }
 
   @Override
@@ -37,6 +42,7 @@ public class ParsePages implements GamePlanParser {
           return false;
         }
       }
+      pageService.savePage(getLastCreatedPage(gamePlan));
       return true;
     }
     return false;

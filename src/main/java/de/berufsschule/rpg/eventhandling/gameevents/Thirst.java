@@ -10,7 +10,8 @@ public class Thirst implements PlayerEvent {
   @Override
   public void event(Player player) {
 
-    Optional<Integer> optionalThirst = Optional.ofNullable(player.getGame().getRoundThirst());
+    Optional<Integer> optionalThirst = Optional
+        .ofNullable(player.getGame().getGamePlan().getRoundThirst());
     if (optionalThirst.isPresent()) {
       increasePlayerThirst(player, optionalThirst.get());
     } else {
@@ -19,8 +20,11 @@ public class Thirst implements PlayerEvent {
   }
 
   private void increasePlayerThirst(Player player, Integer thirst) {
-    if (player.getThirst() + thirst > 100) {
+    Integer newThirst = player.getThirst() + thirst;
+    if (newThirst > 100) {
       player.setAlive(false);
+    } else if (newThirst <= 0) {
+      player.setThirst(0);
     } else {
       player.setThirst(player.getThirst() + thirst);
     }

@@ -52,7 +52,7 @@ public class GameController {
     model.addAttribute("userDTO", userDTOConverter.toDto(currentUser));
     model.addAttribute("page", page);
     model.addAttribute("gamename", gamename);
-    Player currentPlayer = gameService.getGame(gamename, currentUser.getId()).getPlayer();
+    Player currentPlayer = gameService.getGame(gamename, currentUser).getPlayer();
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
     return "game/ingame";
   }

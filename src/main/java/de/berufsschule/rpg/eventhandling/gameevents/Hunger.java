@@ -9,7 +9,8 @@ public class Hunger implements PlayerEvent {
 
   @Override
   public void event(Player player) {
-    Optional<Integer> optionalHunger = Optional.ofNullable(player.getGame().getRoundHunger());
+    Optional<Integer> optionalHunger = Optional
+        .ofNullable(player.getGame().getGamePlan().getRoundHunger());
     if (optionalHunger.isPresent()) {
       increasePlayerHunger(player, optionalHunger.get());
     } else {
@@ -18,8 +19,11 @@ public class Hunger implements PlayerEvent {
   }
 
   private void increasePlayerHunger(Player player, Integer hunger) {
-    if (player.getHunger() + hunger > 100) {
+    Integer newHunger = player.getHunger() + hunger;
+    if (newHunger > 100) {
       player.setAlive(false);
+    } else if (newHunger <= 0) {
+      player.setHunger(0);
     } else {
       player.setHunger(player.getHunger() + hunger);
     }

@@ -14,20 +14,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class SkillRequired implements PossibilityEvent {
 
-  private SkillService skillService;
-
-  @Autowired
-  public SkillRequired(SkillService skillService) {
-    this.skillService = skillService;
-  }
-
   @Override
   public boolean event(Possibility possibility, Player player, Page page) {
 
     if (possibility.getRequiredSkill() != null && possibility.getSkillSuccessLvl() != null
         && possibility.getProbability() == null) {
 
-      Skill skill = skillService.getSkillByName(possibility.getRequiredSkill());
+      Skill skill = null;
+
+      for (Skill playerSkill : player.getSkills()) {
+        if (playerSkill.getName().equals(possibility.getRequiredSkill())) {
+          skill = playerSkill;
+        }
+      }
+
       Integer successLvl = possibility.getSkillSuccessLvl();
       boolean takeAlt = false;
 

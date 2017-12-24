@@ -3,6 +3,7 @@ package de.berufsschule.rpg.services;
 import de.berufsschule.rpg.eventhandling.itemevents.ItemEvent;
 import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.repositories.ItemRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,13 +16,16 @@ public class ItemService {
   private List<ItemEvent> itemEvents;
   private PlayerService playerService;
   private GamePlanService gamePlanService;
+  private ItemRepository itemRepository;
 
   @Autowired
   ItemService(List<ItemEvent> itemEvents, PlayerService playerService,
-              GamePlanService gamePlanService) {
+      GamePlanService gamePlanService,
+      ItemRepository itemRepository) {
     this.itemEvents = itemEvents;
     this.playerService = playerService;
     this.gamePlanService = gamePlanService;
+    this.itemRepository = itemRepository;
   }
 
   public void itemEffects(Item usedItem, Player player) {
@@ -33,10 +37,8 @@ public class ItemService {
     }
   }
 
-  public Item getItem(String usedItem, Player player) {
-    HashMap<String, Item> items = gamePlanService
-        .getItemHashMapOfGamePlan(player.getGame().getName());
-    return items.get(usedItem);
+  public Item getItem(Integer id) {
+    return itemRepository.findOne(id);
   }
 
   public List<Item> createInventory(Player player) {
@@ -44,9 +46,9 @@ public class ItemService {
     boolean newItem;
     List<Item> inventory = new ArrayList<>();
 
-    for (String ownedItem : player.getItems()) {
+    for (Item ownedItem : player.getItems()) {
 
-      Item item = getItem(ownedItem, player);
+      Item item = getItem(ownedItem.getId());
       newItem = isNewItem(inventory, ownedItem);
       if (newItem) {
         item.setAmount(0);
@@ -57,21 +59,20 @@ public class ItemService {
     return inventory;
   }
 
-  private void setItemAmount(Player player, String ownedItem, Item item) {
-    for (String otherItem : player.getItems()) {
-
-      if (otherItem.equals(ownedItem)) {
+  private void setItemAmount(Player player, Item ownedItem, Item item) {
+    for (Item otherItem : player.getItems()) {
+      if (otherItem.getName().equals(ownedItem.getName())) {
         int amount = item.getAmount();
         item.setAmount(amount + 1);
       }
     }
   }
 
-  private boolean isNewItem(List<Item> inventory, String ownedItem) {
+  private boolean isNewItem(List<Item> inventory, Item ownedItem) {
     boolean newItem;
     newItem = true;
     for (Item invItem : inventory) {
-      if (invItem.getName().equals(ownedItem)) {
+      if (invItem.getName().equals(ownedItem.getName())) {
         newItem = false;
         break;
       }
@@ -79,11 +80,10 @@ public class ItemService {
     return newItem;
   }
 
-  public void useItem(String usedItem, Player player) {
+  public void useItem(Item usedItem, Player player) {
 
-    Item item = getItem(usedItem, player);
-    playerService.removeItemFromPlayer(player, item);
-    itemEffects(item, player);
+    playerService.removeItemFromPlayer(player, usedItem);
+    itemEffects(usedItem, player);
     playerService.savePlayer(player);
   }
 }

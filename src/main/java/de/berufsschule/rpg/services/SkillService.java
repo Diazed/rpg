@@ -22,28 +22,18 @@ public class SkillService {
     this.playerService = playerService;
   }
 
-  public Skill getSkillByName(String name) {
-    return skillRepository.findByName(name);
+  public Skill getSkill(Integer id) {
+    return skillRepository.findOne(id);
   }
 
   public void saveSkill(Skill skill) {
     skillRepository.save(skill);
   }
 
-  public void persistSkillsFromGamePlan(GamePlan gamePlan) {
-    Optional<List<Skill>> skills = Optional.ofNullable(gamePlan.getSkills());
-    if (skills.isPresent()) {
-      List<Skill> skillList = skills.get();
-      if (!skillList.isEmpty()) {
-        skillRepository.save(skillList);
-      }
-    }
-  }
-
-  public void useSkillPoint(String skillname, Player player) {
+  public void useSkillPoint(Integer skillid, Player player) {
 
     if (!player.getSkillPoints().equals(0)) {
-      Optional<Skill> skillOptional = Optional.ofNullable(getSkillByName(skillname));
+      Optional<Skill> skillOptional = Optional.ofNullable(getSkill(skillid));
       if (skillOptional.isPresent()) {
         Skill skill = skillOptional.get();
 

@@ -26,10 +26,10 @@ public class PlayerService {
   }
 
   public void removeItemFromPlayer(Player player, Item item) {
-    List<String> playerItems = player.getItems();
+    List<Item> playerItems = player.getItems();
     for (int i = 0; i < playerItems.size(); i++) {
-      String playerItem = playerItems.get(i);
-      if (item.getName().equals(playerItem)) {
+      Item playerItem = playerItems.get(i);
+      if (item.getName().equals(playerItem.getName())) {
         playerItems.remove(i);
         player.setItems(playerItems);
         playerRepository.save(player);
@@ -81,8 +81,8 @@ public class PlayerService {
 
   private boolean doesPlayerOwnRequiredItem(Possibility possibility, Player player) {
     String neededItem = possibility.getUsedItem();
-    for (String item : player.getItems()) {
-      if (item.equals(neededItem))
+    for (Item item : player.getItems()) {
+      if (item.getName().equals(neededItem))
         return true;
     }
     return false;

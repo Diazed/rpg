@@ -19,7 +19,7 @@ public class ParseAlternative extends BaseParser implements PossibilityParser {
       Possibility possibility = getLastCreatedPossibility(gamePlan);
       if (possibility.getClass() == Decision.class) {
         Decision decision = (Decision) possibility;
-        decision.setAltJump(pageIdHandling(line));
+        decision.setAltJump(findPageByName(gamePlan, line).getId());
         return true;
       } else if (possibility.getClass() == Question.class) {
         Question question = (Question) possibility;

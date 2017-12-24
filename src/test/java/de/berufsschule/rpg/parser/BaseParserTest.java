@@ -5,7 +5,7 @@ import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
-import de.berufsschule.rpg.parser.gameplanparser.ParseStartPage;
+import de.berufsschule.rpg.parser.pageparser.ParseStartPage;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -24,7 +24,7 @@ public class BaseParserTest {
   private GamePlan gamePlan;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
 
     setUpScanner("Test");
     systemUnderTest = new ParseStartPage();
@@ -64,12 +64,12 @@ public class BaseParserTest {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     scanner.close();
   }
 
   @Test
-  public void getNextLine() throws Exception {
+  public void getNextLine() {
     setUpScanner("'Test'");
     String actual = systemUnderTest.getNextLine(scanner);
     Assert.assertEquals("Test", actual);
@@ -78,31 +78,31 @@ public class BaseParserTest {
   }
 
   @Test
-  public void getLastCreatedPage() throws Exception {
+  public void getLastCreatedPage() {
     Page actual = systemUnderTest.getLastCreatedPage(gamePlan);
     Assert.assertEquals("secondPage", actual.getName());
   }
 
   @Test
-  public void getLastCreatedItem() throws Exception {
+  public void getLastCreatedItem() {
     Item actual = systemUnderTest.getLastCreatedItem(gamePlan);
     Assert.assertEquals("secondItem", actual.getName());
   }
 
   @Test
-  public void getLastCreatedSkill() throws Exception {
+  public void getLastCreatedSkill() {
     Skill actual = systemUnderTest.getLastCreatedSkill(gamePlan);
     Assert.assertEquals("secondSkill", actual.getName());
   }
 
   @Test
-  public void getLastCreatedPossibility() throws Exception {
+  public void getLastCreatedPossibility() {
     Possibility actual = systemUnderTest.getLastCreatedPossibility(gamePlan);
     Assert.assertEquals("secondPossibility", actual.getText());
   }
 
   @Test
-  public void parseIntDefaultsToOne() throws Exception {
+  public void parseIntDefaultsToOne() {
     Integer expected = 1;
     Integer actual = systemUnderTest.parseInt(" 5t ");
     Assert.assertEquals(expected, actual);

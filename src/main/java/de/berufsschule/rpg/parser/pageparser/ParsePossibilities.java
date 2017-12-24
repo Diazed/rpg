@@ -1,8 +1,10 @@
 package de.berufsschule.rpg.parser.pageparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.possibilityparser.PossibilityParser;
+import de.berufsschule.rpg.services.PossibilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,7 @@ import java.util.Scanner;
 public class ParsePossibilities extends BaseParser implements PageParser {
 
     private List<PossibilityParser> possibilityParsers;
+  private PossibilityService possibilityService;
 
     @Autowired
     public ParsePossibilities(List<PossibilityParser> possibilityParsers) {
@@ -33,6 +36,10 @@ public class ParsePossibilities extends BaseParser implements PageParser {
                     }
                 }
             }
+          Possibility lastCreatedPossibility = getLastCreatedPossibility(gamePlan);
+          if (lastCreatedPossibility != null) {
+            possibilityService.savePossibility(lastCreatedPossibility);
+          }
             return true;
         }
         return false;

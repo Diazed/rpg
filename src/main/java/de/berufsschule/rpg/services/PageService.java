@@ -8,6 +8,7 @@ import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Question;
 import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.repositories.PageRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,23 @@ public class PageService {
   private GameService gameService;
   private PlayerService playerService;
   private PossibilityService possibilityService;
+  private PageRepository pageRepository;
   private DeathService deathService;
 
   @Autowired
   public PageService(List<PageEvent> pageEvents, PlayerService playerService,
-      PossibilityService possibilityService, GameService gameService, DeathService deathService) {
+      PossibilityService possibilityService, GameService gameService,
+      PageRepository pageRepository, DeathService deathService) {
     this.pageEvents = pageEvents;
     this.playerService = playerService;
     this.possibilityService = possibilityService;
     this.gameService = gameService;
+    this.pageRepository = pageRepository;
     this.deathService = deathService;
+  }
+
+  public void savePage(Page page) {
+    pageRepository.save(page);
   }
 
   public void runPageEvents(Page page, Player player) {
@@ -45,9 +53,9 @@ public class PageService {
       return null;
     }
     Player player = game.getPlayer();
-    playerService.firstStart(player, game.getStartPage());
-    deathService.playerDeath(player, game.getDeathPage());
-    Page page = game.getPages().get(player.getPosition());
+    playerService.firstStart(player, game.getGamePlan().getStartPage());
+    deathService.playerDeath(player, game.getGamePlan().getDeathPage());
+    Page page = game.getGamePlan().getPages().get(player.getPosition());
     if (page == null) {
       page = new Page();
       page.setName("Fortsetzung folgt");
@@ -55,7 +63,7 @@ public class PageService {
           + "Ergebnis deiner letzten Entscheidung noch nicht verfasst. \n\n:c");
     }
     setFlagsForPagePossibilities(page, player);
-    gameService.editGame(game, user.getId());
+    gameService.editGame(game);
     return page;
   }
 
@@ -64,7 +72,7 @@ public class PageService {
     Game game = gameService.loadOrCreateGame(gamename, user);
     Player player = game.getPlayer();
     Possibility clickedPossibility = possibilityService
-        .getClickedDecision(game.getPages().get(player.getPosition()), clickedPossibilityId);
+        .getPossibility(clickedPossibilityId);
     if (clickedPossibility == null)
       return false;
 
@@ -78,7 +86,7 @@ public class PageService {
   }
 
   private boolean handleDecision(Decision decision, Game game, User user) {
-    Page jumpPage = game.getPages().get(decision.getMainJump());
+    Page jumpPage = game.getGamePlan().getPages().get(decision.getMainJump());
     Player player = game.getPlayer();
     if (jumpPage == null) {
       jumpPage = new Page();
@@ -103,23 +111,23 @@ public class PageService {
   private boolean handleQuestion(Question question, Game game, User user) {
 
     Player player = game.getPlayer();
-    Page jumpPage = game.getPages().get(player.getPosition());
+    Page jumpPage = game.getGamePlan().getPages().get(player.getPosition());
     question.setAsked(true);
     possibilityService.runPossibilityEvents(question, player, jumpPage);
     if (question.isTakeAlt()) {
-      game.getPages().get(jumpPage.getID()).setStorytext(question.getAltAnswer());
+      game.getGamePlan().getPages().get(jumpPage.getId()).setStorytext(question.getAltAnswer());
     } else {
-      game.getPages().get(jumpPage.getID()).setStorytext(question.getMainAnswer());
+      game.getGamePlan().getPages().get(jumpPage.getId()).setStorytext(question.getMainAnswer());
     }
     return isPlayerAllowedToJump(question, user, game);
   }
 
   private boolean isPlayerAllowedToJump(Possibility possibility, User user, Game game) {
-    if (deathService.revive(game.getPlayer(), game.getStartPage())) {
+    if (deathService.revive(game.getPlayer(), game.getGamePlan().getStartPage())) {
       return true;
     }
     if (playerService.doesPlayerMeetRequirements(possibility, game.getPlayer())) {
-      gameService.editGame(game, user.getId());
+      gameService.editGame(game);
       return true;
     } else {
       return false;

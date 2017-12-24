@@ -14,7 +14,7 @@ public class ParseLearnSkill extends BaseParser implements PageParser{
         if (line.contains("#LEARNSKILL")){
             line = getNextLine(fileIn);
             Page page = getLastCreatedPage(gamePlan);
-            page.getSkills().add(line);
+          page.getSkills().add(findSkillByName(gamePlan, line));
             return true;
         }
         return false;

@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class GamePlanService {
 
-  ParserRunner parserRunner;
+  private ParserRunner parserRunner;
 
   @Autowired
   public GamePlanService(ParserRunner parserRunner) {
@@ -30,36 +30,8 @@ public class GamePlanService {
     return gamePlans;
   }
 
+  // TODO: Load the GamePlan out of the Repo
   public GamePlan getGamePlan(String gamePlanName) {
     return parserRunner.getGames().get(gamePlanName);
   }
-
-
-  public HashMap<String, Item> getItemHashMapOfGamePlan(String gamePlanName) {
-    GamePlan gamePlan = getGamePlan(gamePlanName);
-    HashMap<String, Item> result = new HashMap<>();
-    for (Item item : gamePlan.getItems()) {
-      result.put(item.getName(), item);
-    }
-    return result;
-  }
-
-  public HashMap<String, Skill> getSkillHashMapOfGamePlan(String gamePlanName) {
-    GamePlan gamePlan = getGamePlan(gamePlanName);
-    HashMap<String, Skill> result = new HashMap<>();
-    for (Skill skill : gamePlan.getSkills()) {
-      result.put(skill.getName(), skill);
-    }
-    return result;
-  }
-
-  public HashMap<Integer, Page> getPageHashMapOfGamePlan(String gamePlanName) {
-    GamePlan gamePlan = getGamePlan(gamePlanName);
-    HashMap<Integer, Page> result = new HashMap<>();
-    for (Page page : gamePlan.getPages()) {
-      result.put(page.getID(), page);
-    }
-    return result;
-  }
-
 }

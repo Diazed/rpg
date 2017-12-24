@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.dto;
 
+import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.registration.annotations.PasswordMatches;
 import de.berufsschule.rpg.registration.annotations.ValidEmail;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class UserDTO {
   private String matchingPassword;
   private boolean firstVisit;
   private String currentGame;
-  private List<String> savedGames;
+  private List<Game> savedGames;
 
   private List<String> roles = new ArrayList<>();
   private boolean enabled;

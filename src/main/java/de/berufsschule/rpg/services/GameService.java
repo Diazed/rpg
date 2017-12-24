@@ -29,20 +29,21 @@ public class GameService {
     this.gamePlanService = gamePlanService;
   }
 
-  public Game getGame(String gameName, Integer userId) {
-    return gameRepository.findByNameAndUserId(gameName, userId);
+  public Game getGame(Integer id) {
+    return gameRepository.findOne(id);
   }
 
-  public void editGame(Game game, Integer userID) {
-    Game origGame = getGame(game.getName(), userID);
-    origGame.setDeathPage(game.getDeathPage());
-    origGame.setStartPage(game.getStartPage());
-    origGame.setPlayer(game.getPlayer());
-    origGame.setName(game.getName());
-    origGame.setPages(game.getPages());
-    origGame.setItems(game.getItems());
+  public Game getGame(String gamename, User user) {
+    for (Game game : user.getSavedGames()) {
+      if (game.getGamePlan().getName().equals(gamename)) {
+        return game;
+      }
+    }
+    return null;
+  }
 
-    gameRepository.save(origGame);
+  public void editGame(Game game) {
+    gameRepository.save(game);
   }
 
   public void initiateGames() {
@@ -62,9 +63,9 @@ public class GameService {
 
   public Game loadOrCreateGame(String gameName, User user) {
 
-    for (String save : user.getSavedGames()) {
-      if (save.equals(gameName)) {
-        return loadSavedGame(gameName, user);
+    for (Game game : user.getSavedGames()) {
+      if (game.getGamePlan().getName().equals(gameName)) {
+        return getGame(game.getId());
       }
     }
     log.info("Create game " + gameName + " for user " + user.getUsername() + " (" + user.getEmail()
@@ -79,37 +80,19 @@ public class GameService {
       log.info("User (" + user.getUsername() + ") request a non existent game!");
       return null;
     }
-    game.setName(gameName);
+
     game.setUserId(user.getId());
-    game.setDeathPage(gamePlan.getDeathPage());
-    game.setStartPage(gamePlan.getStartPage());
-    game.setRoundExp(gamePlan.getRoundExp());
-    game.setRoundHunger(gamePlan.getRoundHunger());
-    game.setRoundThirst(gamePlan.getRoundThirst());
+    game.setGamePlan(gamePlan);
 
     Player player = new Player();
     game.setPlayer(player);
-    fillPagesAndItems(gameName, game);
-    user.getSavedGames().add(gameName);
-    userService.editUser(user);
+    user.getSavedGames().add(game);
     try {
       gameRepository.save(game);
+      userService.editUser(user);
     } catch (Exception e) {
       log.error("Created game could not be saved! Error: " + e.getMessage());
     }
     return game;
-  }
-
-  private Game loadSavedGame(String gameName, User user) {
-    Game savedGame = getGame(gameName, user.getId());
-    fillPagesAndItems(gameName, savedGame);
-    return savedGame;
-  }
-
-  private void fillPagesAndItems(String gameName, Game game) {
-    if (game.getItems() == null || game.getItems().isEmpty())
-      game.setItems(gamePlanService.getItemHashMapOfGamePlan(gameName));
-    if (game.getPages() == null || game.getPages().isEmpty())
-      game.setPages(gamePlanService.getPageHashMapOfGamePlan(gameName));
   }
 }

@@ -2,6 +2,7 @@ package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.eventhandling.pageevents.Checkpoint;
 import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
+import de.berufsschule.rpg.repositories.PageRepository;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
@@ -19,16 +20,18 @@ public class PageServiceTest {
   private PossibilityService possibilityService;
   @Mock
   private DeathService deathService;
+  @Mock
+  private PageRepository pageRepository;
   private List<PageEvent> pageEvents = Arrays.asList(new Checkpoint());
   private PageService systemUnderTest;
 
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
 
     MockitoAnnotations.initMocks(this);
     systemUnderTest = new PageService(pageEvents, playerService, possibilityService, gameService,
-        deathService);
+        pageRepository, deathService);
 
 
   }

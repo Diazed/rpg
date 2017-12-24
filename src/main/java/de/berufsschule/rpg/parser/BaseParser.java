@@ -17,32 +17,33 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public abstract class BaseParser {
 
-  private static HashMap<String, Integer> idNameMap = new HashMap<String, Integer>();
-  private static Integer nextId;
   private static Integer possibilityIdCounter;
 
-  protected Integer pageIdHandling(String pageName) {
-    if (idNameMap.containsKey(pageName)) {
-      return idNameMap.get(pageName);
-    } else {
-      nextId = idNameMap.size() + 1;
-      idNameMap.put(pageName, nextId);
-      return nextId;
+  protected Page findPageByName(GamePlan gamePlan, String pagename) {
+    for (Page page : gamePlan.getPages()) {
+      if (page.getName().equals(pagename)) {
+      }
+      return page;
     }
+    return null;
   }
 
-  protected void resetIdMaps() {
-    nextId = 0;
-    idNameMap = new HashMap<>();
-    possibilityIdCounter = 0;
+  protected Skill findSkillByName(GamePlan gamePlan, String skillname) {
+    for (Skill skill : gamePlan.getSkills()) {
+      if (skill.getName().equals(skillname)) {
+      }
+      return skill;
+    }
+    return null;
   }
 
-  protected Integer possibilityIdHandling() {
-    if (possibilityIdCounter == null) {
-      possibilityIdCounter = 0;
+  protected Item findItemByName(GamePlan gamePlan, String itemname) {
+    for (Item item : gamePlan.getItems()) {
+      if (item.getName().equals(itemname)) {
+      }
+      return item;
     }
-    possibilityIdCounter = possibilityIdCounter + 1;
-    return possibilityIdCounter;
+    return null;
   }
 
   public String getNextLine(Scanner fileIn) {

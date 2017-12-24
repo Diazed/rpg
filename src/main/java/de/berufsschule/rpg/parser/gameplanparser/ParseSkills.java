@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.parser.skillparser.SkillParser;
@@ -36,7 +37,10 @@ public class ParseSkills extends BaseParser implements GamePlanParser {
                 }
                 line = getNextLine(fileIn);
             }
-            skillService.persistSkillsFromGamePlan(gamePlan);
+          Skill lastCreatedSkill = getLastCreatedSkill(gamePlan);
+          if (lastCreatedSkill != null) {
+            skillService.saveSkill(lastCreatedSkill);
+          }
             return true;
         }
         return false;

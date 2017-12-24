@@ -16,7 +16,7 @@ public class ParseGiveItem extends BaseParser implements PageParser {
       while (!nextLine.contains("#") && fileIn.hasNextLine()) {
         nextLine = getNextLine(fileIn);
         if (!nextLine.contains("#")) {
-          page.getItems().add(nextLine);
+          page.getItems().add(findItemByName(gamePlan, line));
         }
       }
       return true;

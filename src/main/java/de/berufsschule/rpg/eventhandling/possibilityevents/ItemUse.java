@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
+import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
@@ -22,9 +23,9 @@ public class ItemUse implements PossibilityEvent {
       Page page) {
     if (possibility.getUsedItem() != null) {
       String usedItem = possibility.getUsedItem();
-      for (String item : player.getItems()) {
-        if (item.equals(usedItem)) {
-          itemService.useItem(usedItem, player);
+      for (Item item : player.getItems()) {
+        if (item.getName().equals(usedItem)) {
+          itemService.useItem(item, player);
           page.setUsedItem(usedItem);
           return true;
         }

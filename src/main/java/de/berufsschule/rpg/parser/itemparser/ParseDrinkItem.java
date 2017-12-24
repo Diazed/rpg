@@ -22,5 +22,4 @@ public class ParseDrinkItem extends BaseParser implements ItemParser {
     }
     return false;
   }
-
 }

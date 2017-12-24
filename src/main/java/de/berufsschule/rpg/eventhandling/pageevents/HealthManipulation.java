@@ -9,7 +9,12 @@ public class HealthManipulation implements PageEvent {
   @Override
   public void event(Page page, Player player) {
     if (page.getHealthManipulation() != null) {
-      player.setHitpoints(player.getHitpoints() + page.getHealthManipulation());
+      Integer newHealth = player.getHitpoints() + page.getHealthManipulation();
+      if (newHealth >= 100) {
+        player.setHitpoints(100);
+      } else {
+        player.setHitpoints(newHealth);
+      }
     }
   }
 }

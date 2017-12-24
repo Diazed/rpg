@@ -9,7 +9,7 @@ public class Checkpoint implements PageEvent {
   @Override
   public void event(Page currentPage, Player player) {
     if (currentPage.isCheckpoint()) {
-      player.setCheckpoint(currentPage.getID());
+      player.setCheckpoint(currentPage.getId());
     }
   }
 }

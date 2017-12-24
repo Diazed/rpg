@@ -1,5 +1,6 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
+import de.berufsschule.rpg.model.Item;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.Possibility;
@@ -19,14 +20,20 @@ public class ItemUseTest {
   private Possibility testPossibility;
   private Player testPlayer;
   private Page testPage;
+  private Item shovelItem;
+  private Item axeItem;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     MockitoAnnotations.initMocks(this);
     systemUnderTest = new ItemUse(itemService);
     testPossibility = new Possibility();
     testPlayer = new Player();
     testPage = new Page();
+    shovelItem = new Item();
+    axeItem = new Item();
+    shovelItem.setName("shovel");
+    axeItem.setName("axe");
   }
 
   @Test
@@ -38,7 +45,7 @@ public class ItemUseTest {
   @Test
   public void returnFalseWhenPlayerDoesNotOwnItem() {
     testPossibility.setUsedItem("axe");
-    testPlayer.getItems().add("shovel");
+    testPlayer.getItems().add(shovelItem);
     boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
@@ -46,7 +53,7 @@ public class ItemUseTest {
   @Test
   public void setTheUsedItemInTheJumpPageWhenPlayerDoesOwnItem() {
     testPossibility.setUsedItem("axe");
-    testPlayer.getItems().add("axe");
+    testPlayer.getItems().add(axeItem);
     boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals("axe", testPage.getUsedItem());

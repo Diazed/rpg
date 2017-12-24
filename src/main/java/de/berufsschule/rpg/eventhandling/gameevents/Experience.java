@@ -12,9 +12,9 @@ public class Experience implements PlayerEvent {
   @Override
   public void event(Player player) {
     Game game = player.getGame();
-    Optional<Integer> optionalExp = Optional.ofNullable(game.getRoundExp());
+    Optional<Integer> optionalExp = Optional.ofNullable(game.getGamePlan().getRoundExp());
     if (optionalExp.isPresent()) {
-      increaseExperience(player, game.getRoundExp());
+      increaseExperience(player, game.getGamePlan().getRoundExp());
     } else {
       increaseExperience(player, 20);
     }
