@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.parser.skillparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.SkillService;
@@ -20,14 +21,14 @@ public class ParseSkill extends BaseParser implements SkillParser {
   }
 
   @Override
-  public boolean parseSkill(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#SKILL")) {
-      Skill lastCreatedSkill = getLastCreatedSkill(gamePlan);
+  public boolean parseSkill(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#SKILL")) {
+      Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
       if (lastCreatedSkill != null) {
         skillService.saveSkill(lastCreatedSkill);
       }
 
-      gamePlan.getSkills().add(new Skill());
+      parseModel.getGamePlan().getSkills().add(new Skill());
       return true;
     }
     return false;

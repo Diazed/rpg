@@ -2,6 +2,7 @@ package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 
 import de.berufsschule.rpg.model.Decision;
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.PossibilityService;
@@ -19,15 +20,16 @@ public class ParseDecision extends BaseParser implements PossibilityParser {
   }
 
   @Override
-  public boolean parsePossibility(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#DECISION")) {
-      Possibility lastCreatedPossibility = getLastCreatedPossibility(gamePlan);
+  public boolean parsePossibility(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#DECISION")) {
+
+      Possibility lastCreatedPossibility = getLastCreatedPossibility(parseModel.getGamePlan());
       if (lastCreatedPossibility != null) {
         possibilityService.savePossibility(lastCreatedPossibility);
       }
 
       Possibility possibility = new Decision();
-      getLastCreatedPage(gamePlan).getPossibilities().add(possibility);
+      getLastCreatedPage(parseModel.getGamePlan()).getPossibilities().add(possibility);
       return true;
     }
     return false;

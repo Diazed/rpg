@@ -36,7 +36,7 @@ public class UserDTO {
   @Size(min = 1, max = 50)
   private String matchingPassword;
   private boolean firstVisit;
-  private String currentGame;
+  private Integer currentGame;
   private List<Game> savedGames;
 
   private List<String> roles = new ArrayList<>();

@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.eventhandling.gameevents;
 
 import de.berufsschule.rpg.model.Game;
+import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Player;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,10 @@ public class Experience implements PlayerEvent {
 
   @Override
   public void event(Player player) {
-    Game game = player.getGame();
-    Optional<Integer> optionalExp = Optional.ofNullable(game.getGamePlan().getRoundExp());
+    GamePlan gamePlan = player.getGame().getGamePlan();
+    Optional<Integer> optionalExp = Optional.ofNullable(gamePlan.getRoundExp());
     if (optionalExp.isPresent()) {
-      increaseExperience(player, game.getGamePlan().getRoundExp());
+      increaseExperience(player, gamePlan.getRoundExp());
     } else {
       increaseExperience(player, 20);
     }

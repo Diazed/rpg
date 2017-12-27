@@ -45,7 +45,7 @@ public class User {
 
   private Locale prefLocale = Locale.ENGLISH;
 
-  private String currentGame;
+  private Integer currentGame;
   @ManyToMany
   private List<Game> savedGames;
   @ElementCollection

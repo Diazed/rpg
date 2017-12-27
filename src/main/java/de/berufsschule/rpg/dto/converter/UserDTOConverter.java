@@ -1,5 +1,6 @@
-package de.berufsschule.rpg.dto;
+package de.berufsschule.rpg.dto.converter;
 
+import de.berufsschule.rpg.dto.UserDTO;
 import de.berufsschule.rpg.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

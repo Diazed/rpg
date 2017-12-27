@@ -57,6 +57,7 @@ public class PlayerService {
       } else {
         setPlayerPosition(startPage, player);
       }
+      savePlayer(player);
     }
   }
 

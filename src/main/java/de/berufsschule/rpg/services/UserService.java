@@ -1,7 +1,7 @@
 package de.berufsschule.rpg.services;
 
 import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.UserDTOConverter;
+import de.berufsschule.rpg.dto.converter.UserDTOConverter;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.model.VerificationToken;
 import de.berufsschule.rpg.repositories.UserRepository;

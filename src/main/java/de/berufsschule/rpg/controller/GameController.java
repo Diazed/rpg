@@ -1,14 +1,15 @@
 package de.berufsschule.rpg.controller;
 
-import de.berufsschule.rpg.dto.PlayerDTOConverter;
+import de.berufsschule.rpg.dto.converter.PlayerDTOConverter;
 import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.UserDTOConverter;
+import de.berufsschule.rpg.dto.converter.UserDTOConverter;
+import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.GamePlanService;
 import de.berufsschule.rpg.services.GameService;
-import de.berufsschule.rpg.services.PageService;
+import de.berufsschule.rpg.services.JumpService;
 import de.berufsschule.rpg.services.UserService;
 import java.security.Principal;
 import lombok.extern.slf4j.Slf4j;
@@ -28,31 +29,34 @@ public class GameController {
   private UserDTOConverter userDTOConverter;
   private UserService userService;
   private GamePlanService gamePlanService;
-  private PageService pageService;
+  private JumpService jumpService;
 
   @Autowired
-  public GameController(GameService gameService, PlayerDTOConverter playerDTOConverter, UserService userService, GamePlanService gamePlanService, UserDTOConverter userDTOConverter, PageService pageService) {
+  public GameController(GameService gameService, PlayerDTOConverter playerDTOConverter,
+      UserService userService, GamePlanService gamePlanService, UserDTOConverter userDTOConverter,
+      JumpService jumpService) {
     this.gameService = gameService;
     this.playerDTOConverter = playerDTOConverter;
     this.userService = userService;
     this.gamePlanService = gamePlanService;
     this.userDTOConverter = userDTOConverter;
-    this.pageService = pageService;
+    this.jumpService = jumpService;
   }
 
-  @RequestMapping(value = "/play/{gamename}", method = RequestMethod.GET)
-  public String invokeGame(@PathVariable String gamename,Model model, Principal principal) {
+  @RequestMapping(value = "/play/{gamePlanId}", method = RequestMethod.GET)
+  public String invokeGame(@PathVariable Integer gamePlanId, Model model, Principal principal) {
 
     User currentUser = userService.findByEmail(principal.getName());
-    Page page = pageService.playPage(currentUser, gamename);
+    Page page = jumpService.playPage(currentUser, gamePlanId);
     if (page == null){
       return "redirect:/play";
     }
 
     model.addAttribute("userDTO", userDTOConverter.toDto(currentUser));
     model.addAttribute("page", page);
-    model.addAttribute("gamename", gamename);
-    Player currentPlayer = gameService.getGame(gamename, currentUser).getPlayer();
+    Game game = gameService.getGame(currentUser.getCurrentGame());
+    Player currentPlayer = game.getPlayer();
+    model.addAttribute("gameplanid", gamePlanId);
     model.addAttribute("playerDTO", playerDTOConverter.toDTO(currentPlayer));
     return "game/ingame";
   }
@@ -62,13 +66,13 @@ public class GameController {
     return "redirect:/games";
   }
 
-  @RequestMapping(value = "/play/{gamename}/{clickedPossibilityId}", method = RequestMethod.POST)
+  @RequestMapping(value = "/play/{gamePlanId}/{clickedPossibilityId}", method = RequestMethod.POST)
   public String goToNextPage(@PathVariable Integer clickedPossibilityId,
-      @PathVariable String gamename, Principal principal) {
+      @PathVariable Integer gamePlanId, Principal principal) {
 
     User currentUser = userService.findByEmail(principal.getName());
-    if (pageService.jumpToNextPage(currentUser, gamename, clickedPossibilityId)) {
-      return "redirect:/play/"+gamename;
+    if (jumpService.jumpToNextPage(currentUser, gamePlanId, clickedPossibilityId)) {
+      return "redirect:/play/" + gamePlanId;
     }
     return "redirect:/play";
   }

@@ -27,4 +27,5 @@ public class Game {
   @OneToOne(mappedBy = "game")
   @Cascade(CascadeType.ALL)
   private Player player;
+
 }

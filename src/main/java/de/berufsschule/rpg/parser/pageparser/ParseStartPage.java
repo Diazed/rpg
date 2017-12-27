@@ -1,8 +1,11 @@
 package de.berufsschule.rpg.parser.pageparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
-import de.berufsschule.rpg.parser.pageparser.PageParser;
+import de.berufsschule.rpg.services.PageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -10,11 +13,19 @@ import java.util.Scanner;
 @Component
 public class ParseStartPage extends BaseParser implements PageParser {
 
+  private PageService pageService;
+
+  @Autowired
+  public ParseStartPage(PageService pageService) {
+    this.pageService = pageService;
+  }
+
   @Override
-  public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#STARTPAGE")){
-      line = getNextLine(fileIn);
-      gamePlan.setStartPage(getLastCreatedPage(gamePlan).getId());
+  public boolean parsePage(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#STARTPAGE")) {
+      Page lastPage = getLastCreatedPage(parseModel.getGamePlan());
+      pageService.savePage(lastPage);
+      parseModel.getGamePlan().setStartPage(lastPage.getId());
       return true;
     }
     return false;

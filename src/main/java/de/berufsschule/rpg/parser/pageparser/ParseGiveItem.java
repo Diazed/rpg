@@ -2,21 +2,23 @@ package de.berufsschule.rpg.parser.pageparser;
 
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ParseGiveItem extends BaseParser implements PageParser {
+
   @Override
-  public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#GIVE")) {
-      Page page = getLastCreatedPage(gamePlan);
+  public boolean parsePage(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#GIVE")) {
+      Page page = getLastCreatedPage(parseModel.getGamePlan());
       String nextLine = "";
-      while (!nextLine.contains("#") && fileIn.hasNextLine()) {
-        nextLine = getNextLine(fileIn);
+      while (!nextLine.contains("#") && parseModel.hasNextLine()) {
+        nextLine = parseModel.getNextLine();
         if (!nextLine.contains("#")) {
-          page.getItems().add(findItemByName(gamePlan, line));
+          page.getItems().add(findItemByName(parseModel.getGamePlan(), parseModel.getLine()));
         }
       }
       return true;

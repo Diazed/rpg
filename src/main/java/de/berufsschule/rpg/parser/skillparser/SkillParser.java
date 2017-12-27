@@ -2,8 +2,10 @@ package de.berufsschule.rpg.parser.skillparser;
 
 import de.berufsschule.rpg.model.GamePlan;
 
+import de.berufsschule.rpg.model.ParseModel;
 import java.util.Scanner;
 
 public interface SkillParser {
-    boolean parseSkill(GamePlan gamePlan, String line, Scanner fileIn);
+
+  boolean parseSkill(ParseModel parseModel);
 }

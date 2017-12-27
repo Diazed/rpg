@@ -6,6 +6,7 @@ import de.berufsschule.rpg.model.Page;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.pageparser.ParseStartPage;
+import de.berufsschule.rpg.services.PageService;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
@@ -14,6 +15,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -22,12 +25,15 @@ public class BaseParserTest {
   private Scanner scanner;
   private BaseParser systemUnderTest;
   private GamePlan gamePlan;
+  @Mock
+  PageService pageService;
 
   @Before
   public void setUp() {
 
+    MockitoAnnotations.initMocks(this);
     setUpScanner("Test");
-    systemUnderTest = new ParseStartPage();
+    systemUnderTest = new ParseStartPage(pageService);
 
     gamePlan = new GamePlan();
 
@@ -66,15 +72,6 @@ public class BaseParserTest {
   @After
   public void tearDown() {
     scanner.close();
-  }
-
-  @Test
-  public void getNextLine() {
-    setUpScanner("'Test'");
-    String actual = systemUnderTest.getNextLine(scanner);
-    Assert.assertEquals("Test", actual);
-    actual = systemUnderTest.getNextLine(scanner);
-    Assert.assertEquals("", actual);
   }
 
   @Test

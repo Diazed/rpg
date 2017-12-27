@@ -33,16 +33,7 @@ public class GameService {
     return gameRepository.findOne(id);
   }
 
-  public Game getGame(String gamename, User user) {
-    for (Game game : user.getSavedGames()) {
-      if (game.getGamePlan().getName().equals(gamename)) {
-        return game;
-      }
-    }
-    return null;
-  }
-
-  public void editGame(Game game) {
+  public void saveGame(Game game) {
     gameRepository.save(game);
   }
 
@@ -50,37 +41,38 @@ public class GameService {
     parserRunner.parseAllGames();
   }
 
-  public void switchCurrentGame(String gameName, User user) {
+  public void switchCurrentGame(Integer gameId, User user) {
     if (user.getCurrentGame() == null) {
       log.info(user.getUsername() + " started his very first game.");
-      user.setCurrentGame(gameName);
+      user.setCurrentGame(gameId);
     }
-    if (!user.getCurrentGame().equals(gameName)) {
-      user.setCurrentGame(gameName);
-      userService.editUser(user);
+    if (!user.getCurrentGame().equals(gameId)) {
+      user.setCurrentGame(gameId);
     }
+    userService.editUser(user);
   }
 
-  public Game loadOrCreateGame(String gameName, User user) {
+  public Game loadOrCreateGame(Integer gamePlanId, User user) {
 
     for (Game game : user.getSavedGames()) {
-      if (game.getGamePlan().getName().equals(gameName)) {
+      if (game.getGamePlan().getId().equals(gamePlanId)) {
         return getGame(game.getId());
       }
     }
-    log.info("Create game " + gameName + " for user " + user.getUsername() + " (" + user.getEmail()
+    log.info("Use gameplan with Id " + gamePlanId + " for user " + user.getUsername() + " (" + user
+        .getEmail()
         + ").");
-    return createNewGame(gameName, user);
+    return createNewGame(gamePlanId, user);
   }
 
-  private Game createNewGame(String gameName, User user) {
-    Game game = new Game();
-    GamePlan gamePlan = gamePlanService.getGamePlan(gameName);
+  private Game createNewGame(Integer gamePlanId, User user) {
+    GamePlan gamePlan = gamePlanService.getGamePlan(gamePlanId);
     if (gamePlan == null) {
       log.info("User (" + user.getUsername() + ") request a non existent game!");
       return null;
     }
 
+    Game game = new Game();
     game.setUserId(user.getId());
     game.setGamePlan(gamePlan);
 
@@ -89,6 +81,7 @@ public class GameService {
     user.getSavedGames().add(game);
     try {
       gameRepository.save(game);
+      log.info("Saved game " + game.getGamePlan().getName() + ". GameId is " + game.getId());
       userService.editUser(user);
     } catch (Exception e) {
       log.error("Created game could not be saved! Error: " + e.getMessage());

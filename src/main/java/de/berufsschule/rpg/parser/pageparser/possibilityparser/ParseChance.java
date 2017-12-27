@@ -1,6 +1,7 @@
 package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
 import org.springframework.stereotype.Component;
@@ -11,11 +12,10 @@ import java.util.Scanner;
 public class ParseChance extends BaseParser implements PossibilityParser {
 
   @Override
-  public boolean parsePossibility(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#CHANCE")){
-      line = getNextLine(fileIn);
-      int probability = parseInt(line);
-      Possibility possibility = getLastCreatedPossibility(gamePlan);
+  public boolean parsePossibility(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#CHANCE")) {
+      int probability = parseInt(parseModel.getAndSetNextLine());
+      Possibility possibility = getLastCreatedPossibility(parseModel.getGamePlan());
       possibility.setProbability(probability);
       return true;
     }

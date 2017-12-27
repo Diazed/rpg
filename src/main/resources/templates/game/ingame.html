@@ -56,7 +56,7 @@
                             <div th:if="${dec.usedItem} OR ${dec.requiredSkill}">
                                 <div class="col-md-6 decision">
                                   <form
-                                      th:action="@{/play/{gamename}/{jump}(jump=${dec.ID}, gamename = ${gamename})}"
+                                      th:action="@{/play/{gameplanid}/{jump}(jump=${dec.id}, gameid = ${gameplanid})}"
                                       method="post">
                                         <div th:if="${dec.hasItem} AND ${dec.hasSkill}"
                                              class="preitem">
@@ -93,7 +93,7 @@
                             <div th:if="${dec.usedItem == null} AND ${dec.requiredSkill == null}">
                                 <div class="col-md-6 decision">
                                   <form
-                                      th:action="@{/play/{gamename}/{jump}(jump=${dec.ID}, gamename = ${gamename})}"
+                                      th:action="@{/play/{gameplanid}/{jump}(jump=${dec.id}, gameplanid = ${gameplanid})}"
                                       method="post">
                                         <input type="submit" th:value="${dec.text}"
                                                class="btn btn-block btn-default"/>

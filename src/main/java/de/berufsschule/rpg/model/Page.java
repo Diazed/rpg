@@ -2,6 +2,7 @@ package de.berufsschule.rpg.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Page {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   private String name;
+  @Column(length = 300)
   private String storytext;
   @OneToMany
   private List<Possibility> possibilities;

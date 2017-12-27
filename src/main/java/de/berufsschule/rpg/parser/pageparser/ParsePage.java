@@ -1,7 +1,9 @@
 package de.berufsschule.rpg.parser.pageparser;
 
+import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.PageService;
 import java.util.Scanner;
@@ -19,19 +21,18 @@ public class ParsePage extends BaseParser implements PageParser {
   }
 
   @Override
-  public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#PAGE")){
+  public boolean parsePage(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#PAGE")) {
 
-      Page lastPage = getLastCreatedPage(gamePlan);
-
-      if (lastPage != null) {
-        pageService.savePage(lastPage);
+      Page lastCreatedPage = getLastCreatedPage(parseModel.getGamePlan());
+      if (lastCreatedPage != null) {
+        pageService.savePage(lastCreatedPage);
       }
 
       Page page = new Page();
-      String name = getNextLine(fileIn);
+      String name = parseModel.getAndSetNextLine();
       page.setName(name);
-      gamePlan.getPages().add(page);
+      parseModel.getGamePlan().getPages().add(page);
       return true;
     }
     return false;

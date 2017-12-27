@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
 import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.model.Skill;
 import de.berufsschule.rpg.parser.BaseParser;
-import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.parser.skillparser.SkillParser;
 import de.berufsschule.rpg.services.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +15,40 @@ import java.util.Scanner;
 
 @Component
 public class ParseSkills extends BaseParser implements GamePlanParser {
-    private List<SkillParser> skillParsers;
-    private SkillService skillService;
 
-    @Autowired
-    public ParseSkills(List<SkillParser> skillParsers, SkillService skillService) {
-        this.skillParsers = skillParsers;
-        this.skillService = skillService;
-    }
+  private List<SkillParser> skillParsers;
+  private SkillService skillService;
 
-    @Override
-    public boolean parseGamePlan(GamePlan gamePlan, String line, Scanner fileIn) {
-        if (line.contains("#SKILLS")) {
-            while (!line.contains("#ENDSKILLS")) {
+  @Autowired
+  public ParseSkills(List<SkillParser> skillParsers, SkillService skillService) {
+    this.skillParsers = skillParsers;
+    this.skillService = skillService;
+  }
 
-                if (!line.startsWith("//") && !Objects.equals("", line) && !line.contains("#SKILLS")) {
-                    for (SkillParser skillParser : skillParsers) {
-                        if (skillParser.parseSkill(gamePlan, line, fileIn))
-                            break;
-                    }
-                }
-                line = getNextLine(fileIn);
+  @Override
+  public boolean parseGamePlan(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#SKILLS")) {
+      while (!parseModel.getLine().contains("#ENDSKILLS")) {
+
+        if (parseModel.hasNextLine()) {
+          String line = parseModel.getAndSetNextLine();
+          if (!line.startsWith("//") && !Objects.equals("", line) && !line.contains("#SKILLS")) {
+            for (SkillParser skillParser : skillParsers) {
+              if (skillParser.parseSkill(parseModel)) {
+                break;
+              }
             }
-          Skill lastCreatedSkill = getLastCreatedSkill(gamePlan);
-          if (lastCreatedSkill != null) {
-            skillService.saveSkill(lastCreatedSkill);
           }
-            return true;
+        } else {
+          return false;
         }
-        return false;
+      }
+      Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
+      if (lastCreatedSkill != null) {
+        skillService.saveSkill(lastCreatedSkill);
+      }
+      return true;
     }
+    return false;
+  }
 }

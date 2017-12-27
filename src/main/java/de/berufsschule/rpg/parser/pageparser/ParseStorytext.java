@@ -2,6 +2,7 @@ package de.berufsschule.rpg.parser.pageparser;
 
 import de.berufsschule.rpg.model.GamePlan;
 import de.berufsschule.rpg.model.Page;
+import de.berufsschule.rpg.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
@@ -10,12 +11,12 @@ import org.springframework.stereotype.Component;
 public class ParseStorytext extends BaseParser implements PageParser {
 
   @Override
-  public boolean parsePage(GamePlan gamePlan, String line, Scanner fileIn) {
-    if (line.contains("#STORYTEXT")) {
-      line = "";
+  public boolean parsePage(ParseModel parseModel) {
+    if (parseModel.getLine().contains("#STORYTEXT")) {
+      parseModel.setLine("");
       StringBuilder storyTextBuilder = new StringBuilder();
-      while (!line.contains("#")) {
-        line = getNextLine(fileIn);
+      while (!parseModel.getLine().contains("#")) {
+        String line = parseModel.getAndSetNextLine();
         if (!line.contains("#")) {
           if (!line.endsWith(" "))
             line += " ";
@@ -23,7 +24,7 @@ public class ParseStorytext extends BaseParser implements PageParser {
           storyTextBuilder.append(line);
         }
       }
-      Page page = getLastCreatedPage(gamePlan);
+      Page page = getLastCreatedPage(parseModel.getGamePlan());
       page.setStorytext(storyTextBuilder.toString());
       return true;
     }

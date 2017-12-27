@@ -1,5 +1,6 @@
-package de.berufsschule.rpg.dto;
+package de.berufsschule.rpg.dto.converter;
 
+import de.berufsschule.rpg.dto.PlayerDTO;
 import de.berufsschule.rpg.model.Player;
 import org.springframework.stereotype.Component;
 

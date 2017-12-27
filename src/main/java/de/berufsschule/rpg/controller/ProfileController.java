@@ -1,9 +1,10 @@
 package de.berufsschule.rpg.controller;
 
 import de.berufsschule.rpg.dto.PlayerDTO;
-import de.berufsschule.rpg.dto.PlayerDTOConverter;
+import de.berufsschule.rpg.dto.converter.PlayerDTOConverter;
 import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.UserDTOConverter;
+import de.berufsschule.rpg.dto.converter.UserDTOConverter;
+import de.berufsschule.rpg.model.Game;
 import de.berufsschule.rpg.model.Player;
 import de.berufsschule.rpg.model.User;
 import de.berufsschule.rpg.services.GameService;
@@ -41,19 +42,20 @@ public class ProfileController {
   }
 
 
-  @RequestMapping(value = "/profile/{gamename}", method = RequestMethod.GET)
-  public String openPlayerProfile(@PathVariable String gamename, Model model, Principal principal) {
+  @RequestMapping(value = "/profile/{gameId}", method = RequestMethod.GET)
+  public String openPlayerProfile(@PathVariable Integer gameId, Model model, Principal principal) {
 
     UserDTO userDTO;
     User user = userService.findByEmail(principal.getName());
     userDTO = userDTOConverter.toDto(user);
 
     model.addAttribute("userDTO", userDTO);
-    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
+    Game game = gameService.getGame(gameId);
+    Player currentPlayer = game.getPlayer();
     PlayerDTO playerDTO = playerDTOConverter.toDTO(currentPlayer);
     model.addAttribute("items", itemService.createInventory(currentPlayer));
     model.addAttribute("playerDTO", playerDTO);
-    model.addAttribute("gamename", gamename);
+    model.addAttribute("gamename", game.getGamePlan().getName());
 
     return "game/profile";
   }
@@ -63,25 +65,27 @@ public class ProfileController {
     return "redirect:/games";
   }
 
-  @RequestMapping(value = "/profile/{gamename}/item/{itemName}", method = RequestMethod.POST)
-  public String useItem(@PathVariable Integer itemId, @PathVariable String gamename,
+  @RequestMapping(value = "/profile/{gameId}/item/{itemName}", method = RequestMethod.POST)
+  public String useItem(@PathVariable Integer itemId, @PathVariable Integer gameId,
       Principal principal) {
 
     User user = userService.findByEmail(principal.getName());
-    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
+    Game game = gameService.getGame(gameId);
+    Player currentPlayer = game.getPlayer();
     itemService.useItem(itemService.getItem(itemId), currentPlayer);
-    return "redirect:/profile/" + gamename;
+    return "redirect:/profile/" + game.getGamePlan().getName();
   }
 
-  @RequestMapping(value = "/profile/{gamename}/skill/{id}", method = RequestMethod.POST)
-  public String useSkillPoint(@PathVariable Integer skillid, @PathVariable String gamename,
+  @RequestMapping(value = "/profile/{gameId}/skill/{skillId}", method = RequestMethod.POST)
+  public String useSkillPoint(@PathVariable Integer skillId, @PathVariable Integer gameId,
       Principal principal) {
 
     User user = userService.findByEmail(principal.getName());
-    Player currentPlayer = gameService.getGame(gamename, user).getPlayer();
+    Game game = gameService.getGame(gameId);
+    Player currentPlayer = game.getPlayer();
 
-    skillService.useSkillPoint(skillid, currentPlayer);
-    return "redirect:/profile/" + gamename;
+    skillService.useSkillPoint(skillId, currentPlayer);
+    return "redirect:/profile/" + game.getGamePlan().getName();
   }
 
 }

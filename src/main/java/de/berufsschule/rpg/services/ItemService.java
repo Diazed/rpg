@@ -15,17 +15,18 @@ public class ItemService {
 
   private List<ItemEvent> itemEvents;
   private PlayerService playerService;
-  private GamePlanService gamePlanService;
   private ItemRepository itemRepository;
 
   @Autowired
   ItemService(List<ItemEvent> itemEvents, PlayerService playerService,
-      GamePlanService gamePlanService,
       ItemRepository itemRepository) {
     this.itemEvents = itemEvents;
     this.playerService = playerService;
-    this.gamePlanService = gamePlanService;
     this.itemRepository = itemRepository;
+  }
+
+  public void saveItem(Item item) {
+    itemRepository.save(item);
   }
 
   public void itemEffects(Item usedItem, Player player) {
