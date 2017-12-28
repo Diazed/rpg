@@ -52,14 +52,24 @@ public class GameService {
     userService.editUser(user);
   }
 
-  public Game loadOrCreateGame(Integer gamePlanId, User user) {
-
+  public Game loadGame(Integer gamePlanId, User user){
     for (Game game : user.getSavedGames()) {
       if (game.getGamePlan().getId().equals(gamePlanId)) {
         return getGame(game.getId());
       }
     }
-    log.info("Use gameplan with Id " + gamePlanId + " for user " + user.getUsername() + " (" + user
+    return null;
+  }
+
+  public Game loadOrCreateGame(Integer gamePlanId, User user) {
+
+    Game loadedGame = loadGame(gamePlanId, user);
+
+    if (loadedGame != null){
+      return loadedGame;
+    }
+
+    log.info("Create Game with GamePlanId " + gamePlanId + " for user " + user.getUsername() + " (" + user
         .getEmail()
         + ").");
     return createNewGame(gamePlanId, user);

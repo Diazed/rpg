@@ -1,10 +1,6 @@
 #RPG
 #GAMENAME
 'Demonstration'
-#STARTPAGE
-'Anfang'
-#DEATHPAGE
-'Gestorben'
 #ROUNDHUNGER
 '4'
 #ROUNDTHIRST
@@ -54,6 +50,7 @@
 
 #PAGE
 'Anfang'
+  #STARTPAGE
   #STORYTEXT
   'Demonstration'
   #ENDTEXT
@@ -120,6 +117,7 @@
 
 #PAGE
 'Gestorben'
+  #DEATHPAGE
   #STORYTEXT
   'Alle Items verloren... Aber jetzt wo du gestorben bist geht es'
   'dir wieder richtig gut'

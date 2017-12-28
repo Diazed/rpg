@@ -86,7 +86,7 @@
                     <span th:text="${item.description}"></span>
                     <div th:if="${item.consumable == true}">
                       <form
-                          th:action="@{/profile/{gamename}/item/{itemname}(itemname=${item.name}, gamename=${gamename})}"
+                          th:action="@{/profile/{gameplanId}/item/{itemId}(itemId=${item.id}, gameplanId=${gameplanId})}"
                           method="post">
                         <div th:if="${item.type == 'drink'}">
                           <br>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="col-md-2 col-md-offset-3">
                   <form
-                      th:action="@{/profile/{gamename}/skill/{skillname}(skillname=${skill.name}, gamename=${gamename})}"
+                      th:action="@{/profile/{gameplanId}/skill/{skillId}(skillId=${skill.id}, gameplanId=${gameplanId})}"
                       method="post">
                     <button type="submit" class="btn btn-primary btn-xs btn-block">+
                     </button>
