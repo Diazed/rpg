@@ -1,19 +1,13 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Possibility;
-import de.berufsschule.rpg.model.Skill;
-import de.berufsschule.rpg.services.PossibilityService;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Item;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Possibility;
+import de.berufsschule.rpg.domain.model.Skill;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

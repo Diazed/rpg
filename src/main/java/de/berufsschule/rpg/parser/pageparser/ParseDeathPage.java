@@ -1,14 +1,11 @@
 package de.berufsschule.rpg.parser.pageparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.PageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Scanner;
 
 @Component
 public class ParseDeathPage extends BaseParser implements PageParser {

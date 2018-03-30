@@ -1,7 +1,7 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.gameplanparser.GamePlanParser;
 import de.berufsschule.rpg.services.FileService;
 import de.berufsschule.rpg.services.GamePlanService;
@@ -50,7 +50,7 @@ public class ParserRunner {
     }
   }
 
-  public void parse(String filename) {
+  private void parse(String filename) {
 
     File fileToParse = fileService.getGameByFileName(filename);
     try (Scanner fileIn = new Scanner(fileToParse)) {

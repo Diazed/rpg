@@ -1,8 +1,8 @@
 package de.berufsschule.rpg.controller;
 
-import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.model.User;
-import de.berufsschule.rpg.model.VerificationToken;
+import de.berufsschule.rpg.domain.dto.UserDTO;
+import de.berufsschule.rpg.domain.model.User;
+import de.berufsschule.rpg.domain.model.VerificationToken;
 import de.berufsschule.rpg.registration.OnRegistrationCompleteEvent;
 import de.berufsschule.rpg.services.UserService;
 import java.util.Calendar;

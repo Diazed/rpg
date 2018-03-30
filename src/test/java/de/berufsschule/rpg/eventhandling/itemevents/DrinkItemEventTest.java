@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.eventhandling.itemevents;
 
-import de.berufsschule.rpg.model.DrinkItem;
-import de.berufsschule.rpg.model.HealItem;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.domain.model.DrinkItem;
+import de.berufsschule.rpg.domain.model.HealItem;
+import de.berufsschule.rpg.domain.model.Item;
+import de.berufsschule.rpg.domain.model.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,7 @@ public class DrinkItemEventTest {
   private Player testPlayer;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     systemUnderTest = new DrinkItemEvent();
     testItem = new DrinkItem();
     testPlayer = new Player();

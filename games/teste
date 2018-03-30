@@ -1,0 +1,301 @@
+#RPG
+
+#GAMENAME
+'Test All Features'
+#ROUNDHUNGER
+'1'
+#ROUNDTHIRST
+'2'
+#ROUNDEXP
+'5'
+
+#SKILLS
+  #SKILL
+    #NAME
+    'Skill Nr1'
+    #DESCRIPTION
+    'Description'
+  #SKILL
+    #NAME
+    'Skill Nr2'
+    #DESCRIPTION
+    'Description'
+#ENDSKILLS
+
+#ITEMS
+  #FOOD
+  '10'
+    #NAME
+    'Food'
+    #DESCRIPTION
+    'Food Item'
+  #FOOD
+  '10'
+    #NAME
+    'Unuseable Food'
+    #DESCRIPTION
+    'Food Item u cant Eat'
+    #UNUSEABLE
+  #DRINK
+  '15'
+    #NAME
+    'Drink'
+    #DESCRIPTION
+    'Drink Item'
+  #MEDICINE
+  '10'
+    #NAME
+    'Medicine'
+    #DESCRIPTION
+    'Medicine Item'
+  #SIMPLEITEM
+    #NAME
+    'Simple Item'
+    #DESCRIPTION
+    'Simply Clever'
+#ENDITEMS
+
+#PAGES
+
+#PAGE
+'Deathpage'
+	#DEATHPAGE
+  #STORYTEXT
+  'Du bist gestorben.'
+  #
+  #POSSIBILITIES
+    #DECISION
+      #MAIN
+      'Checkpoint'
+      #TEXT
+      'Zum Checkpoint'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Startpage'
+	#STARTPAGE
+  #STORYTEXT
+  'Die Startseite.'
+  'Willkommen'
+  #
+  #POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Skillpunkt'
+    	#TEXT
+    	'Skillpunkt'
+    #DECISION
+    	#MAIN
+    	'Item'
+    	#TEXT
+    	'Items'
+    #DECISION
+      #MAIN
+      'EXP'
+      #TEXT
+      'Experience'
+    #DECISION
+      #MAIN
+      'Health'
+      #TEXT
+      'Health'
+    #DECISION
+      #MAIN
+      'Hunger'
+      #TEXT
+      'Hunger'
+    #DECISION
+      #MAIN
+      'Thirst'
+      #TEXT
+      'Thirst'
+    #DECISION
+      #MAIN
+      'Learn Skill'
+      #TEXT
+      'Learn Skill'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Skillpunkt'
+	#STORYTEXT
+	'Du erhälst zwei Skillpunkte.'
+	#
+	#ADDSKILLPOINTS
+	2
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Item'
+	#STORYTEXT
+	'Du erhälst alle Items.'
+	#
+	#GIVE
+	'Food'
+	'Unuseable Food'
+	'Drink'
+	'Medicine'
+	'Simple Item'
+	#
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Benutze Unuseable Food'
+    	#USE
+    	'Unuseable Food'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'EXP'
+	#STORYTEXT
+	'Du erhälst 10k xp.'
+	#
+	#XP
+	10000
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Remove EXP'
+    	#TEXT
+    	'Entferne die EXP wieder'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Remove EXP'
+	#STORYTEXT
+	'Du verlierst 10k xp.'
+	#
+	#XP
+	-10000
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Health'
+	#STORYTEXT
+	'Du verlierst 30 Health.'
+	#
+	#HEALTH
+	-30
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Pain'
+    	#TEXT
+    	'Heilung'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Pain'
+	#STORYTEXT
+	'Du erhälst 35 Health.'
+	'Health darf nicht über 100 steigen.'
+	#
+	#HEALTH
+	35
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Hunger'
+	#STORYTEXT
+	'Du erhälst 30 Hunger.'
+	#
+	#HUNGER
+	30
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'yummy'
+    	#TEXT
+    	'Futtern'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'yummy'
+	#STORYTEXT
+	'Du verlierst 35 Hunger.'
+	'Hunger darf nicht unter 0 fallen.'
+	#
+	#HUNGER
+	-35
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Thirst'
+	#STORYTEXT
+	'Du erhälst 30 Durst.'
+	#
+	#THIRST
+	30
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Trinken'
+    	#TEXT
+    	'Trinken'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Trinken'
+	#STORYTEXT
+	'Du verlierst 50 Durst.'
+	'Durst darf nicht unter 0 fallen.'
+	#
+	#THIRST
+	-50
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#PAGE
+'Learn Skill'
+	#STORYTEXT
+	'Du learnst Skill Nr1 und Skill Nr2'
+	#
+	#LEARNSKILL
+	'Skill Nr1'
+	#LEARNSKILL
+	'Skill Nr2'
+	#POSSIBILITIES
+    #DECISION
+    	#MAIN
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDPOSSIBILITIES
+
+#ENDPAGES

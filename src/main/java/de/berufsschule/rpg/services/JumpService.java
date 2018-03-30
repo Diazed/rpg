@@ -1,16 +1,14 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.dto.GameDTO;
-import de.berufsschule.rpg.dto.converter.GameDTOConvertor;
 import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Game;
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.Possibility;
-import de.berufsschule.rpg.model.Question;
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.model.Decision;
+import de.berufsschule.rpg.domain.model.Game;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.Possibility;
+import de.berufsschule.rpg.domain.model.Question;
+import de.berufsschule.rpg.domain.model.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

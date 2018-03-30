@@ -1,10 +1,8 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.Skill;
-import de.berufsschule.rpg.repositories.SkillRepository;
-import java.util.List;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.Skill;
+import de.berufsschule.rpg.domain.repositories.SkillRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

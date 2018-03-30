@@ -1,7 +1,7 @@
 package de.berufsschule.rpg.eventhandling.gameevents;
 
-import de.berufsschule.rpg.model.Game;
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.domain.model.Game;
+import de.berufsschule.rpg.domain.model.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

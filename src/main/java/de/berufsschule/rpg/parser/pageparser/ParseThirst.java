@@ -1,11 +1,8 @@
 package de.berufsschule.rpg.parser.pageparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import org.springframework.stereotype.Component;
-
-import java.util.Scanner;
 
 @Component
 public class ParseThirst extends BaseParser implements PageParser {

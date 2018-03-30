@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.registration;
 
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.model.User;
 import java.util.Locale;
 import lombok.Getter;
 import lombok.Setter;

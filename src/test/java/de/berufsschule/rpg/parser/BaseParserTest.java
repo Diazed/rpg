@@ -1,10 +1,10 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Possibility;
-import de.berufsschule.rpg.model.Skill;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Item;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Possibility;
+import de.berufsschule.rpg.domain.model.Skill;
 import de.berufsschule.rpg.parser.pageparser.ParseStartPage;
 import de.berufsschule.rpg.services.PageService;
 import java.io.ByteArrayInputStream;

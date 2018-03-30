@@ -1,8 +1,7 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.Item;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.itemparser.ItemParser;
 import de.berufsschule.rpg.services.ItemService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 @Component
 public class ParseItems extends BaseParser implements GamePlanParser {

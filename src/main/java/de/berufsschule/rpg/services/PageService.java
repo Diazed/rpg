@@ -1,7 +1,7 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.repositories.PageRepository;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.repositories.PageRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

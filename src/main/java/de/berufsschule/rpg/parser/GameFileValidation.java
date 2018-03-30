@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.model.GamePlan;
+import de.berufsschule.rpg.domain.model.GamePlan;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

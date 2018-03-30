@@ -1,14 +1,12 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.Possibility;
-import de.berufsschule.rpg.model.Question;
-import de.berufsschule.rpg.model.Skill;
-import de.berufsschule.rpg.services.SkillService;
+import de.berufsschule.rpg.domain.model.Decision;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.Possibility;
+import de.berufsschule.rpg.domain.model.Question;
+import de.berufsschule.rpg.domain.model.Skill;
 import java.util.concurrent.ThreadLocalRandom;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

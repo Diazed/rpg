@@ -1,8 +1,8 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.Decision;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.services.PageService;

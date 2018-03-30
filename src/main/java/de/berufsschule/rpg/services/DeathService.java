@@ -1,11 +1,10 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.domain.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 @Service
 public class DeathService {

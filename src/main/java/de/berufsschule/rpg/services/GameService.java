@@ -1,11 +1,11 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.Game;
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.model.Game;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.User;
 import de.berufsschule.rpg.parser.ParserRunner;
-import de.berufsschule.rpg.repositories.GameRepository;
+import de.berufsschule.rpg.domain.repositories.GameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

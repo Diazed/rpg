@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.registration.validation;
 
-import de.berufsschule.rpg.dto.UserDTO;
+import de.berufsschule.rpg.domain.dto.UserDTO;
 import de.berufsschule.rpg.registration.annotations.PasswordMatches;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

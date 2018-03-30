@@ -1,7 +1,7 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.domain.model.Decision;
+import de.berufsschule.rpg.domain.model.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,7 @@ public class AlternativeJumpTest {
   private Player testPlayer;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     systemUnderTest = new AlternativeJump();
     testDecision = new Decision();
     testPlayer = new Player();

@@ -1,8 +1,7 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.parser.ParserRunner;
-import de.berufsschule.rpg.repositories.GamePlanRepository;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.repositories.GamePlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

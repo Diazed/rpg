@@ -1,8 +1,8 @@
 package de.berufsschule.rpg.controller;
 
-import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.converter.UserDTOConverter;
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.dto.UserDTO;
+import de.berufsschule.rpg.domain.dto.converter.UserDTOConverter;
+import de.berufsschule.rpg.domain.model.User;
 import de.berufsschule.rpg.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

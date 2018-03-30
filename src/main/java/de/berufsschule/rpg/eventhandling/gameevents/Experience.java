@@ -1,8 +1,7 @@
 package de.berufsschule.rpg.eventhandling.gameevents;
 
-import de.berufsschule.rpg.model.Game;
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Player;
+import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Player;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 

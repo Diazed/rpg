@@ -1,15 +1,12 @@
 package de.berufsschule.rpg.parser.itemparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.HealItem;
-import de.berufsschule.rpg.model.Item;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.HealItem;
+import de.berufsschule.rpg.domain.model.Item;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Scanner;
 
 @Component
 public class ParseHealItem extends BaseParser implements ItemParser {

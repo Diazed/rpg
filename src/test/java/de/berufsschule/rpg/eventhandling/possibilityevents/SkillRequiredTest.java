@@ -1,19 +1,14 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
-import de.berufsschule.rpg.model.Decision;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.Possibility;
-import de.berufsschule.rpg.model.Skill;
-import de.berufsschule.rpg.services.SkillService;
+import de.berufsschule.rpg.domain.model.Decision;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.Skill;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 public class SkillRequiredTest {
 

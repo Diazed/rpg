@@ -1,9 +1,6 @@
 package de.berufsschule.rpg.parser.itemparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-
-import de.berufsschule.rpg.model.ParseModel;
-import java.util.Scanner;
+import de.berufsschule.rpg.domain.model.ParseModel;
 
 public interface ItemParser {
 

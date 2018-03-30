@@ -1,8 +1,7 @@
 package de.berufsschule.rpg.parser.pageparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.ParseModel;
-import de.berufsschule.rpg.model.Possibility;
+import de.berufsschule.rpg.domain.model.ParseModel;
+import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.possibilityparser.PossibilityParser;
 import de.berufsschule.rpg.services.PossibilityService;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Scanner;
 
 @Component
 public class ParsePossibilities extends BaseParser implements PageParser {

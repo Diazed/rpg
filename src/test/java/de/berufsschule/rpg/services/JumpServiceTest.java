@@ -1,6 +1,5 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.dto.converter.GameDTOConvertor;
 import de.berufsschule.rpg.eventhandling.pageevents.Checkpoint;
 import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
 import java.util.Arrays;

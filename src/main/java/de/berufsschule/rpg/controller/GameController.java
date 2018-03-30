@@ -1,12 +1,12 @@
 package de.berufsschule.rpg.controller;
 
-import de.berufsschule.rpg.dto.converter.PlayerDTOConverter;
-import de.berufsschule.rpg.dto.UserDTO;
-import de.berufsschule.rpg.dto.converter.UserDTOConverter;
-import de.berufsschule.rpg.model.Game;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.Player;
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.dto.converter.PlayerDTOConverter;
+import de.berufsschule.rpg.domain.dto.UserDTO;
+import de.berufsschule.rpg.domain.dto.converter.UserDTOConverter;
+import de.berufsschule.rpg.domain.model.Game;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.Player;
+import de.berufsschule.rpg.domain.model.User;
 import de.berufsschule.rpg.services.GamePlanService;
 import de.berufsschule.rpg.services.GameService;
 import de.berufsschule.rpg.services.JumpService;

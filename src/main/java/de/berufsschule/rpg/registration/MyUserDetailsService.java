@@ -1,6 +1,6 @@
 package de.berufsschule.rpg.registration;
 
-import de.berufsschule.rpg.model.User;
+import de.berufsschule.rpg.domain.model.User;
 import de.berufsschule.rpg.services.UserService;
 import java.util.ArrayList;
 import java.util.List;

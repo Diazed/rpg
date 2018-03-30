@@ -1,10 +1,8 @@
 package de.berufsschule.rpg.parser.pageparser;
 
-import de.berufsschule.rpg.model.GamePlan;
-import de.berufsschule.rpg.model.Page;
-import de.berufsschule.rpg.model.ParseModel;
+import de.berufsschule.rpg.domain.model.Page;
+import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
-import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
