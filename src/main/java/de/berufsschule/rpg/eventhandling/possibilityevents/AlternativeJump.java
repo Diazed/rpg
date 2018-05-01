@@ -1,47 +1,35 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
 import de.berufsschule.rpg.domain.model.Decision;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.Player;
-import de.berufsschule.rpg.domain.model.Question;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AlternativeJump implements PossibilityEvent {
+public class AlternativeJump implements DecisionEvent {
 
   @Override
-  public boolean event(Possibility possibility, Player player, Page page) {
-    if (possibility.getProbability() != null && possibility.getProbability() <= 100) {
+  public boolean event(Decision decision, Player player, Page page) {
+    if (decision.getProbability() != null && decision.getProbability() <= 100) {
 
       boolean takeAlt = false;
 
-      int probability = possibility.getProbability();
+      int probability = decision.getProbability();
 
       int random = ThreadLocalRandom.current().nextInt(1, 100 + 1);
       if (random > probability) {
         takeAlt = true;
       }
 
-      if (possibility.getClass() == Question.class) {
-        Question question = (Question) possibility;
-        if (question.getAltAnswer() == null) {
-          return false;
-        }
-        question.setTakeAlt(takeAlt);
-      } else {
-        Decision decision = (Decision) possibility;
-        if (decision.getAltJump() == null) {
-          return false;
-        }
-        if (takeAlt) {
-          player.setPosition(decision.getAltJump());
-        } else {
-          player.setPosition(decision.getMainJump());
-        }
+      if (decision.getAltJump() == null) {
+        return false;
       }
-
+      if (takeAlt) {
+        player.setPosition(decision.getAltJump());
+      } else {
+        player.setPosition(decision.getMainJump());
+      }
       return true;
     }
     return false;

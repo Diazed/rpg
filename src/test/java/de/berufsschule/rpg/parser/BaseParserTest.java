@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.parser;
 
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.GamePlan;
 import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.Page;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.domain.model.Skill;
 import de.berufsschule.rpg.parser.pageparser.ParseStartPage;
 import de.berufsschule.rpg.services.PageService;
@@ -52,13 +52,13 @@ public class BaseParserTest {
     Skill secondSkill = new Skill();
     secondSkill.setName("secondSkill");
 
-    Possibility firstPossibility = new Possibility();
+    Decision firstPossibility = new Decision();
     firstPossibility.setText("firstPossibility");
-    Possibility secondPossibility = new Possibility();
+    Decision secondPossibility = new Decision();
     secondPossibility.setText("secondPossibility");
 
-    secondPage.getPossibilities().add(firstPossibility);
-    secondPage.getPossibilities().add(secondPossibility);
+    secondPage.getDecisions().add(firstPossibility);
+    secondPage.getDecisions().add(secondPossibility);
 
     gamePlan.getPages().add(firstPage);
     gamePlan.getPages().add(secondPage);
@@ -94,7 +94,7 @@ public class BaseParserTest {
 
   @Test
   public void getLastCreatedPossibility() {
-    Possibility actual = systemUnderTest.getLastCreatedPossibility(gamePlan);
+    Decision actual = systemUnderTest.getLastCreatedDecision(gamePlan);
     Assert.assertEquals("secondPossibility", actual.getText());
   }
 

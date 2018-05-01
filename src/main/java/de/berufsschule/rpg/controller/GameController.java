@@ -62,7 +62,7 @@ public class GameController {
   }
 
   @RequestMapping(value = "/play", method = RequestMethod.GET)
-  public String keinGameName() {
+  public String noGameId() {
     return "redirect:/games";
   }
 

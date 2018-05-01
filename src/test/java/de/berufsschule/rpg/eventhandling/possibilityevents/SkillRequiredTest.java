@@ -1,7 +1,5 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
-import static org.mockito.Matchers.any;
-
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.Player;
@@ -67,7 +65,10 @@ public class SkillRequiredTest {
     testDecision.setSkillSuccessLvl(5);
     testDecision.setMainJump(5);
     testDecision.setAltJump(5);
+    testDecision.setRequiredSkillId(1);
+    testSkill.setId(1);
     testSkill.setLevel(3);
+    testPlayer.getSkills().add(testSkill);
     boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals((Integer) 5, testPlayer.getPosition());
@@ -80,7 +81,10 @@ public class SkillRequiredTest {
     testDecision.setMainJump(3);
     testDecision.setAltJump(5);
     testDecision.setSkillMinLvl(4);
+    testDecision.setRequiredSkillId(1);
+    testSkill.setId(1);
     testSkill.setLevel(3);
+    testPlayer.getSkills().add(testSkill);
     boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals((Integer) 5, testPlayer.getPosition());
@@ -93,7 +97,10 @@ public class SkillRequiredTest {
     testDecision.setMainJump(3);
     testDecision.setAltJump(5);
     testDecision.setSkillMinLvl(14);
+    testDecision.setRequiredSkillId(1);
+    testSkill.setId(1);
     testSkill.setLevel(23);
+    testPlayer.getSkills().add(testSkill);
     boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals((Integer) 3, testPlayer.getPosition());
@@ -106,7 +113,10 @@ public class SkillRequiredTest {
     testDecision.setMainJump(4);
     testDecision.setAltJump(3);
     testDecision.setSkillMinLvl(14);
+    testDecision.setRequiredSkillId(1);
+    testSkill.setId(1);
     testSkill.setLevel(14);
+    testPlayer.getSkills().add(testSkill);
     boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals((Integer) 3, testPlayer.getPosition());

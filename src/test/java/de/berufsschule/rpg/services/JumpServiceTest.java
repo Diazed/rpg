@@ -16,7 +16,7 @@ public class JumpServiceTest {
   @Mock
   private PlayerService playerService;
   @Mock
-  private PossibilityService possibilityService;
+  private DecisionService decisionService;
   @Mock
   private DeathService deathService;
   private List<PageEvent> pageEvents = Arrays.asList(new Checkpoint());
@@ -27,7 +27,7 @@ public class JumpServiceTest {
   public void setUp() {
 
     MockitoAnnotations.initMocks(this);
-    systemUnderTest = new JumpService(pageEvents, playerService, possibilityService, gameService,
+    systemUnderTest = new JumpService(pageEvents, playerService, decisionService, gameService,
         deathService);
 
 

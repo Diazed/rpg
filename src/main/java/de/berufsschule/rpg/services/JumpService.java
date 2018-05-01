@@ -1,14 +1,12 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Game;
 import de.berufsschule.rpg.domain.model.GamePlan;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.Player;
-import de.berufsschule.rpg.domain.model.Possibility;
-import de.berufsschule.rpg.domain.model.Question;
 import de.berufsschule.rpg.domain.model.User;
+import de.berufsschule.rpg.eventhandling.pageevents.PageEvent;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,20 +17,20 @@ public class JumpService {
   private List<PageEvent> pageEvents;
   private GameService gameService;
   private PlayerService playerService;
-  private PossibilityService possibilityService;
+  private DecisionService decisionService;
   private DeathService deathService;
 
   @Autowired
   public JumpService(List<PageEvent> pageEvents, PlayerService playerService,
-      PossibilityService possibilityService, GameService gameService, DeathService deathService) {
+      DecisionService decisionService, GameService gameService, DeathService deathService) {
     this.pageEvents = pageEvents;
     this.playerService = playerService;
-    this.possibilityService = possibilityService;
+    this.decisionService = decisionService;
     this.gameService = gameService;
     this.deathService = deathService;
   }
 
-  public void runPageEvents(Page page, Player player) {
+  private void runPageEvents(Page page, Player player) {
     for (PageEvent pageEvent : pageEvents) {
       pageEvent.event(page, player);
     }
@@ -44,14 +42,14 @@ public class JumpService {
     if (game == null) {
       return null;
     }
-    gameService.switchCurrentGame(game.getId(), user);
+    gameService.switchCurrentGame(game.getId(), gamePlanId, user);
     GamePlan gamePlan = game.getGamePlan();
     Player player = game.getPlayer();
     playerService.firstStart(player, gamePlan.getStartPage());
     deathService.playerDeath(player, gamePlan.getDeathPage());
     gameService.saveGame(game);
     Page page = findPageInGamePlan(gamePlan, player.getPosition());
-    if (page == null) {
+    if (page == null) { // TODO: WTF?!
       page = new Page();
       page.setName("Fortsetzung folgt");
       page.setStorytext("Der von dir eingeschlagene Weg endet (vorerst) hier. Der Autor hat das "
@@ -64,19 +62,9 @@ public class JumpService {
   public boolean jumpToNextPage(User user, Integer gamePlanId, Integer clickedPossibilityId) {
 
     Game game = gameService.loadOrCreateGame(gamePlanId, user);
-    Possibility clickedPossibility = possibilityService
-        .getPossibility(clickedPossibilityId);
-    if (clickedPossibility == null) {
-      return false;
-    }
-
-    if (clickedPossibility.getClass() == Decision.class) {
-      Decision decision = (Decision) clickedPossibility;
-      return handleDecision(decision, game, user);
-    } else {
-      Question question = (Question) clickedPossibility;
-      return handleQuestion(question, game, user);
-    }
+    Decision decision = decisionService
+        .getDecision(clickedPossibilityId);
+    return decision != null && handleDecision(decision, game, user);
   }
 
   private boolean handleDecision(Decision decision, Game game, User user) {
@@ -89,9 +77,9 @@ public class JumpService {
     }
     playerService.runAllPlayerEvents(player);
 
-    if (isPlayerAllowedToJump(decision, user, game)) {
+    if (isPlayerAllowedToJump(decision, game)) {
       player.setPosition(null);
-      possibilityService.runPossibilityEvents(decision, player, jumpPage);
+      decisionService.runPossibilityEvents(decision, player, jumpPage);
       if (player.getPosition() == null) {
         player.setPosition(decision.getMainJump());
       }
@@ -102,26 +90,11 @@ public class JumpService {
     }
   }
 
-  private boolean handleQuestion(Question question, Game game, User user) {
-
-    Player player = game.getPlayer();
-    GamePlan gamePlan = game.getGamePlan();
-    Page jumpPage = gamePlan.getPages().get(player.getPosition());
-    question.setAsked(true);
-    possibilityService.runPossibilityEvents(question, player, jumpPage);
-    if (question.isTakeAlt()) {
-      gamePlan.getPages().get(jumpPage.getId()).setStorytext(question.getAltAnswer());
-    } else {
-      gamePlan.getPages().get(jumpPage.getId()).setStorytext(question.getMainAnswer());
-    }
-    return isPlayerAllowedToJump(question, user, game);
-  }
-
-  private boolean isPlayerAllowedToJump(Possibility possibility, User user, Game game) {
+  private boolean isPlayerAllowedToJump(Decision decision, Game game) {
     if (deathService.revive(game.getPlayer(), game.getGamePlan().getStartPage())) {
       return true;
     }
-    return playerService.doesPlayerMeetRequirements(possibility, game.getPlayer());
+    return playerService.doesPlayerMeetRequirements(decision, game.getPlayer());
   }
 
   private Page findPageInGamePlan(GamePlan gamePlan, Integer pageId) {
@@ -134,8 +107,8 @@ public class JumpService {
   }
 
   private void setFlagsForPagePossibilities(Page page, Player player) {
-    for (Possibility possibility : page.getPossibilities()) {
-      possibilityService.setFlags(possibility, player);
+    for (Decision decision : page.getDecisions()) {
+      decisionService.setFlags(decision, player);
     }
   }
 }

@@ -5,12 +5,12 @@ import de.berufsschule.rpg.parser.BaseParser;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ParseUseItem extends BaseParser implements PossibilityParser {
+public class ParseUseItem extends BaseParser implements DecisionParser {
 
   @Override
-  public boolean parsePossibility(ParseModel parseModel) {
+  public boolean parseDecision(ParseModel parseModel) {
     if (parseModel.getLine().contains("#USE")) {
-      getLastCreatedPossibility(parseModel.getGamePlan())
+      getLastCreatedDecision(parseModel.getGamePlan())
           .setUsedItem(parseModel.getAndSetNextLine());
       return true;
     }

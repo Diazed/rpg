@@ -1,10 +1,10 @@
 package de.berufsschule.rpg.services;
 
-import de.berufsschule.rpg.eventhandling.gameevents.PlayerEvent;
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.Player;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.domain.repositories.PlayerRepository;
+import de.berufsschule.rpg.eventhandling.gameevents.PlayerEvent;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,23 +68,24 @@ public class PlayerService {
     savePlayer(player);
   }
 
-  public boolean doesPlayerMeetRequirements(Possibility clickedPossibility, Player player) {
-    if (doesDecisionRequireItem(clickedPossibility)) {
-      return doesPlayerOwnRequiredItem(clickedPossibility, player);
+  public boolean doesPlayerMeetRequirements(Decision clickedDecision, Player player) {
+    if (doesDecisionRequireItem(clickedDecision)) {
+      return doesPlayerOwnRequiredItem(clickedDecision, player);
     } else {
       return true;
     }
   }
 
-  private boolean doesDecisionRequireItem(Possibility possibility) {
-    return possibility.getUsedItem() != null;
+  private boolean doesDecisionRequireItem(Decision decision) {
+    return decision.getUsedItem() != null;
   }
 
-  private boolean doesPlayerOwnRequiredItem(Possibility possibility, Player player) {
-    String neededItem = possibility.getUsedItem();
+  private boolean doesPlayerOwnRequiredItem(Decision decision, Player player) {
+    String neededItem = decision.getUsedItem();
     for (Item item : player.getItems()) {
-      if (item.getName().equals(neededItem))
-        return true;
+      if (item.getName().equals(neededItem)) {
+        return true; //TODO: Use Ids.
+      }
     }
     return false;
   }

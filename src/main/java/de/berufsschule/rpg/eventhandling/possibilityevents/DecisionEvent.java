@@ -1,11 +1,11 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.Player;
-import de.berufsschule.rpg.domain.model.Possibility;
 
-public interface PossibilityEvent {
+public interface DecisionEvent {
 
-  boolean event(Possibility possibility, Player player, Page page);
+  boolean event(Decision decision, Player player, Page page);
 
 }

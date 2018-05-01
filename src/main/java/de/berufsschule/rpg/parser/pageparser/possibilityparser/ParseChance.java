@@ -1,19 +1,19 @@
 package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ParseChance extends BaseParser implements PossibilityParser {
+public class ParseChance extends BaseParser implements DecisionParser {
 
   @Override
-  public boolean parsePossibility(ParseModel parseModel) {
+  public boolean parseDecision(ParseModel parseModel) {
     if (parseModel.getLine().contains("#CHANCE")) {
       int probability = parseInt(parseModel.getAndSetNextLine());
-      Possibility possibility = getLastCreatedPossibility(parseModel.getGamePlan());
-      possibility.setProbability(probability);
+      Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
+      decision.setProbability(probability);
       return true;
     }
     return false;

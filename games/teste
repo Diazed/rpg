@@ -65,7 +65,7 @@
   #
   #POSSIBILITIES
     #DECISION
-      #MAIN
+      #MAINGOTO
       'Checkpoint'
       #TEXT
       'Zum Checkpoint'
@@ -78,43 +78,48 @@
   'Die Startseite.'
   'Willkommen'
   #
-  #POSSIBILITIES
+  #DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Skillpunkt'
     	#TEXT
     	'Skillpunkt'
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Item'
     	#TEXT
     	'Items'
     #DECISION
-      #MAIN
+      #MAINGOTO
       'EXP'
       #TEXT
       'Experience'
     #DECISION
-      #MAIN
+      #MAINGOTO
       'Health'
       #TEXT
       'Health'
     #DECISION
-      #MAIN
+      #MAINGOTO
       'Hunger'
       #TEXT
       'Hunger'
     #DECISION
-      #MAIN
+      #MAINGOTO
       'Thirst'
       #TEXT
       'Thirst'
     #DECISION
-      #MAIN
+      #MAINGOTO
       'Learn Skill'
       #TEXT
       'Learn Skill'
-  #ENDPOSSIBILITIES
+    #DECISION
+      #MAINGOTO
+      'Fragen'
+      #TEXT
+      'Fragen'
+  #ENDDECISIONS
 
 #PAGE
 'Skillpunkt'
@@ -123,13 +128,41 @@
 	#
 	#ADDSKILLPOINTS
 	2
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
+
+#PAGE
+'Fragen'
+	#STORYTEXT
+	'Frag mich was.'
+	#
+	#DECISIONS
+		#QUESTION
+			#TEXT
+			'Wie alt bist du?'
+			#ANSWER
+      'Ich bin 18 Jahre alt!'
+    #QUESTION
+			#TEXT
+			'Wie heißt du?'
+			#ANSWER
+      'Mein Name ist Marek'
+    #QUESTION
+    	#TEXT
+    	'Von wo kommst du?'
+    	#ANSWER
+      'Ich komme aus Godensholt!'
+    #DECISION
+    	#MAINGOTO
+    	'Startpage'
+    	#TEXT
+    	'Zurück zur Startseite'
+  #ENDDECISIONS
 
 #PAGE
 'Item'
@@ -143,20 +176,20 @@
 	'Medicine'
 	'Simple Item'
 	#
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Benutze Unuseable Food'
     	#USE
     	'Unuseable Food'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'EXP'
@@ -165,13 +198,13 @@
 	#
 	#XP
 	10000
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Remove EXP'
     	#TEXT
     	'Entferne die EXP wieder'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Remove EXP'
@@ -180,13 +213,13 @@
 	#
 	#XP
 	-10000
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Health'
@@ -195,13 +228,13 @@
 	#
 	#HEALTH
 	-30
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Pain'
     	#TEXT
     	'Heilung'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Pain'
@@ -211,13 +244,13 @@
 	#
 	#HEALTH
 	35
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Hunger'
@@ -226,13 +259,13 @@
 	#
 	#HUNGER
 	30
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'yummy'
     	#TEXT
     	'Futtern'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'yummy'
@@ -242,13 +275,13 @@
 	#
 	#HUNGER
 	-35
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Thirst'
@@ -257,13 +290,13 @@
 	#
 	#THIRST
 	30
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Trinken'
     	#TEXT
     	'Trinken'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Trinken'
@@ -273,13 +306,13 @@
 	#
 	#THIRST
 	-50
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #PAGE
 'Learn Skill'
@@ -290,12 +323,12 @@
 	'Skill Nr1'
 	#LEARNSKILL
 	'Skill Nr2'
-	#POSSIBILITIES
+	#DECISIONS
     #DECISION
-    	#MAIN
+    	#MAINGOTO
     	'Startpage'
     	#TEXT
     	'Zurück zur Startseite'
-  #ENDPOSSIBILITIES
+  #ENDDECISIONS
 
 #ENDPAGES

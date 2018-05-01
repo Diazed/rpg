@@ -1,9 +1,9 @@
 package de.berufsschule.rpg.eventhandling.possibilityevents;
 
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.Player;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.services.ItemService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +17,7 @@ public class ItemUseTest {
   private ItemService itemService;
 
   private ItemUse systemUnderTest;
-  private Possibility testPossibility;
+  private Decision testDecision;
   private Player testPlayer;
   private Page testPage;
   private Item shovelItem;
@@ -27,7 +27,7 @@ public class ItemUseTest {
   public void setUp() {
     MockitoAnnotations.initMocks(this);
     systemUnderTest = new ItemUse(itemService);
-    testPossibility = new Possibility();
+    testDecision = new Decision();
     testPlayer = new Player();
     testPage = new Page();
     shovelItem = new Item();
@@ -38,23 +38,23 @@ public class ItemUseTest {
 
   @Test
   public void returnFalseWhenPossibilityDoesNotUseItem() {
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void returnFalseWhenPlayerDoesNotOwnItem() {
-    testPossibility.setUsedItem("axe");
+    testDecision.setUsedItem("axe");
     testPlayer.getItems().add(shovelItem);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(false, actual);
   }
 
   @Test
   public void setTheUsedItemInTheJumpPageWhenPlayerDoesOwnItem() {
-    testPossibility.setUsedItem("axe");
+    testDecision.setUsedItem("axe");
     testPlayer.getItems().add(axeItem);
-    boolean actual = systemUnderTest.event(testPossibility, testPlayer, testPage);
+    boolean actual = systemUnderTest.event(testDecision, testPlayer, testPage);
     Assert.assertEquals(true, actual);
     Assert.assertEquals("axe", testPage.getUsedItem());
   }

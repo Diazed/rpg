@@ -2,7 +2,7 @@ package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 
 import de.berufsschule.rpg.domain.model.ParseModel;
 
-public interface PossibilityParser {
+public interface DecisionParser {
 
-  boolean parsePossibility(ParseModel parseModel);
+  boolean parseDecision(ParseModel parseModel);
 }

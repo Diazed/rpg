@@ -41,13 +41,16 @@ public class GameService {
     parserRunner.parseAllGames();
   }
 
-  public void switchCurrentGame(Integer gameId, User user) {
+  public void switchCurrentGame(Integer gameId, Integer gamePlanId, User user) {
+
     if (user.getCurrentGame() == null) {
       log.info(user.getUsername() + " started his very first game.");
       user.setCurrentGame(gameId);
+      user.setCurrentGamePlan(gamePlanId);
     }
     if (!user.getCurrentGame().equals(gameId)) {
       user.setCurrentGame(gameId);
+      user.setCurrentGamePlan(gamePlanId);
     }
     userService.editUser(user);
   }

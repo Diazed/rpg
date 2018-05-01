@@ -2,31 +2,31 @@ package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.parser.BaseParser;
-import de.berufsschule.rpg.services.PossibilityService;
+import de.berufsschule.rpg.services.DecisionService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ParseDecision extends BaseParser implements PossibilityParser {
+public class ParseDecision extends BaseParser implements DecisionParser {
 
-  private PossibilityService possibilityService;
+  private DecisionService decisionService;
 
-  public ParseDecision(PossibilityService possibilityService) {
-    this.possibilityService = possibilityService;
+  public ParseDecision(DecisionService decisionService) {
+    this.decisionService = decisionService;
   }
 
   @Override
-  public boolean parsePossibility(ParseModel parseModel) {
+  public boolean parseDecision(ParseModel parseModel) {
     if (parseModel.getLine().contains("#DECISION")) {
 
-      Possibility lastCreatedPossibility = getLastCreatedPossibility(parseModel.getGamePlan());
-      if (lastCreatedPossibility != null) {
-        possibilityService.savePossibility(lastCreatedPossibility);
+      Decision lastCreatedDecision = getLastCreatedDecision(parseModel.getGamePlan());
+      if (lastCreatedDecision != null) {
+        decisionService.saveDecision(lastCreatedDecision);
       }
 
-      Possibility possibility = new Decision();
-      getLastCreatedPage(parseModel.getGamePlan()).getPossibilities().add(possibility);
+      Decision decision = new Decision();
+      decision.setIsQuestion(false);
+      getLastCreatedPage(parseModel.getGamePlan()).getDecisions().add(decision);
       return true;
     }
     return false;

@@ -1,11 +1,10 @@
 package de.berufsschule.rpg.parser;
 
+import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.GamePlan;
 import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.Page;
-import de.berufsschule.rpg.domain.model.Possibility;
 import de.berufsschule.rpg.domain.model.Skill;
-import java.util.LinkedList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,10 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public abstract class BaseParser {
-
-
-  private static List<Page> pagesToCheck = new LinkedList<>();
-
 
   protected Page findPageByName(GamePlan gamePlan, String pagename) {
     for (Page page : gamePlan.getPages()) {
@@ -30,8 +25,8 @@ public abstract class BaseParser {
   protected Skill findSkillByName(GamePlan gamePlan, String skillname) {
     for (Skill skill : gamePlan.getSkills()) {
       if (skill.getName().equals(skillname)) {
+        return skill;
       }
-      return skill;
     }
     return null;
   }
@@ -39,13 +34,11 @@ public abstract class BaseParser {
   protected Item findItemByName(GamePlan gamePlan, String itemname) {
     for (Item item : gamePlan.getItems()) {
       if (item.getName().equals(itemname)) {
+        return item;
       }
-      return item;
     }
     return null;
   }
-
-
 
   protected Page getLastCreatedPage(GamePlan gamePlan) {
     Integer size = gamePlan.getPages().size();
@@ -74,13 +67,13 @@ public abstract class BaseParser {
     }
   }
 
-  protected Possibility getLastCreatedPossibility(GamePlan gamePlan) {
+  protected Decision getLastCreatedDecision(GamePlan gamePlan) {
 
-    List<Possibility> possibilities = getLastCreatedPage(gamePlan).getPossibilities();
+    List<Decision> decisions = getLastCreatedPage(gamePlan).getDecisions();
 
-    Integer size = possibilities.size();
+    Integer size = decisions.size();
     if (size >= 1) {
-      return possibilities.get(size - 1);
+      return decisions.get(size - 1);
     } else {
       return null;
     }
@@ -96,5 +89,4 @@ public abstract class BaseParser {
     }
     return content;
   }
-
 }
