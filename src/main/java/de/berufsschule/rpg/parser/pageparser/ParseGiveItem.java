@@ -14,10 +14,11 @@ public class ParseGiveItem extends BaseParser implements PageParser {
       Page page = getLastCreatedPage(parseModel.getGamePlan());
       String nextLine = "";
       while (!nextLine.contains("#") && parseModel.hasNextLine()) {
-        nextLine = parseModel.getNextLine();
+        nextLine = parseModel.getAndSetNextLine();
         if (!nextLine.contains("#")) {
-          page.getItems().add(findItemByName(parseModel.getGamePlan(), parseModel.getLine()));
+          page.getItems().add(findItemByName(parseModel.getGamePlan(), nextLine));
         }
+
       }
       return true;
     }

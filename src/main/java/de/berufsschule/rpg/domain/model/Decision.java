@@ -24,6 +24,7 @@ public class Decision {
   private Integer skillMinLvl;
   private Integer skillSuccessLvl;
   private boolean hasSkill = true;
+
   private Integer mainJump;
   private Integer altJump;
 
@@ -32,6 +33,7 @@ public class Decision {
 
   private String answer;
   private String altAnswer;
+
   private Boolean wasClicked = false;
 
   private String text;
