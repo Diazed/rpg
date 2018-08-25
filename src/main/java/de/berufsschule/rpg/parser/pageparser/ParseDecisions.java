@@ -4,6 +4,7 @@ import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.pageparser.possibilityparser.DecisionParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.DecisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,8 +28,8 @@ public class ParseDecisions extends BaseParser implements PageParser {
 
   @Override
   public boolean parsePage(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#DECISIONS")) {
-      while (!parseModel.getLine().contains("#ENDDECISIONS")) {
+    if (checkCommand(parseModel, Command.DECISIONS)) {
+      while (!checkCommand(parseModel, Command.ENDDECISIONS)) {
         String line = parseModel.getAndSetNextLine();
         if (!line.startsWith("//") && !Objects.equals(line, "")) {
           for (DecisionParser parser : decisionParsers) {

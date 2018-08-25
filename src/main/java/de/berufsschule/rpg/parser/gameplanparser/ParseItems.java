@@ -4,6 +4,7 @@ import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.itemparser.ItemParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,8 +27,8 @@ public class ParseItems extends BaseParser implements GamePlanParser {
 
   @Override
   public boolean parseGamePlan(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#ITEMS")) {
-      while (!parseModel.getLine().contains("#ENDITEMS")) {
+    if (checkCommand(parseModel, Command.ITEMS)) {
+      while (!checkCommand(parseModel, Command.ENDITEMS)) {
 
         if (parseModel.hasNextLine()) {
           String line = parseModel.getAndSetNextLine();

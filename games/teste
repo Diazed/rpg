@@ -146,17 +146,17 @@
 			#TEXT
 			'Wie alt bist du?'
 			#ANSWER
-      'Ich bin 18 Jahre alt!'
+            'Ich bin 18 Jahre alt!'
     #QUESTION
 			#TEXT
 			'Wie heißt du?'
 			#ANSWER
-      'Mein Name ist Marek'
+            'Mein Name ist Marek'
     #QUESTION
     	#TEXT
     	'Von wo kommst du?'
     	#ANSWER
-      'Ich komme aus Godensholt!'
+        'Ich komme aus Godensholt!'
     #DECISION
     	#MAINGOTO
     	'Startpage'

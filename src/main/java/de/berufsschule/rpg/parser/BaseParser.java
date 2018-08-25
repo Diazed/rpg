@@ -1,11 +1,10 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.domain.model.Decision;
-import de.berufsschule.rpg.domain.model.GamePlan;
-import de.berufsschule.rpg.domain.model.Item;
-import de.berufsschule.rpg.domain.model.Page;
-import de.berufsschule.rpg.domain.model.Skill;
+import de.berufsschule.rpg.domain.model.*;
+
 import java.util.List;
+
+import de.berufsschule.rpg.parser.tools.Command;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +12,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public abstract class BaseParser {
 
+  protected boolean checkCommand(ParseModel parseModel, Command command){
+    return parseModel.getLine().contains(command.getCommand());
+  }
+
+  // TODO: Use Optionals
   protected Page findPageByName(GamePlan gamePlan, String pagename) {
     for (Page page : gamePlan.getPages()) {
       if (page.getName().equals(pagename)) {
@@ -22,6 +26,7 @@ public abstract class BaseParser {
     return null;
   }
 
+  // TODO: Use Optionals
   protected Skill findSkillByName(GamePlan gamePlan, String skillname) {
     for (Skill skill : gamePlan.getSkills()) {
       if (skill.getName().equals(skillname)) {
@@ -31,6 +36,7 @@ public abstract class BaseParser {
     return null;
   }
 
+  // TODO: Use Optionals
   protected Item findItemByName(GamePlan gamePlan, String itemname) {
     for (Item item : gamePlan.getItems()) {
       if (item.getName().equals(itemname)) {

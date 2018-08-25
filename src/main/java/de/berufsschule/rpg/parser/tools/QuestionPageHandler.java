@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.parser;
+package de.berufsschule.rpg.parser.tools;
 
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.GamePlan;

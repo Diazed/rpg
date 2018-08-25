@@ -1,11 +1,8 @@
 package de.berufsschule.rpg.parser;
 
-import de.berufsschule.rpg.domain.model.Decision;
-import de.berufsschule.rpg.domain.model.GamePlan;
-import de.berufsschule.rpg.domain.model.Item;
-import de.berufsschule.rpg.domain.model.Page;
-import de.berufsschule.rpg.domain.model.Skill;
+import de.berufsschule.rpg.domain.model.*;
 import de.berufsschule.rpg.parser.pageparser.ParseStartPage;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.PageService;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -18,10 +15,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseParserTest {
@@ -72,6 +71,22 @@ public class BaseParserTest {
   @After
   public void tearDown() {
     scanner.close();
+  }
+
+  @Test
+  public void checkCommand() {
+    ParseModel mock = Mockito.mock(ParseModel.class);
+    when(mock.getLine()).thenReturn("  #GAMENAME  ");
+    boolean actual = systemUnderTest.checkCommand(mock, Command.GAMENAME);
+    assertThat(actual).isTrue();
+  }
+
+  @Test
+  public void checkCommandRetunsFalseIfNoWantedCommand() {
+    ParseModel mock = Mockito.mock(ParseModel.class);
+    when(mock.getLine()).thenReturn("  #ITEMS  ");
+    boolean actual = systemUnderTest.checkCommand(mock, Command.GAMENAME);
+    assertThat(actual).isFalse();
   }
 
   @Test

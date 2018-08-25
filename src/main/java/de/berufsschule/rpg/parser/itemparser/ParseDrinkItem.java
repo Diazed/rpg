@@ -4,6 +4,7 @@ import de.berufsschule.rpg.domain.model.DrinkItem;
 import de.berufsschule.rpg.domain.model.Item;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class ParseDrinkItem extends BaseParser implements ItemParser {
 
   @Override
   public boolean parseItem(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#DRINK")) {
+    if (checkCommand(parseModel, Command.DRINK)) {
 
       Item lastCreatedItem = getLastCreatedItem(parseModel.getGamePlan());
       if (lastCreatedItem != null) {

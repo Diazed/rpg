@@ -1,4 +1,4 @@
-package de.berufsschule.rpg.parser;
+package de.berufsschule.rpg.parser.tools;
 
 import de.berufsschule.rpg.domain.model.GamePlan;
 import java.util.ArrayList;
@@ -37,22 +37,20 @@ public class GameFileValidation {
 
   public boolean validateFileInput(Scanner fileIn, String filename) {
 
-    if (fileIn.hasNextLine()) {
-      if (fileIn.nextLine().contains("#RPG")) {
-        if (fileIsOnIgnoreList(filename)) {
+    if (fileIsValid(fileIn, filename)) {
+      if (fileIsOnIgnoreList(filename)) {
           ignoreFiles.remove(filename);
           log.info("Removed \"" + filename + "\" from the list of ignored files.");
         }
         return true;
-      } else {
-        ignoreFiles.add(filename);
-        log.info("No #RPG. Adding \"" + filename + "\" to the list of ignored files.");
-        return false;
-      }
     } else {
       ignoreFiles.add(filename);
-      log.info("No lines to parse. Adding \"" + filename + "\" to the list of ignored files.");
+      log.info("Adding \"" + filename + "\" to the list of ignored files. No #RPG or no lines to parse");
       return false;
     }
+  }
+
+  private boolean fileIsValid(Scanner fileIn, String filename){
+    return fileIn.hasNextLine() && fileIn.nextLine().contains("#RPG");
   }
 }

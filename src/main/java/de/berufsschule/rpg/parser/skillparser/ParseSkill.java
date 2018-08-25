@@ -3,6 +3,7 @@ package de.berufsschule.rpg.parser.skillparser;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.domain.model.Skill;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.SkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,7 @@ public class ParseSkill extends BaseParser implements SkillParser {
 
   @Override
   public boolean parseSkill(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#SKILL")) {
+    if (checkCommand(parseModel, Command.SKILL)) {
       Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
       if (lastCreatedSkill != null) {
         skillService.saveSkill(lastCreatedSkill);

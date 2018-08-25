@@ -1,9 +1,10 @@
-package de.berufsschule.rpg.parser;
+package de.berufsschule.rpg.parser.tools;
 
 
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
+import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.services.DecisionService;
 import de.berufsschule.rpg.services.PageService;
 import lombok.extern.slf4j.Slf4j;

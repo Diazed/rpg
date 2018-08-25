@@ -3,6 +3,7 @@ package de.berufsschule.rpg.parser.pageparser;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,7 +11,7 @@ public class ParseStorytext extends BaseParser implements PageParser {
 
   @Override
   public boolean parsePage(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#STORYTEXT")) {
+    if (checkCommand(parseModel, Command.STORYTEXT)) {
       parseModel.setLine("");
       StringBuilder storyTextBuilder = new StringBuilder();
       while (!parseModel.getLine().contains("#")) {
@@ -39,13 +40,13 @@ public class ParseStorytext extends BaseParser implements PageParser {
       boolean start = true;
       while (word.length() > 25){
         if (start){
-          newWordBuilder.append(word.substring(0, 25));
+          newWordBuilder.append(word, 0, 25);
         }else {
           newWordBuilder.append("- ");
-          newWordBuilder.append(word.substring(0, 25));
+          newWordBuilder.append(word, 0, 25);
         }
         start = false;
-        word = word.substring(25, word.length());
+        word = word.substring(25);
         if (word.length() < 25){
           newWordBuilder.append("- ");
           newWordBuilder.append(word);

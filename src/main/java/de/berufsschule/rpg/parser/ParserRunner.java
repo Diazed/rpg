@@ -3,6 +3,7 @@ package de.berufsschule.rpg.parser;
 import de.berufsschule.rpg.domain.model.GamePlan;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.gameplanparser.GamePlanParser;
+import de.berufsschule.rpg.parser.tools.GameFileValidation;
 import de.berufsschule.rpg.services.FileService;
 import de.berufsschule.rpg.services.GamePlanService;
 import java.io.File;

@@ -3,6 +3,7 @@ package de.berufsschule.rpg.parser.pageparser.possibilityparser;
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.DecisionService;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class ParseDecision extends BaseParser implements DecisionParser {
 
   @Override
   public boolean parseDecision(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#DECISION")) {
+    if (checkCommand(parseModel, Command.DECISION)) {
 
       Decision lastCreatedDecision = getLastCreatedDecision(parseModel.getGamePlan());
       if (lastCreatedDecision != null) {

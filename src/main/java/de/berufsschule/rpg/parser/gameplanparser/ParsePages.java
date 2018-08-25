@@ -3,8 +3,9 @@ package de.berufsschule.rpg.parser.gameplanparser;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
-import de.berufsschule.rpg.parser.MissingIdHandler;
-import de.berufsschule.rpg.parser.QuestionPageHandler;
+import de.berufsschule.rpg.parser.tools.Command;
+import de.berufsschule.rpg.parser.tools.MissingIdHandler;
+import de.berufsschule.rpg.parser.tools.QuestionPageHandler;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.services.PageService;
 import java.util.List;
@@ -35,10 +36,8 @@ public class ParsePages extends BaseParser implements GamePlanParser {
 
   @Override
   public boolean parseGamePlan(ParseModel parseModel) {
-    if (parseModel.getLine().contains("#PAGES")) {
-
-      while (!parseModel.getLine().contains("#ENDPAGES")) {
-
+    if (checkCommand(parseModel, Command.PAGES)) {
+      while (!checkCommand(parseModel, Command.ENDPAGES)) {
         if (parseModel.hasNextLine()) {
           String line = parseModel.getAndSetNextLine();
           if (!line.startsWith("//") && !Objects.equals(line, "")) {
