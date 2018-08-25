@@ -10,6 +10,8 @@ import de.berufsschule.rpg.services.PageService;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
+
+import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -18,6 +20,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BaseParserTest {
@@ -28,35 +32,31 @@ public class BaseParserTest {
   @Mock
   PageService pageService;
 
+  private Page firstPage = new Page();
+  private Page secondPage = new Page();
+  private Item firstItem = new Item();
+  private Item secondItem = new Item();
+  private Skill firstSkill = new Skill();
+  private Skill secondSkill = new Skill();
+  private Decision firstPossibility = new Decision();
+  private Decision secondPossibility = new Decision();
+
   @Before
   public void setUp() {
 
     MockitoAnnotations.initMocks(this);
     setUpScanner("Test");
     systemUnderTest = new ParseStartPage(pageService);
-
     gamePlan = new GamePlan();
 
-    Page firstPage = new Page();
     firstPage.setName("firstPage");
-    Page secondPage = new Page();
     secondPage.setName("secondPage");
-
-    Item firstItem = new Item();
     firstItem.setName("firstItem");
-    Item secondItem = new Item();
     secondItem.setName("secondItem");
-
-    Skill firstSkill = new Skill();
     firstSkill.setName("firstSkill");
-    Skill secondSkill = new Skill();
     secondSkill.setName("secondSkill");
-
-    Decision firstPossibility = new Decision();
     firstPossibility.setText("firstPossibility");
-    Decision secondPossibility = new Decision();
     secondPossibility.setText("secondPossibility");
-
     secondPage.getDecisions().add(firstPossibility);
     secondPage.getDecisions().add(secondPossibility);
 
@@ -75,41 +75,106 @@ public class BaseParserTest {
   }
 
   @Test
+  public void findPageByName() {
+    Page actual = systemUnderTest.findPageByName(gamePlan, "firstPage");
+    assertThat(actual).isEqualTo(firstPage);
+  }
+
+  @Test
+  public void findPageByNameReturnsNullWhenNoResultsFound() {
+    Page actual = systemUnderTest.findPageByName(gamePlan, "none");
+    assertThat(actual).isNull();
+  }
+
+  @Test
+  public void findSkillByName() {
+    Skill actual = systemUnderTest.findSkillByName(gamePlan, "firstSkill");
+    assertThat(actual).isEqualTo(firstSkill);
+  }
+
+  @Test
+  public void findSkillByNameReturnsNullWhenNoResultsFound() {
+    Skill actual = systemUnderTest.findSkillByName(gamePlan, "none");
+    assertThat(actual).isNull();
+  }
+
+  @Test
+  public void findItemByName() {
+    Item actual = systemUnderTest.findItemByName(gamePlan, "firstItem");
+    assertThat(actual).isEqualTo(firstItem);
+  }
+
+  @Test
+  public void findItemByNameReturnsNullWhenNoResultFound() {
+    Item actual = systemUnderTest.findItemByName(gamePlan, "none");
+    assertThat(actual).isNull();
+  }
+
+  @Test
   public void getLastCreatedPage() {
     Page actual = systemUnderTest.getLastCreatedPage(gamePlan);
-    Assert.assertEquals("secondPage", actual.getName());
+    assertThat(actual).isEqualTo(secondPage);
+  }
+
+  @Test
+  public void getLastCreatedPageReturnsNullWhenNoPagesInGamePlan() {
+    gamePlan.getPages().clear();
+    Page actual = systemUnderTest.getLastCreatedPage(gamePlan);
+    assertThat(actual).isNull();
   }
 
   @Test
   public void getLastCreatedItem() {
     Item actual = systemUnderTest.getLastCreatedItem(gamePlan);
-    Assert.assertEquals("secondItem", actual.getName());
+    assertThat(actual).isEqualTo(secondItem);
+  }
+
+  @Test
+  public void getLastCreatedItemReturnsNullWhenNoItemsInGamePlan() {
+    gamePlan.getItems().clear();
+    Item actual = systemUnderTest.getLastCreatedItem(gamePlan);
+    assertThat(actual).isNull();
   }
 
   @Test
   public void getLastCreatedSkill() {
     Skill actual = systemUnderTest.getLastCreatedSkill(gamePlan);
-    Assert.assertEquals("secondSkill", actual.getName());
+    assertThat(actual).isEqualTo(secondSkill);
   }
 
   @Test
-  public void getLastCreatedPossibility() {
+  public void getLastCreatedSkillReturnsNullWhenNoSkillsInGamePlan() {
+    gamePlan.getSkills().clear();
+    Skill actual = systemUnderTest.getLastCreatedSkill(gamePlan);
+    assertThat(actual).isNull();
+  }
+
+  @Test
+  public void getLastCreatedDecision() {
     Decision actual = systemUnderTest.getLastCreatedDecision(gamePlan);
-    Assert.assertEquals("secondPossibility", actual.getText());
+    assertThat(actual).isEqualTo(secondPossibility);
+  }
+
+  @Test
+  public void getLastCreatedDecisionReturnNullWhenPageHasNoDecisions() {
+    Page page = systemUnderTest.getLastCreatedPage(gamePlan);
+    page.getDecisions().clear();
+    Decision actual = systemUnderTest.getLastCreatedDecision(gamePlan);
+    assertThat(actual).isNull();
   }
 
   @Test
   public void parseIntDefaultsToOne() {
     Integer expected = 1;
     Integer actual = systemUnderTest.parseInt(" 5t ");
-    Assert.assertEquals(expected, actual);
+    assertThat(actual).isEqualTo(expected);
   }
 
   @Test
   public void parseIntCutsOffWhitespaces() {
     Integer expected = 5;
     Integer actual = systemUnderTest.parseInt("   5    ");
-    Assert.assertEquals(expected, actual);
+    assertThat(actual).isEqualTo(expected);
   }
 
   private void setUpScanner(String content) {

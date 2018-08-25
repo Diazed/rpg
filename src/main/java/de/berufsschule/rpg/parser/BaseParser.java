@@ -41,7 +41,7 @@ public abstract class BaseParser {
   }
 
   protected Page getLastCreatedPage(GamePlan gamePlan) {
-    Integer size = gamePlan.getPages().size();
+    int size = gamePlan.getPages().size();
     if (size >= 1) {
       return gamePlan.getPages().get(gamePlan.getPages().size() - 1);
     } else {
@@ -50,7 +50,7 @@ public abstract class BaseParser {
   }
 
   protected Item getLastCreatedItem(GamePlan gamePlan) {
-    Integer size = gamePlan.getItems().size();
+    int size = gamePlan.getItems().size();
     if (size >= 1) {
       return gamePlan.getItems().get(gamePlan.getItems().size() - 1);
     } else {
@@ -59,7 +59,7 @@ public abstract class BaseParser {
   }
 
   public Skill getLastCreatedSkill(GamePlan gamePlan){
-    Integer size = gamePlan.getSkills().size();
+    int size = gamePlan.getSkills().size();
     if (size >= 1) {
       return gamePlan.getSkills().get(size - 1);
     } else {
@@ -71,7 +71,7 @@ public abstract class BaseParser {
 
     List<Decision> decisions = getLastCreatedPage(gamePlan).getDecisions();
 
-    Integer size = decisions.size();
+    int size = decisions.size();
     if (size >= 1) {
       return decisions.get(size - 1);
     } else {
@@ -81,11 +81,11 @@ public abstract class BaseParser {
 
   public Integer parseInt(String line) {
     line = line.trim();
-    Integer content = 1;
+    int content = 1;
     try {
       content = Integer.parseInt(line);
     } catch (Exception e) {
-      log.error("Could not parse \"" + line + "\" into a Integer. Error: " + e.getMessage());
+      log.warn("Could not parse \"" + line + "\" into a Integer. Error: " + e.getMessage());
     }
     return content;
   }
