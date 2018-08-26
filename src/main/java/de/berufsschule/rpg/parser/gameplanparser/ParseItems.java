@@ -32,23 +32,34 @@ public class ParseItems extends BaseParser implements GamePlanParser {
 
         if (parseModel.hasNextLine()) {
           String line = parseModel.getAndSetNextLine();
-          if (!line.startsWith("//") && !Objects.equals(line, "")) {
-            for (ItemParser parser : itemParsers) {
-
-              if (parser.parseItem(parseModel))
-                break;
-            }
+          if (validateLine(line)) {
+            runEachItemParserTillLineIsParsed(parseModel);
           }
         } else {
           return false;
         }
       }
-      Item lastCreatedItem = getLastCreatedItem(parseModel.getGamePlan());
-      if (lastCreatedItem != null) {
-        itemService.saveItem(lastCreatedItem);
-      }
+      saveLastCreated(parseModel);
       return true;
     }
     return false;
+  }
+
+  private void runEachItemParserTillLineIsParsed(ParseModel parseModel) {
+    for (ItemParser parser : itemParsers) {
+      if (parser.parseItem(parseModel))
+        break;
+    }
+  }
+
+  private void saveLastCreated(ParseModel parseModel) {
+    Item lastCreatedItem = getLastCreatedItem(parseModel.getGamePlan());
+    if (lastCreatedItem != null) {
+      itemService.saveItem(lastCreatedItem);
+    }
+  }
+
+  private boolean validateLine(String line){
+    return !line.startsWith("//") && !Objects.equals(line, "");
   }
 }

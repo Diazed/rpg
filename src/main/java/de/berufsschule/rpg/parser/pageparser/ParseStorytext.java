@@ -12,10 +12,10 @@ public class ParseStorytext extends BaseParser implements PageParser {
   @Override
   public boolean parsePage(ParseModel parseModel) {
     if (checkCommand(parseModel, Command.STORYTEXT)) {
-      parseModel.setLine("");
       StringBuilder storyTextBuilder = new StringBuilder();
-      while (!parseModel.getLine().contains("#")) {
-        String line = parseModel.getAndSetNextLine();
+      String line = "";
+      while (!line.contains("#")) {
+        line = parseModel.getNextLine();
         if (!line.contains("#")) {
           if (!line.endsWith(" "))
             line += " ";

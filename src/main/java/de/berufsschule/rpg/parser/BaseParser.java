@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public abstract class BaseParser {
 
   protected boolean checkCommand(ParseModel parseModel, Command command){
-    return parseModel.getLine().contains(command.getCommand());
+    return parseModel.getCurrentLine().contains(command.getCommand());
   }
 
   // TODO: Use Optionals

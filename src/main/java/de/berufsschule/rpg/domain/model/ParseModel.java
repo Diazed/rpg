@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import de.berufsschule.rpg.parser.tools.Command;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ParseModel {
 
   private GamePlan gamePlan;
-  private String line;
+  @Getter(AccessLevel.PRIVATE)
+  @Setter(AccessLevel.PRIVATE)
+  private String line = "";
   private Scanner fileIn;
   private List<Decision> uncompleteDecisions;
 
@@ -28,7 +30,7 @@ public class ParseModel {
     this.uncompleteDecisions = new ArrayList<>();
   }
 
-  public boolean hasNext() {
+  public boolean hasNextChar() {
     return this.fileIn.hasNext();
   }
 
@@ -36,37 +38,39 @@ public class ParseModel {
     return this.fileIn.hasNextLine();
   }
 
-  public boolean checkCompetence(String competenceIdentifier) {
-    return getLine().contains(competenceIdentifier);
+  public String getCurrentLine() {
+    return getLine();
   }
 
+  public void gotoNextLine() {
+    if (fileIn.hasNextLine()) {
+      setLine(getStringBetweenQuotationMarks(fileIn.nextLine()));
+    } else {
+      log.warn("No next line found in file.");
+    }
+  }
+
+  // TODO: Use of Optional
   public String getAndSetNextLine() {
-    String line = getNextLine();
-    this.setLine(line);
-    return line;
+    gotoNextLine();
+    return getCurrentLine();
   }
 
   public String getNextLine() {
-    if (fileIn.hasNextLine()) {
-      return getStringBetweenQuotationMarks(fileIn.nextLine());
-    }
-    log.warn("No next line found in file.");
-    return "";
+    return getAndSetNextLine();
   }
 
-  private String getStringBetweenQuotationMarks(String line) {
+  private String getStringBetweenQuotationMarks(String lineToTrim) {
 
-    line = line.replace("\t", "");
-    line = line.trim();
+    lineToTrim = lineToTrim.replace("\t", "");
+    lineToTrim = lineToTrim.trim();
 
     Pattern wordPattern = Pattern.compile("'(.*?)'");
-    Matcher wordMatcher = wordPattern.matcher(line);
-    Pattern numberPattern = Pattern.compile("(\\d)*");
-    Matcher numberMatcher = numberPattern.matcher(line);
+    Matcher wordMatcher = wordPattern.matcher(lineToTrim);
     if (wordMatcher.find()) {
-      line = wordMatcher.group(1);
+      lineToTrim = wordMatcher.group(1);
     }
 
-    return line;
+    return lineToTrim;
   }
 }

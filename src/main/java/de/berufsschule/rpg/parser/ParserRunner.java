@@ -85,9 +85,8 @@ public class ParserRunner {
 
   private GamePlan runParser(ParseModel parseModel) {
 
-    while (parseModel.hasNext()) {
-      String line = parseModel.getFileIn().nextLine();
-      parseModel.setLine(line);
+    while (parseModel.hasNextLine()) {
+      String line = parseModel.getAndSetNextLine();
       if (!line.startsWith("//") && !Objects.equals(line, "")) {
         for (GamePlanParser parser : gamePlanParsers) {
           if (parser.parseGamePlan(parseModel)) {

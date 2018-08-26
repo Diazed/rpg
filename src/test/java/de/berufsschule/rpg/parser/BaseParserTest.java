@@ -76,7 +76,7 @@ public class BaseParserTest {
   @Test
   public void checkCommand() {
     ParseModel mock = Mockito.mock(ParseModel.class);
-    when(mock.getLine()).thenReturn("  #GAMENAME  ");
+    when(mock.getCurrentLine()).thenReturn("  #GAMENAME  ");
     boolean actual = systemUnderTest.checkCommand(mock, Command.GAMENAME);
     assertThat(actual).isTrue();
   }
@@ -84,7 +84,7 @@ public class BaseParserTest {
   @Test
   public void checkCommandRetunsFalseIfNoWantedCommand() {
     ParseModel mock = Mockito.mock(ParseModel.class);
-    when(mock.getLine()).thenReturn("  #ITEMS  ");
+    when(mock.getCurrentLine()).thenReturn("  #ITEMS  ");
     boolean actual = systemUnderTest.checkCommand(mock, Command.GAMENAME);
     assertThat(actual).isFalse();
   }
