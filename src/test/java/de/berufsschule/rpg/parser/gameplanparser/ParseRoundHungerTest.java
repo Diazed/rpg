@@ -1,7 +1,8 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
-import de.berufsschule.rpg.parser.GamePlanParserTest;
+import de.berufsschule.rpg.parser.parenttests.GamePlanParserTest;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,7 @@ public class ParseRoundHungerTest extends GamePlanParserTest<ParseRoundHunger> {
     @Test
     public void roundHungerIsSet() {
         Integer testRoundHunger = 3;
-        when(parseModelMock.getAndSetNextLine()).thenReturn(testRoundHunger + " ");
+        when(parseModelMock.getAndSetNextLine()).thenReturn(Optional.of(testRoundHunger + " "));
         boolean returnValue = systemUnderTest.parseGamePlan(parseModelMock);
 
         assertThat(returnValue).isTrue();

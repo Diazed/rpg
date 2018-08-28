@@ -1,7 +1,8 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
-import de.berufsschule.rpg.parser.GamePlanParserTest;
+import de.berufsschule.rpg.parser.parenttests.GamePlanParserTest;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,7 @@ public class ParseGameNameTestGamePlan extends GamePlanParserTest<ParseGameName>
     public void gameNameIsSet() {
 
         final String nameString = "TestName";
-        when(parseModelMock.getAndSetNextLine()).thenReturn(nameString);
+        when(parseModelMock.getAndSetNextLine()).thenReturn(Optional.of(nameString));
         boolean returnValue = systemUnderTest.parseGamePlan(parseModelMock);
         assertThat(returnValue).isTrue();
         assertThat(gamePlan.getName()).isEqualTo(nameString);

@@ -1,7 +1,8 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
-import de.berufsschule.rpg.parser.GamePlanParserTest;
+import de.berufsschule.rpg.parser.parenttests.GamePlanParserTest;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 import org.junit.Test;
 
 
@@ -14,7 +15,7 @@ public class ParseRoundExpTest extends GamePlanParserTest<ParseRoundExp> {
     public void roundExpIsSet() {
 
         Integer testRoundExp = 4;
-        when(parseModelMock.getAndSetNextLine()).thenReturn(testRoundExp + " ");
+        when(parseModelMock.getAndSetNextLine()).thenReturn(Optional.of(testRoundExp + " "));
         boolean returnValue = systemUnderTest.parseGamePlan(parseModelMock);
 
         assertThat(returnValue).isTrue();

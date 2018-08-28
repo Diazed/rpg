@@ -10,6 +10,7 @@ import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.services.PageService;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,11 +39,13 @@ public class ParsePages extends BaseParser implements GamePlanParser {
   public boolean parseGamePlan(ParseModel parseModel) {
     if (checkCommand(parseModel, Command.PAGES)) {
       while (!checkCommand(parseModel, Command.ENDPAGES)) {
-        if (parseModel.hasNextLine()) {
-          String line = parseModel.getAndSetNextLine();
+
+        Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+
+        if (optionalNextLine.isPresent()) {
+          String line = optionalNextLine.get();
           if (!line.startsWith("//") && !Objects.equals(line, "")) {
             for (PageParser parser : pageParsers) {
-
               if (parser.parsePage(parseModel)) {
                 break;
               }
@@ -52,10 +55,7 @@ public class ParsePages extends BaseParser implements GamePlanParser {
           return false;
         }
       }
-      Page lastCreatedPage = getLastCreatedPage(parseModel.getGamePlan());
-      if (lastCreatedPage != null) {
-        pageService.savePage(lastCreatedPage);
-      }
+      saveLastCreatedPage(parseModel);
 
       missingIdHandler.fillMissingJumpIds(pageService, parseModel);
       parseModel.setGamePlan(questionPageHandler.createQuestionPages(parseModel.getGamePlan()));
@@ -63,5 +63,12 @@ public class ParsePages extends BaseParser implements GamePlanParser {
       return true;
     }
     return false;
+  }
+
+  private void saveLastCreatedPage(ParseModel parseModel) {
+    Page lastCreatedPage = getLastCreatedPage(parseModel.getGamePlan());
+    if (lastCreatedPage != null) {
+      pageService.savePage(lastCreatedPage);
+    }
   }
 }

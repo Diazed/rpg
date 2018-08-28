@@ -4,6 +4,7 @@ import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 
 public class ParseAltAnswer extends BaseParser implements DecisionParser {
 
@@ -12,17 +13,20 @@ public class ParseAltAnswer extends BaseParser implements DecisionParser {
 
     if (checkCommand(parseModel, Command.ALTANSWER)) {
 
-      String line = parseModel.getAndSetNextLine();
-      Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
 
-      if (decision.getIsQuestion()) {
-        decision.setAnswer(line);
-        return true;
-      } else {
-        return false;
+      if (optionalNextLine.isPresent()){
+        String line = optionalNextLine.get();
+        Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
+
+        if (decision.getIsQuestion()) {
+          decision.setAnswer(line);
+          return true;
+        } else {
+          return false;
+        }
       }
     }
-
     return false;
   }
 }

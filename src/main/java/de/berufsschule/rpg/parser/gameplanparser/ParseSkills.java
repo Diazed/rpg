@@ -6,6 +6,7 @@ import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.skillparser.SkillParser;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.SkillService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,9 +30,11 @@ public class ParseSkills extends BaseParser implements GamePlanParser {
     if (checkCommand(parseModel, Command.SKILLS)) {
       while (!checkCommand(parseModel, Command.ENDSKILLS)) {
 
-        if (parseModel.hasNextLine()) {
-          String line = parseModel.getAndSetNextLine();
-          if (!line.startsWith("//") && !Objects.equals("", line) && !line.contains(Command.SKILLS.getCommand())) {
+        Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+
+        if (optionalNextLine.isPresent()) {
+          String line = optionalNextLine.get();
+          if (!line.startsWith("//") && !Objects.equals("", line)) {
             for (SkillParser skillParser : skillParsers) {
               if (skillParser.parseSkill(parseModel)) {
                 break;
@@ -42,12 +45,16 @@ public class ParseSkills extends BaseParser implements GamePlanParser {
           return false;
         }
       }
-      Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
-      if (lastCreatedSkill != null) {
-        skillService.saveSkill(lastCreatedSkill);
-      }
+      saveLastCreatedSkill(parseModel);
       return true;
     }
     return false;
+  }
+
+  private void saveLastCreatedSkill(ParseModel parseModel) {
+    Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
+    if (lastCreatedSkill != null) {
+      skillService.saveSkill(lastCreatedSkill);
+    }
   }
 }

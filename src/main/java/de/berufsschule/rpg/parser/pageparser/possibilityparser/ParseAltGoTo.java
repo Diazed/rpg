@@ -5,6 +5,7 @@ import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,24 +15,24 @@ public class ParseAltGoTo extends BaseParser implements DecisionParser {
   public boolean parseDecision(ParseModel parseModel) {
     if (checkCommand(parseModel, Command.ALTGOTO)) {
 
-      Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
-      String line = parseModel.getAndSetNextLine();
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
 
+      Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
       if (decision.getIsQuestion()) {
         return true;
       }
 
-      Page pageByName = findPageByName(parseModel.getGamePlan(), line);
-
-      if (pageByName == null) {
-        parseModel.getUncompleteDecisions().add(decision);
-      } else {
-        decision.setAltJump(pageByName.getId());
+      if (optionalNextLine.isPresent()) {
+        String line = optionalNextLine.get();
+        Page pageByName = findPageByName(parseModel.getGamePlan(), line);
+        if (pageByName == null) {
+          parseModel.getUncompleteDecisions().add(decision);
+        } else {
+          decision.setAltJump(pageByName.getId());
+        }
+        decision.setAltJumpName(line);
       }
-      decision.setAltJumpName(line);
       return true;
-
-
     }
     return false;
   }

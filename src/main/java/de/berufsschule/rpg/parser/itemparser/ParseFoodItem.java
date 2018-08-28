@@ -6,6 +6,7 @@ import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.ItemService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,19 +24,27 @@ public class ParseFoodItem extends BaseParser implements ItemParser {
   public boolean parseItem(ParseModel parseModel) {
     if (checkCommand(parseModel, Command.FOOD)) {
 
-      Item lastCreatedItem = getLastCreatedItem(parseModel.getGamePlan());
-      if (lastCreatedItem != null) {
-        itemService.saveItem(lastCreatedItem);
-      }
+      saveLastCreatedItem(parseModel);
 
       FoodItem foodItem = new FoodItem();
-      String line = parseModel.getAndSetNextLine();
-      foodItem.setValue(parseInt(line));
-      foodItem.setConsumable(true);
-      parseModel.getGamePlan().getItems().add(foodItem);
+
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+      if (optionalNextLine.isPresent()){
+        foodItem.setValue(parseInt(optionalNextLine.get()));
+        foodItem.setConsumable(true);
+        parseModel.getGamePlan().getItems().add(foodItem);
+      }
+
       return true;
     }
     return false;
+  }
+
+  private void saveLastCreatedItem(ParseModel parseModel) {
+    Item lastCreatedItem = getLastCreatedItem(parseModel.getGamePlan());
+    if (lastCreatedItem != null) {
+      itemService.saveItem(lastCreatedItem);
+    }
   }
 
 }

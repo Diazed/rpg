@@ -2,10 +2,12 @@ package de.berufsschule.rpg.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.text.html.Option;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,10 +32,6 @@ public class ParseModel {
     this.uncompleteDecisions = new ArrayList<>();
   }
 
-  public boolean hasNextChar() {
-    return this.fileIn.hasNext();
-  }
-
   public boolean hasNextLine() {
     return this.fileIn.hasNextLine();
   }
@@ -42,22 +40,22 @@ public class ParseModel {
     return getLine();
   }
 
-  public void gotoNextLine() {
+  public boolean gotoNextLine() {
     if (fileIn.hasNextLine()) {
       setLine(getStringBetweenQuotationMarks(fileIn.nextLine()));
+      return true;
     } else {
       log.warn("No next line found in file.");
+      return false;
     }
   }
 
-  // TODO: Use of Optional
-  public String getAndSetNextLine() {
-    gotoNextLine();
-    return getCurrentLine();
-  }
-
-  public String getNextLine() {
-    return getAndSetNextLine();
+  public Optional<String> getAndSetNextLine() {
+    if (gotoNextLine()){
+      return Optional.of(getCurrentLine());
+    } else {
+      return Optional.empty();
+    }
   }
 
   private String getStringBetweenQuotationMarks(String lineToTrim) {

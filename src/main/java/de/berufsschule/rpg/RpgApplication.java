@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class RpgApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RpgApplication.class, args);
+	  SpringApplication.run(RpgApplication.class, args);
 	}
 
   @Bean

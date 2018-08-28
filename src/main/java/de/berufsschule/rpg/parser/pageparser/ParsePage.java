@@ -5,6 +5,7 @@ import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.PageService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,17 +23,21 @@ public class ParsePage extends BaseParser implements PageParser {
   public boolean parsePage(ParseModel parseModel) {
     if (checkCommand(parseModel, Command.PAGE)) {
 
-      Page lastCreatedPage = getLastCreatedPage(parseModel.getGamePlan());
-      if (lastCreatedPage != null) {
-        pageService.savePage(lastCreatedPage);
-      }
+      saveLastCreatedPage(parseModel);
 
       Page page = new Page();
-      String name = parseModel.getAndSetNextLine();
-      page.setName(name);
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+      optionalNextLine.ifPresent(page::setName);
       parseModel.getGamePlan().getPages().add(page);
       return true;
     }
     return false;
+  }
+
+  private void saveLastCreatedPage(ParseModel parseModel) {
+    Page lastCreatedPage = getLastCreatedPage(parseModel.getGamePlan());
+    if (lastCreatedPage != null) {
+      pageService.savePage(lastCreatedPage);
+    }
   }
 }

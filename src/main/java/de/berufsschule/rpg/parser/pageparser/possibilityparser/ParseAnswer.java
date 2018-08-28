@@ -4,6 +4,7 @@ import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Optional;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,15 +15,16 @@ public class ParseAnswer extends BaseParser implements DecisionParser {
 
     if (checkCommand(parseModel, Command.ANSWER)) {
 
-      String line = parseModel.getAndSetNextLine();
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
       Decision decision = getLastCreatedDecision(parseModel.getGamePlan());
 
-      if (decision.getIsQuestion()) {
-        decision.setAnswer(line);
+      if (optionalNextLine.isPresent()){
+        if (decision.getIsQuestion()) {
+          decision.setAnswer(optionalNextLine.get());
+        }
       }
       return true;
     }
-
     return false;
   }
 }

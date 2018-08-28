@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 import lombok.Getter;
 import lombok.Setter;
@@ -86,11 +87,15 @@ public class ParserRunner {
   private GamePlan runParser(ParseModel parseModel) {
 
     while (parseModel.hasNextLine()) {
-      String line = parseModel.getAndSetNextLine();
-      if (!line.startsWith("//") && !Objects.equals(line, "")) {
-        for (GamePlanParser parser : gamePlanParsers) {
-          if (parser.parseGamePlan(parseModel)) {
-            break;
+      Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+
+      if (optionalNextLine.isPresent()){
+        String line = optionalNextLine.get();
+        if (!line.startsWith("//") && !Objects.equals(line, "")) {
+          for (GamePlanParser parser : gamePlanParsers) {
+            if (parser.parseGamePlan(parseModel)) {
+              break;
+            }
           }
         }
       }
