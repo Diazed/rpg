@@ -3,10 +3,12 @@ package de.berufsschule.rpg.parser.gameplanparser;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.domain.model.Skill;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.SubParserRunner;
 import de.berufsschule.rpg.parser.skillparser.SkillParser;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.SkillService;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class ParseSkills extends BaseParser implements GamePlanParser {
+public class ParseSkills extends SubParserRunner<SkillParser> implements GamePlanParser {
 
   private List<SkillParser> skillParsers;
   private SkillService skillService;
@@ -27,31 +29,31 @@ public class ParseSkills extends BaseParser implements GamePlanParser {
 
   @Override
   public boolean parseGamePlan(ParseModel parseModel) {
-    if (checkCommand(parseModel, Command.SKILLS)) {
-      while (!checkCommand(parseModel, Command.ENDSKILLS)) {
-
-        Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
-
-        if (optionalNextLine.isPresent()) {
-          String line = optionalNextLine.get();
-          if (!line.startsWith("//") && !Objects.equals("", line)) {
-            for (SkillParser skillParser : skillParsers) {
-              if (skillParser.parseSkill(parseModel)) {
-                break;
-              }
-            }
-          }
-        } else {
-          return false;
-        }
-      }
-      saveLastCreatedSkill(parseModel);
-      return true;
-    }
-    return false;
+    return parse(parseModel);
   }
 
-  private void saveLastCreatedSkill(ParseModel parseModel) {
+  @Override
+  protected Command getStartCommand() {
+    return Command.SKILLS;
+  }
+
+  @Override
+  protected Command getEndCommand() {
+    return Command.ENDSKILLS;
+  }
+
+  @Override
+  protected BiFunction<SkillParser, ParseModel, Boolean> getParseMethod() {
+    return SkillParser::parseSkill;
+  }
+
+  @Override
+  protected List<SkillParser> getSubParser() {
+    return skillParsers;
+  }
+
+  @Override
+  protected void saveLastCreated(ParseModel parseModel) {
     Skill lastCreatedSkill = getLastCreatedSkill(parseModel.getGamePlan());
     if (lastCreatedSkill != null) {
       skillService.saveSkill(lastCreatedSkill);

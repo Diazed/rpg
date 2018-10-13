@@ -1,14 +1,15 @@
 package de.berufsschule.rpg.parser.parenttests;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import de.berufsschule.rpg.domain.model.GamePlan;
+import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.tools.Command;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-public abstract class SubParserRunnerTest<P, SP, S> {
+public abstract class SubParserTest<P, SP, S> {
 
   protected P systemUnderTest;
 
@@ -40,7 +41,7 @@ public abstract class SubParserRunnerTest<P, SP, S> {
     //Return new Lists for save last.
     when(gamePlan.getItems()).thenReturn(new ArrayList<>());
     when(gamePlan.getSkills()).thenReturn(new ArrayList<>());
-    when(gamePlan.getPages()).thenReturn(new ArrayList<>());
+    when(gamePlan.getPages()).thenReturn(Collections.singletonList(new Page()));
 
     systemUnderTest = createSystemUnderTest(createSubParserMockList(), createService());
 

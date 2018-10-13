@@ -2,7 +2,6 @@ package de.berufsschule.rpg.parser.gameplanparser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,18 +10,18 @@ import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.itemparser.ItemParser;
 import de.berufsschule.rpg.parser.itemparser.ParseItemDescription;
 import de.berufsschule.rpg.parser.itemparser.ParseItemName;
-import de.berufsschule.rpg.parser.parenttests.SubParserRunnerTest;
+import de.berufsschule.rpg.parser.parenttests.SubParserTest;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.ItemService;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.BiFunction;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class ParseItemsTest extends SubParserRunnerTest<ParseItems, ItemParser, ItemService> {
+public class ParseItemsTest extends SubParserTest<ParseItems, ItemParser, ItemService> {
 
   @Mock
   private ItemService itemService;
@@ -72,7 +71,7 @@ public class ParseItemsTest extends SubParserRunnerTest<ParseItems, ItemParser, 
   @Test
   public void runsAllItemParser() {
 
-    boolean returnValue = systemUnderTest.parseGamePlan(parseModel);
+    boolean returnValue = runParser(systemUnderTest, parseModel);
 
     verify(parseItemName, atLeastOnce()).parseItem(parseModel);
     verify(parseItemDescription, atLeastOnce()).parseItem(parseModel);

@@ -3,6 +3,7 @@ package de.berufsschule.rpg.parser.gameplanparser;
 import de.berufsschule.rpg.domain.model.Page;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.SubParserRunner;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.parser.tools.MissingIdHandler;
 import de.berufsschule.rpg.parser.tools.QuestionPageHandler;
@@ -11,13 +12,14 @@ import de.berufsschule.rpg.services.PageService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ParsePages extends BaseParser implements GamePlanParser {
+public class ParsePages extends SubParserRunner<PageParser> implements GamePlanParser {
 
   private List<PageParser> pageParsers;
   private PageService pageService;
@@ -37,32 +39,34 @@ public class ParsePages extends BaseParser implements GamePlanParser {
 
   @Override
   public boolean parseGamePlan(ParseModel parseModel) {
-    if (checkCommand(parseModel, Command.PAGES)) {
-      while (!checkCommand(parseModel, Command.ENDPAGES)) {
+    return parse(parseModel);
+  }
 
-        Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+  @Override
+  protected Command getStartCommand() {
+    return Command.PAGES;
+  }
 
-        if (optionalNextLine.isPresent()) {
-          String line = optionalNextLine.get();
-          if (!line.startsWith("//") && !Objects.equals(line, "")) {
-            for (PageParser parser : pageParsers) {
-              if (parser.parsePage(parseModel)) {
-                break;
-              }
-            }
-          }
-        } else {
-          return false;
-        }
-      }
-      saveLastCreatedPage(parseModel);
+  @Override
+  protected Command getEndCommand() {
+    return Command.ENDPAGES;
+  }
 
-      missingIdHandler.fillMissingJumpIds(pageService, parseModel);
-      parseModel.setGamePlan(questionPageHandler.createQuestionPages(parseModel.getGamePlan()));
+  @Override
+  protected BiFunction<PageParser, ParseModel, Boolean> getParseMethod() {
+    return PageParser::parsePage;
+  }
 
-      return true;
-    }
-    return false;
+  @Override
+  protected List<PageParser> getSubParser() {
+    return pageParsers;
+  }
+
+  @Override
+  protected void saveLastCreated(ParseModel parseModel) {
+    saveLastCreatedPage(parseModel);
+    missingIdHandler.fillMissingJumpIds(pageService, parseModel);
+    parseModel.setGamePlan(questionPageHandler.createQuestionPages(parseModel.getGamePlan()));
   }
 
   private void saveLastCreatedPage(ParseModel parseModel) {

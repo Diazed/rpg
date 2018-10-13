@@ -22,6 +22,8 @@ public class ParseModel {
   @Getter(AccessLevel.PRIVATE)
   @Setter(AccessLevel.PRIVATE)
   private String line = "";
+  @Getter(AccessLevel.NONE)
+  @Setter(AccessLevel.NONE)
   private Scanner fileIn;
   private List<Decision> uncompleteDecisions;
 

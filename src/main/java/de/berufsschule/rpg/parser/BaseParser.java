@@ -5,6 +5,7 @@ import de.berufsschule.rpg.domain.model.*;
 import java.util.List;
 
 import de.berufsschule.rpg.parser.tools.Command;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

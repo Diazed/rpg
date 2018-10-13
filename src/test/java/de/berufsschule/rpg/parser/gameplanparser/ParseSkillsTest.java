@@ -1,14 +1,13 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.domain.model.Skill;
-import de.berufsschule.rpg.parser.parenttests.SubParserRunnerTest;
+import de.berufsschule.rpg.parser.parenttests.SubParserTest;
 import de.berufsschule.rpg.parser.skillparser.ParseSkillDescription;
 import de.berufsschule.rpg.parser.skillparser.ParseSkillName;
 import de.berufsschule.rpg.parser.skillparser.SkillParser;
@@ -21,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class ParseSkillsTest extends SubParserRunnerTest<ParseSkills, SkillParser, SkillService> {
+public class ParseSkillsTest extends SubParserTest<ParseSkills, SkillParser, SkillService> {
 
   @Mock
   private ParseSkillDescription parseSkillDescription;

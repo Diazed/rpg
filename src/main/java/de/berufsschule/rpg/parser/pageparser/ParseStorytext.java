@@ -10,71 +10,90 @@ import org.springframework.stereotype.Component;
 @Component
 public class ParseStorytext extends BaseParser implements PageParser {
 
+  private final static int MAX_WORD_LENGTH = 25;
+
   @Override
   public boolean parsePage(ParseModel parseModel) {
+
     if (checkCommand(parseModel, Command.STORYTEXT)) {
+
       StringBuilder storyTextBuilder = new StringBuilder();
       String line = "";
-      while (!line.contains("#")) {
+
+      //Run till the end signal '#'
+      while (!line.equals("#")) {
 
         Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
+
         if (optionalNextLine.isPresent()){
           line = optionalNextLine.get();
-          if (!line.contains("#")) {
-            if (!line.endsWith(" "))
-              line += " ";
+          if (!line.equals("#")) {
+            line = endingWhitespace(line);
             line = splitLongWords(line);
             storyTextBuilder.append(line);
           }
         }
       }
       Page page = getLastCreatedPage(parseModel.getGamePlan());
-      page.setStorytext(storyTextBuilder.toString());
+      page.setStorytext(storyTextBuilder.toString().trim());
       return true;
     }
     return false;
   }
 
-  private void formatTextLine(StringBuilder storyTextBuilder, String line) {
-    if (!line.contains("#")) {
-      if (!line.endsWith(" ")) {
-        line += " ";
-      }
-      line = splitLongWords(line);
-      storyTextBuilder.append(line);
-    }
+  // Avoiding connection of two different lines.
+  private String endingWhitespace(String line) {
+    if (!line.endsWith(" "))
+      line += " ";
+    return line;
   }
 
-  private String splitLongWords(String line) {
-
-    String[] words = line.split(" ");
-
-    for (int i = 0; i < words.length; i++) {
-      StringBuilder newWordBuilder = new StringBuilder();
-      String word = words[i];
-      boolean start = true;
-      while (word.length() > 25) {
-        if (start) {
-          newWordBuilder.append(word, 0, 25);
-        } else {
-          newWordBuilder.append("- ");
-          newWordBuilder.append(word, 0, 25);
-        }
-        start = false;
-        word = word.substring(25);
-        if (word.length() < 25) {
-          newWordBuilder.append("- ");
-          newWordBuilder.append(word);
-        }
-      }
-      words[i] += newWordBuilder.toString();
-    }
+  private String reuniteString(String[] words){
     StringBuilder resultBuilder = new StringBuilder();
     for (String word : words) {
       resultBuilder.append(word);
       resultBuilder.append(" ");
     }
-
     return resultBuilder.toString();
+  }
+
+  private void handleRestOfWord(String word, StringBuilder wordBuilder) {
+    if (word.length() < MAX_WORD_LENGTH) {
+      wordBuilder.append("- ");
+      wordBuilder.append(word);
+    }
+  }
+
+  private String shortenWord(String word, StringBuilder wordBuilder, Boolean start) {
+    if (!start) wordBuilder.append("- ");
+    wordBuilder.append(word, 0, MAX_WORD_LENGTH);
+    word = word.substring(MAX_WORD_LENGTH);
+    handleRestOfWord(word, wordBuilder);
+    return word;
+  }
+
+  private String splitLongWords(String line) {
+
+    // Get all single words
+    String[] words = line.split(" ");
+    // Set flag for first word only.
+    // This is to avoid adding '- ' in front of the word
+    boolean start = true;
+    //Iterate all words
+    for (int i = 0; i < words.length; i++) {
+      // Get current word
+      String word = words[i];
+      //Check if word is too long
+      if (word.length() > MAX_WORD_LENGTH){
+        StringBuilder wordBuilder = new StringBuilder();
+        while (word.length() > MAX_WORD_LENGTH){
+          word = shortenWord(word, wordBuilder, start);
+          start = false;
+        }
+        // Replace long word with split version
+        words[i] = wordBuilder.toString();
+      }
+    }
+    return reuniteString(words);
   }
 }

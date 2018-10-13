@@ -3,10 +3,12 @@ package de.berufsschule.rpg.parser.pageparser;
 import de.berufsschule.rpg.domain.model.Decision;
 import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.BaseParser;
+import de.berufsschule.rpg.parser.SubParserRunner;
 import de.berufsschule.rpg.parser.pageparser.possibilityparser.DecisionParser;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.services.DecisionService;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class ParseDecisions extends BaseParser implements PageParser {
+public class ParseDecisions extends SubParserRunner<DecisionParser> implements PageParser {
 
   private List<DecisionParser> decisionParsers;
   private DecisionService decisionService;
@@ -29,28 +31,31 @@ public class ParseDecisions extends BaseParser implements PageParser {
 
   @Override
   public boolean parsePage(ParseModel parseModel) {
-    if (checkCommand(parseModel, Command.DECISIONS)) {
-      while (!checkCommand(parseModel, Command.ENDDECISIONS)) {
-
-        Optional<String> optionalNextLine = parseModel.getAndSetNextLine();
-        if (optionalNextLine.isPresent()){
-          String line = optionalNextLine.get();
-          if (!line.startsWith("//") && !Objects.equals(line, "")) {
-            for (DecisionParser parser : decisionParsers) {
-              if (parser.parseDecision(parseModel)) {
-                break;
-              }
-            }
-          }
-        }
-      }
-      saveLastCreatedDecision(parseModel);
-      return true;
-    }
-    return false;
+    return parse(parseModel);
   }
 
-  private void saveLastCreatedDecision(ParseModel parseModel) {
+  @Override
+  protected Command getStartCommand() {
+    return Command.DECISIONS;
+  }
+
+  @Override
+  protected Command getEndCommand() {
+    return Command.ENDDECISIONS;
+  }
+
+  @Override
+  protected BiFunction<DecisionParser, ParseModel, Boolean> getParseMethod() {
+    return DecisionParser::parseDecision;
+  }
+
+  @Override
+  protected List<DecisionParser> getSubParser() {
+    return decisionParsers;
+  }
+
+  @Override
+  protected void saveLastCreated(ParseModel parseModel) {
     Decision lastCreatedDecision = getLastCreatedDecision(parseModel.getGamePlan());
     if (lastCreatedDecision != null) {
       decisionService.saveDecision(lastCreatedDecision);

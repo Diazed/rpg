@@ -1,7 +1,6 @@
 package de.berufsschule.rpg.parser.gameplanparser;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -12,7 +11,7 @@ import de.berufsschule.rpg.domain.model.ParseModel;
 import de.berufsschule.rpg.parser.pageparser.PageParser;
 import de.berufsschule.rpg.parser.pageparser.ParseHealth;
 import de.berufsschule.rpg.parser.pageparser.ParseHunger;
-import de.berufsschule.rpg.parser.parenttests.SubParserRunnerTest;
+import de.berufsschule.rpg.parser.parenttests.SubParserTest;
 import de.berufsschule.rpg.parser.tools.Command;
 import de.berufsschule.rpg.parser.tools.MissingIdHandler;
 import de.berufsschule.rpg.parser.tools.QuestionPageHandler;
@@ -24,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class ParsePagesTest extends SubParserRunnerTest<ParsePages, PageParser, PageService> {
+public class ParsePagesTest extends SubParserTest<ParsePages, PageParser, PageService> {
 
   @Mock
   private ParseHealth parseHealth;

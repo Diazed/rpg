@@ -23,6 +23,8 @@ public class ParseGiveItem extends BaseParser implements PageParser {
           if (!nextLine.contains("#")) {
             page.getItems().add(findItemByName(parseModel.getGamePlan(), nextLine));
           }
+        } else {
+          return true;
         }
       }
       return true;
